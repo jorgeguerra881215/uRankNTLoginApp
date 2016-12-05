@@ -104,7 +104,7 @@ var Urank = (function(){
 
 
 var enterLog = function(value){
-    var scriptURL = "http://localhost/loginapp/server/log.php";
+    var scriptURL = "http://192.168.1.49/uRankNTLoginApp/server/log.php";
         date = new Date(),
         timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
         urankState = urankState = $('#username').html()+' ' + timestamp+' '+value,
@@ -727,7 +727,7 @@ var enterLog = function(value){
          * Created by Jorch
          */
         onEnterLog: function(value){
-            var scriptURL = "http://localhost/loginapp/server/log.php";
+            var scriptURL = "http://192.168.1.49/uRankNTLoginApp/server/log.php";
                 date = new Date(),
                 timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
                 urankState = $('#username').html()+' ' + timestamp+' '+value,
@@ -979,7 +979,7 @@ var enterLog = function(value){
             contentList.selectMultipleListItem(connection_id);
         },
         saveLabeling: function(){
-            var scriptURL = 'http://localhost/loginapp/server/save.php',
+            var scriptURL = 'http://192.168.1.49/uRankNTLoginApp/server/save.php',
                 date = new Date(),
                 timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
                 urankState = this.getCurrentState(),
