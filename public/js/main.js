@@ -43,7 +43,7 @@
      * @type {Function}
      */
     var btnSaveLabeledClicked = function(event) {
-        var scriptURL = '"http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/download.php',
+        var scriptURL = 'http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/download.php',
             date = new Date(),
             timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
             urankState = _this.urank.getCurrentData(),
