@@ -533,16 +533,16 @@ var DocViewer = (function(){
                             '</div>' +
                         '</div>' +
                         '<div class="doc-attributes-sontainer left">' +
-                        '<input type="checkbox" id="filter-initial-port-'+counter+'" class="filter-initial-port" name="connection-attribute" value="'+init_port+'"><label>Ip Origin:</label><label id="urank-docviewer-details-initport" class="urank-docviewer-attributes">'+init_port+'</label>' +
+                        '<input type="checkbox" id="filter-initial-port-'+counter+'" class="filter-initial-port" name="connection-attribute" value="'+init_port+'"><label>Ip Origin:</label><label id="urank-docviewer-details-initport'+document.id+'" class="urank-docviewer-attributes">'+init_port+'</label>' +
                         '</div>' +
                         '<div class="doc-attributes-sontainer left">' +
-                        '<input type="checkbox" id="filter-end-port-'+counter+'" class="filter-end-port" name="connection-attribute" value="'+dest_port+'"><label>Ip Dest:</label><label id="urank-docviewer-details-destport" class="urank-docviewer-attributes">'+dest_port+'</label>' +
+                        '<input type="checkbox" id="filter-end-port-'+counter+'" class="filter-end-port" name="connection-attribute" value="'+dest_port+'"><label>Ip Dest:</label><label id="urank-docviewer-details-destport'+document.id+'" class="urank-docviewer-attributes">'+dest_port+'</label>' +
                         '</div>' +
                         '<div class="doc-attributes-sontainer left">' +
-                        '<input type="checkbox" id="filter-port-'+counter+'" class="filter-port" name="connection-attribute" value="'+port+'"><label>Port:</label><label id="urank-docviewer-details-port" class="urank-docviewer-attributes">'+port+'</label>' +
+                        '<input type="checkbox" id="filter-port-'+counter+'" class="filter-port" name="connection-attribute" value="'+port+'"><label>Port:</label><label id="urank-docviewer-details-port'+document.id+'" class="urank-docviewer-attributes">'+port+'</label>' +
                         '</div>' +
                         '<div class="doc-attributes-sontainer left">' +
-                        '<input type="checkbox" id="filter-protocol-'+counter+'" class="filter-protocol" name="connection-attribute" value="'+protocol+'"><label>Protocol:</label><label id="urank-docviewer-details-protocol" class="urank-docviewer-attributes">'+protocol+'</label>' +
+                        '<input type="checkbox" id="filter-protocol-'+counter+'" class="filter-protocol" name="connection-attribute" value="'+protocol+'"><label>Protocol:</label><label id="urank-docviewer-details-protocol'+document.id+'" class="urank-docviewer-attributes">'+protocol+'</label>' +
                         '</div>' +
                         '<div class="rigth" style="margin: 3px">' +
                             '<button class="btn-close-connection" idC="'+document.id+'">X</button>'+
@@ -556,7 +556,7 @@ var DocViewer = (function(){
                         '</div>' +
                         '<div style="width: 25%" id="pie-graph-'+document.id+'" class="left">' +
                         '</div>' +
-                        '<div id="legend-pie-graph" class="rigth" style="width: 24%;margin-top: 30px">' +
+                        '<div id="legend-pie-graph'+document.id+'" class="rigth" style="width: 24%;margin-top: 30px">' +
                             '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background: rgb(152,171,197); padding: 2px">M</span> SP </br></label>'+
                             '<label><span style="color: transparent; background: rgb(138,137,166); padding: 2px">M</span> WP</br></label>'+
                             '<label><span style="color: transparent; background: rgb(123,104,136); padding: 2px">M</span> SNP</br></label>'+
