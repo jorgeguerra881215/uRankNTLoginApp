@@ -78,16 +78,18 @@ var DocViewer = (function(){
              console.log(data);
              });*/
             //Write info in data.txt file using php script
-            var scriptURL = '../server/save.php',
+            /*var scriptURL = 'http://localhost/loginapp/server/save.php',
                 date = new Date(),
                 timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
                 urankState = urank.getCurrentState(),
                 gf = [{ filename: 'urank_labeled_' + timestamp + '.txt', content: JSON.stringify(urankState) }];//JSON.stringify(urankState)
 
-            $.generateFile({ filename: "bookmarks.json", content: JSON.stringify(urankState), script: scriptURL });
+            $.generateFile({ filename: "bookmarks.json", content: JSON.stringify(urankState), script: scriptURL });*/
 
             //Saving logs register
-            urank.enterLog('Label - '+label+' - '+_document.id);
+            urank.enterLog('Label '+label+' - '+_document.id);
+
+            urank.selectMultipleListItem();
 
             return false;
         }
@@ -119,6 +121,8 @@ var DocViewer = (function(){
         $('#urank-label-button-normal-'+document_id).removeClass('opacity');
         $('#urank-label-button-normal-'+document_id).addClass('non-opacity');
 
+        $('span#label-'+document_id).html('Botnet');
+
         keepElementFocus();
         saveLabel(event);
 
@@ -149,6 +153,8 @@ var DocViewer = (function(){
         $('#urank-label-button-botnet-'+document_id).prop('disabled', false);
         $('#urank-label-button-botnet-'+document_id).removeClass('opacity');
         $('#urank-label-button-botnet-'+document_id).addClass('non-opacity');
+
+        $('span#label-'+document_id).html('Normal');
 
         keepElementFocus();
         saveLabel(event);
@@ -450,7 +456,7 @@ var DocViewer = (function(){
         //$p.hide().fadeIn('slow').scrollTo('top');
 
         //Saving logs register
-        urank.enterLog('Connection - '+ _document.id);
+
 
 
         /**
@@ -459,14 +465,18 @@ var DocViewer = (function(){
         $('div.urank-docviewer-container-default').removeClass('selected');
         var id = "urank-docviewer-"+document.id;
         if(_selectedConnection.indexOf(document.id) == -1){
+            urank.enterLog('Connection - '+ _document.id);
             var connection_list = show_list_document(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter);
 
 
             $('#viscanvas > div.urank-hidden-scrollbar-inner > div').append(connection_list);
             $(".btn-show-connection-sequence").on( "click", function() {
                 var connection = $(this).attr('sequence');
+                var id_connection = $(this).attr('idC');
                 $("#dialog-seguence").html('<p>'+connection+'</p>');
                 $("#dialog-seguence").dialog( "open" );
+
+                urank.enterLog('Sequence Connection - '+id_connection);
             });
             $(".btn-close-connection").on( "click", function() {
                 var btn = $(this);//$('#'+id);
@@ -475,6 +485,7 @@ var DocViewer = (function(){
                 var index = _selectedConnection.indexOf(id_connection)
                 if(index != -1){
                     _selectedConnection.splice(index,1);
+                    urank.enterLog('Close Connection - '+id_connection);
                 }
 
             });
@@ -513,12 +524,12 @@ var DocViewer = (function(){
         var disable_normal = document.title == "Normal" ? "disable=''" : "";
         var index = $('label#label-'+document.id).attr('value');
         var element =
-            '<div id="urank-docviewer-'+document.id+'" class="urank-docviewer-container-default selected" style="margin-top: -3px">' +
+            '<div id="urank-docviewer-'+document.id+'" class="urank-docviewer-container-default selected" style="margin-top: -3px;background: white">' +
                 '<div style="display: block;" class="urank-docviewer-details-section">' +
                     '<div>' +
                         '<div class="left" style="margin-right: 25px; margin-top: 6px">' +
                             '<div class="doc-label-container">' +
-                                '<label id="index-label-'+document.id+'" class="urank-docviewer-attributes urank-docviewer-details-label '+title.toLowerCase()+'">'+index+' | '+title+'</label>' +
+                                '<label id="index-label-'+document.id+'" class="urank-docviewer-attributes urank-docviewer-details-label '+title.toLowerCase()+'">'+index+' | '+'<span id="label-'+document.id+'">'+title+'</span></label>' +
                             '</div>' +
                         '</div>' +
                         '<div class="doc-attributes-sontainer left">' +
@@ -543,14 +554,20 @@ var DocViewer = (function(){
                     '<div style=" margin-bottom: -30px">' +
                         '<div id="bar-graph-'+document.id+'" class="left">' +
                         '</div>' +
-                        '<div id="pie-graph-'+document.id+'" class="left">' +
+                        '<div style="width: 25%" id="pie-graph-'+document.id+'" class="left">' +
                         '</div>' +
+                        '<div id="legend-pie-graph" class="rigth" style="width: 24%;margin-top: 30px">' +
+                            '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background: rgb(152,171,197); padding: 2px">M</span> SP </br></label>'+
+                            '<label><span style="color: transparent; background: rgb(138,137,166); padding: 2px">M</span> WP</br></label>'+
+                            '<label><span style="color: transparent; background: rgb(123,104,136); padding: 2px">M</span> SNP</br></label>'+
+                            '<label><span style="color: transparent; background: rgb(107,72,107); padding: 2px">M</span> WNP</br></label>'+
+                        '</div>'+
                         '<div style="clear: both"></div>' +
                     '</div>' +
                     '<div>' +
                         '<div>' +
                             /*'<input type="text" placeholder="Add new label..." id="label-text" style="display: none"><label>Tell us why you select this label:</label><textarea id="urank-docviewer-labeling-text" rows="5"></textarea>' +*/
-                            '<button class="btn-show-connection-sequence" sequence="'+sequence+'" style="margin:2px; float: right;">Show Sequence</button>'+
+                            '<button class="btn-show-connection-sequence" idC="'+document.id+'" sequence="'+sequence+'" style="margin:2px; float: right;">Show Sequence</button>'+
                             '<button id="urank-label-button-botnet-'+document.id+'" class="btn-botnet-label-connection rigth '+opacity_botnet_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_botnet+'>Botnet</button>' +
                             '<button id="urank-label-button-normal-'+document.id+'" class="btn-normal-label-connection rigth '+opacity_normal_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_normal+'>Normal</button>' +
                             '<div style="clear: both"></div>'+

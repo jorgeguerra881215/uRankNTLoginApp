@@ -592,7 +592,7 @@ Document Panel (right) - for visualizing highlighted text
     text-align: left;
     margin: 5px;
     color: snow;
-    text-shadow: 0em .1em #444
+    /*text-shadow: 0em .1em #444*/
 }
 
 .urank-docviewer-details-section div {
@@ -869,7 +869,7 @@ div.urank-docviewer-divisor{
 }
 
 .arc text {
-    font: 10px sans-serif;
+    /*font: 10px sans-serif;*/
     text-anchor: middle;
 }
 

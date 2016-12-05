@@ -35,12 +35,9 @@
         {{#if error}}
             <div class="alert alert-danger">{{error_msg}}</div>
         {{/if}}
-
-        {{{body}}}
     </div>
-
-
 </div> <!-- /container -->
+{{{body}}}
 
 <!-- bower:js -->
 <script src="/bower_components/jquery/dist/jquery.js"></script>
@@ -114,6 +111,8 @@
             }
         });
         $( "#btn-show-legend" ).on( "click", function() {
+            //var urank = new Urank();
+            urank.enterLog('Show Characteristic Legend');
             $( "#dialog" ).dialog( "open" );
         });
         /*$("#btn-test").on( "click", function() {

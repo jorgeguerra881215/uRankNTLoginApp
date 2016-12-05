@@ -104,10 +104,10 @@ var Urank = (function(){
 
 
 var enterLog = function(value){
-    var scriptURL = '../server/log.php',
+    var scriptURL = "http://localhost/loginapp/server/log.php";
         date = new Date(),
         timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
-        urankState = timestamp+' '+value,
+        urankState = urankState = $('#username').html()+' ' + timestamp+' '+value,
         gf = [{ filename: 'urank_labeled_' + timestamp + '.txt', content: urankState }];//JSON.stringify(urankState)
 
     $.generateFile({ filename: "bookmarks.json", content: urankState, script: scriptURL });
@@ -349,7 +349,7 @@ var enterLog = function(value){
     }
 
     var enterText = function(value){
-        var scriptURL = '../server/log.php',
+        var scriptURL = '/server/log.php',
             urankState = value;
 
         $.generateFile({ filename: "bookmarks.json", content: urankState, script: scriptURL });
@@ -381,6 +381,8 @@ var enterLog = function(value){
         value.protocol = protocol;
 
     }
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -609,7 +611,7 @@ var enterLog = function(value){
              * Modified by Jorch
              * @type {{name: string, score: number}}
              */
-            var scriptURL = '../server/save.php',
+            var scriptURL = '/server/save.php',
              date = new Date(),
              timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
              urankState = _this.urank.getCurrentState(),
@@ -622,7 +624,7 @@ var enterLog = function(value){
                 score: 100
             };
             var content  = JSON.stringify(obj);
-            $.generateFile({ filename: "bookmarks.json", content: content, script: '../server/save.php' });
+            $.generateFile({ filename: "bookmarks.json", content: content, script: '/server/save.php' });
         },
 
         onWatchiconClicked: function(documentId) {
@@ -725,10 +727,10 @@ var enterLog = function(value){
          * Created by Jorch
          */
         onEnterLog: function(value){
-            var scriptURL = '../server/log.php',
+            var scriptURL = "http://localhost/loginapp/server/log.php";
                 date = new Date(),
                 timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
-                urankState = timestamp+' '+value,
+                urankState = $('#username').html()+' ' + timestamp+' '+value,
                 gf = [{ filename: 'urank_labeled_' + timestamp + '.txt', content: urankState }];//JSON.stringify(urankState)
 
             $.generateFile({ filename: "bookmarks.json", content: urankState, script: scriptURL });
@@ -955,7 +957,7 @@ var enterLog = function(value){
                         observation: d.observation,
                         connection_id: d.connection_id,
                         cluster: d.cluster,
-                        facets:{provider: "mendeley",year: "2004"}
+                        facets:{provider: "mendeley",year: "2004"}+'\n'
                     }
                 );
 
@@ -965,13 +967,25 @@ var enterLog = function(value){
         },
         getCurrentData: function(){
             var next_line = "\n";
-            var result = "Id | Sequence | Label" + next_line;
+            var result = "Label | Id | Sequence" + next_line;
             this.data.forEach(function(item,index){
                 var sequence = getLetterSequences(item.description);
-                var aux = item.connection_id + ' | ' + sequence + ' | ' + item.title + next_line;
+                var aux = item.title + ' | ' + item.connection_id + '    | ' + sequence + next_line;
                 result += aux;
             });
             return result;
+        },
+        selectMultipleListItem: function(){
+            contentList.selectMultipleListItem(connection_id);
+        },
+        saveLabeling: function(){
+            var scriptURL = 'http://localhost/loginapp/server/save.php',
+                date = new Date(),
+                timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
+                urankState = this.getCurrentState(),
+                gf = [{ filename: 'urank_labeled_' + timestamp + '.txt', content: JSON.stringify(urankState) }];//JSON.stringify(urankState)
+
+            $.generateFile({ filename: "bookmarks.json", content: JSON.stringify(urankState), script: scriptURL });
         }
     };
 
@@ -994,6 +1008,8 @@ var enterLog = function(value){
         destroy: EVTHANDLER.onDestroy,
         getCurrentState: MISC.getCurrentState,
         getCurrentData: MISC.getCurrentData,
+        saveLabeling: MISC.saveLabeling,
+        selectMultipleListItem: MISC.selectMultipleListItem,
         updateTagsCloud: EVTHANDLER.onUpdateTagsCloud,
         onTagDropped:EVTHANDLER.onTagDropped,
         onChange:EVTHANDLER.onChange
