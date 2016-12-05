@@ -876,3 +876,7 @@ div.urank-docviewer-divisor{
 .arc path {
     stroke: #fff;
 }
+
+.pie-graph text{
+    display: none;
+}

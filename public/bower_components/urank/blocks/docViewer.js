@@ -425,8 +425,8 @@ var DocViewer = (function(){
             }
             periodic_data.push(element);
         })
-        _showBarChart('doc-viewer-top',letter_data);
-        _showPieChart('doc-viewer-left',periodic_data);
+        /*_showBarChart('doc-viewer-top',letter_data);
+        _showPieChart('doc-viewer-left',periodic_data);*/
 
         var getFacet = function(facetName, facetValue){
             return facetName == 'year' ? parseDate(facetValue) : facetValue;
@@ -554,7 +554,7 @@ var DocViewer = (function(){
                     '<div style=" margin-bottom: -30px">' +
                         '<div id="bar-graph-'+document.id+'" class="left">' +
                         '</div>' +
-                        '<div style="width: 25%" id="pie-graph-'+document.id+'" class="left">' +
+                        '<div style="width: 25%" id="pie-graph-'+document.id+'" class="pie-graph left">' +
                         '</div>' +
                         '<div id="legend-pie-graph'+document.id+'" class="rigth" style="width: 24%;margin-top: 30px">' +
                             '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background: rgb(152,171,197); padding: 2px">M</span> SP </br></label>'+
