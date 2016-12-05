@@ -6,7 +6,7 @@ function datasetManager(){
         DS_Co: {
             description: 'Connections 22',
             file: 'dataset_Cx.json'
-        },
+        }/*,
         DS_Ro: {
             description: 'Connections 87',
             file: 'dataset_Cx87.json'
@@ -18,7 +18,7 @@ function datasetManager(){
         DS_Al: {
             description: 'Connections all',
             file: 'dataset_CxAll.json'
-        }
+        }*/
     };
 
     /*var datasetMappings = {
