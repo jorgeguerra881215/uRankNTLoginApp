@@ -967,10 +967,10 @@ var enterLog = function(value){
         },
         getCurrentData: function(){
             var next_line = "\n";
-            var result = "Label | Id | Sequence" + next_line;
+            var result = "Label | Id | Connection Id | Sequence" + next_line;
             this.data.forEach(function(item,index){
                 var sequence = getLetterSequences(item.description);
-                var aux = item.title + ' | ' + item.connection_id + '    | ' + sequence + next_line;
+                var aux = item.title + ' | ' + item.id +' | ' + item.connection_id + '    | ' + sequence + next_line;
                 result += aux;
             });
             return result;
