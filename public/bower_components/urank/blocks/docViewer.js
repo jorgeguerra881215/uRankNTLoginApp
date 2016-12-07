@@ -491,7 +491,8 @@ var DocViewer = (function(){
             });
             $('input[type=checkbox][name=connection-attribute]').change(function() {
                 console.log('filtrando');
-                urank.findNotLabeled(this.value,this.filter);
+                /*$(this).prop('checked', true);*/
+                urank.findNotLabeled(this.value,null);
             });
             $('.btn-botnet-label-connection').on("click",function(){
                 var btn = $(this);//$('#'+id);

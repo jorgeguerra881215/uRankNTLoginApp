@@ -470,6 +470,19 @@ var enterLog = function(value){
                 'click': EVTHANDLER.onRootClick
             });
 
+            $('body > div.main-panel > div.central-panel > div.vis-panel').scroll(function () {
+                if ($(this).scrollTop() > 26 * connection_id.length ) {
+                    for(var i =0; i < connection_id.length ; i++){
+                        $('#connection-list > li:nth-child('+ (i+1) +')').addClass("f-list-"+i);
+                    }
+
+                } else {
+                    for(var i =0; i < connection_id.length ; i++){
+                        $('#connection-list > li:nth-child('+ (i+1) +')').removeClass("f-list-"+i);
+                    }
+                }
+            });
+
             //  Custom callback
             s.onLoad.call(this, _this.keywords);
 
@@ -671,8 +684,8 @@ var enterLog = function(value){
         onFindNotLabeled: function(value,aux){
             //console.log(value);
             //Set all bar visible
-            $('g.urank-ranking-stackedbar').css('display','none');
-            $('g.urank-ranking-stackedbar').attr('display','none');
+            /*$('g.urank-ranking-stackedbar').css('display','none');
+            $('g.urank-ranking-stackedbar').attr('display','none');*/
             value = {
                 unlabelled:$('#chek-find-not-labeled').is(':checked') ? $('#chek-find-not-labeled').attr('value') : null,
                 bot:$('#chek-find-botnet').is(':checked') ? $('#chek-find-botnet').attr('value') : null,
@@ -691,7 +704,7 @@ var enterLog = function(value){
             getFilterParameter(value);
 
             var list = [];
-            var initial_Ytranslate = 0.5198514710082833;
+            //var initial_Ytranslate = 0.5198514710082833;
             _this.data.forEach(function(d, i){
                 var label = d.title;
                 var attributes = d.connection_id.split('-');
@@ -707,15 +720,15 @@ var enterLog = function(value){
 
                 if(valid){
                     list.push(d.id);
-                    $('g#urank-ranking-stackedbar-'+ d.id).css('display','block');
-                    $('g#urank-ranking-stackedbar-'+ d.id).attr('display','block');
+                    /*$('g#urank-ranking-stackedbar-'+ d.id).css('display','block');
+                    $('g#urank-ranking-stackedbar-'+ d.id).attr('display','block');*/
                 }
             });
 
-            $('g.urank-ranking-stackedbar[display=block]').each(function(index, element){
+            /*$('g.urank-ranking-stackedbar[display=block]').each(function(index, element){
                 $(this).attr( 'transform', 'translate(0, ' + initial_Ytranslate + ')');
                 initial_Ytranslate = initial_Ytranslate + 25.99257355;
-            });
+            });*/
 
             contentList.selectManyListItem(list);
 

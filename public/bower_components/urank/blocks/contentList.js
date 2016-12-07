@@ -807,6 +807,12 @@ var ContentList = (function(){
 
     };
 
+    var _selectOneListItem = function(id){
+        $('.'+liClass).addClass('li-nonshow');
+        $('.'+liClass+'['+urankIdAttr+'="'+id+'"]').removeClass('li-nonshow');
+        $('.'+liClass+'['+urankIdAttr+'="'+id+'"]').addClass('li-show');
+    }
+
     var _deselectAllListItems = function() {
         $('.'+liClass).css('opacity', '');
     };
@@ -937,6 +943,7 @@ var ContentList = (function(){
             //ul.remove(li_s[i]);
          }
          ul.html('');
+        var element_top = 185;
         data.forEach(function(item,i){
             var connection_index = item.viewIndex;
             var new_li = dict_li[connection_index];
@@ -976,7 +983,8 @@ var ContentList = (function(){
         destroy: _destroy,
         scrollTo: _scrollTo,
         getListHeight: _getListHeight,
-        orderedList: _orderedList
+        orderedList: _orderedList,
+        selectOneListItem: _selectOneListItem
     };
 
     return ContentList;
