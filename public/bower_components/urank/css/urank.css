@@ -881,80 +881,10 @@ div.urank-docviewer-divisor{
     display: none;
 }
 
-.f-list-0{
+.f-list{
     z-index: 9999;
     position: fixed;
     left: 7px;
-    top: 185px !important;
-    /*width: 100%;*/
-}
-.f-list-1{
-    z-index: 9999;
-    position: fixed;
-    left: 7px;
-    top: 211px !important;
-    /*width: 100%;*/
-}
-.f-list-2{
-    z-index: 9999;
-    position: fixed;
-    left: 7px;
-    top: 237px !important;
-    /*width: 100%;*/
-}
-.f-list-3{
-    z-index: 9999;
-    position: fixed;
-    left: 7px;
-    top: 263px !important;
-    /*width: 100%;*/
-}
-.f-list-4{
-    z-index: 9999;
-    position: fixed;
-    left: 7px;
-    top: 289px !important;
-    /*width: 100%;*/
-}
-.f-list-5{
-    z-index: 9999;
-    position: fixed;
-    left: 7px;
-    top: 315px !important;
-    /*width: 100%;*/
-}
-.f-list-6{
-    z-index: 9999;
-    position: fixed;
-    left: 7px;
-    top: 341px !important;
-    /*width: 100%;*/
-}
-.f-list-7{
-    z-index: 9999;
-    position: fixed;
-    left: 7px;
-    top: 367px !important;
-    /*width: 100%;*/
-}
-.f-list-8{
-    z-index: 9999;
-    position: fixed;
-    left: 7px;
-    top: 393px !important;
-    /*width: 100%;*/
-}
-.f-list-9{
-    z-index: 9999;
-    position: fixed;
-    left: 7px;
-    top: 419px !important;
-    /*width: 100%;*/
-}
-.f-list-10{
-    z-index: 9999;
-    position: fixed;
-    left: 7px;
-    top: 445px !important;
+    /*top: 185px !important;*/
     /*width: 100%;*/
 }
