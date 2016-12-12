@@ -93,7 +93,7 @@ var ContentList = (function(){
             event.stopPropagation(); s.onWatchiconClicked.call(this, event.data);
         };
         var onFaviconClick = function(event){
-            event.stopPropagation(); s.onFaviconClicked.call(this, event.data);
+            /*event.stopPropagation(); s.onFaviconClicked.call(this, event.data);*/
         };
 
         $li.off({
