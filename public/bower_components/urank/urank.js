@@ -104,6 +104,7 @@ var Urank = (function(){
 
 
 var enterLog = function(value){
+    //var scriptURL = "http://localhost/loginapp/server/log.php",
     var scriptURL = "http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/log.php";
         date = new Date(),
         timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
@@ -362,19 +363,18 @@ var enterLog = function(value){
         var ip_dest = [];
         var port = [];
         var protocol = [];
-        $('.filter-initial-port').each(function(index){
-            $('#filter-initial-port-'+index+':checked').length > 0 ? ip_origen.push($('#filter-initial-port-'+index).attr('value')): null;
+        $('.filter-initial-port:checkbox:checked').each(function(index){
+            ip_origen.push($(this).attr('value'));
         });
-        $('.filter-end-port').each(function(index){
-            $('#filter-end-port-'+index+':checked').length > 0 ? ip_dest.push($('#filter-end-port-'+index).attr('value')): null;
+        $('.filter-end-port:checkbox:checked').each(function(index){
+            ip_dest.push($(this).attr('value'));
         });
-        $('.filter-port').each(function(index){
-            $('#filter-port-'+index+':checked').length > 0 ? port.push($('#filter-port-'+index).attr('value')): null;
+        $('.filter-port:checkbox:checked').each(function(index){
+            port.push($(this).attr('value'));
         });
-        $('.filter-protocol').each(function(index){
-            $('#filter-protocol-'+index+':checked').length > 0 ? protocol.push($('#filter-protocol-'+index).attr('value')): null;
+        $('.filter-protocol:checkbox:checked').each(function(index){
+            protocol.push($(this).attr('value'));
         });
-
         value.initialIp = ip_origen;
         value.endIp = ip_dest;
         value.port = port;
@@ -691,6 +691,8 @@ var enterLog = function(value){
          * Created by Jorch
          */
         onFindNotLabeled: function(value,aux){
+            $('.processing-message').html('Processing Query...');
+            $('.processing-message').show();
             //console.log(value);
             //Set all bar visible
             /*$('g.urank-ranking-stackedbar').css('display','none');
@@ -717,17 +719,18 @@ var enterLog = function(value){
             _this.data.forEach(function(d, i){
                 var label = d.title;
                 var attributes = d.connection_id.split('-');
-                var valid = true;
-                if(value.unlabelled != null && !(label != 'Botnet' && label != 'Normal')) valid = false;
-                if(valid && value.bot != null && label != 'Botnet') valid = false;
-                if(valid && value.notBot != null && label != 'Normal') valid = false;
+                var validLabel = true;
+                var valid = true;//(value.initialIp.length > 0 || value.endIp.length > 0 || value.port.length > 0 || value.protocol.length > 0)? false : true;
+                if(value.unlabelled != null && !(label != 'Botnet' && label != 'Normal')) validLabel = false;
+                if(validLabel && value.bot != null && label != 'Botnet') validLabel = false;
+                if(validLabel && value.notBot != null && label != 'Normal') validLabel = false;
                 //if(valid && value.all)
-                if(valid && value.initialIp.length > 0 && value.initialIp.indexOf(attributes[0]) == -1) valid = false;
-                if(valid && value.endIp.length > 0 && value.endIp.indexOf(attributes[1]) == -1) valid = false;
-                if(valid && value.port.length > 0 && value.port.indexOf(attributes[2]) == -1) valid = false;
-                if(valid && value.protocol.length > 0 && value.protocol.indexOf(attributes[3]) == -1) valid = false;
+                if(validLabel && value.initialIp.length > 0 && value.initialIp.indexOf(attributes[0]) == -1) valid = false;
+                if(validLabel && valid && value.endIp.length > 0 && value.endIp.indexOf(attributes[1]) == -1) valid = false;
+                if(validLabel && valid && value.port.length > 0 && value.port.indexOf(attributes[2]) == -1) valid = false;
+                if(validLabel && valid && value.protocol.length > 0 && value.protocol.indexOf(attributes[3]) == -1) valid = false;
 
-                if(valid){
+                if(validLabel && valid){//(validIpOrigen || validIpDest || validPort || validProtocol)){
                     list.push(d.id);
                     /*$('g#urank-ranking-stackedbar-'+ d.id).css('display','block');
                     $('g#urank-ranking-stackedbar-'+ d.id).attr('display','block');*/
@@ -743,12 +746,15 @@ var enterLog = function(value){
 
             var filters = value.unlabelled + ' ' + value.bot + ' ' + value.notBot + ' ' + value.all + ' (IP_0)' + value.initialIp + ' (IP_1)' + value.endIp+ ' (Port)' + value.port + ' (Protocol)' + value.protocol + ' ';
             enterLog('Filter '+filters);
+            $('.processing-message').hide();
+            $('.processing-message').html('Processing Data...');
 
         },
         /**
          * Created by Jorch
          */
         onEnterLog: function(value){
+            //var scriptURL = "http://localhost/loginapp/server/log.php",
             var scriptURL = "http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/log.php";
                 date = new Date(),
                 timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
@@ -1001,7 +1007,8 @@ var enterLog = function(value){
             contentList.selectMultipleListItem(connection_id);
         },
         saveLabeling: function(){
-            var scriptURL = 'http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/save.php',
+            //var scriptURL = "http://localhost/loginapp/server/log.php",
+            var scriptURL = "http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/log.php";
                 date = new Date(),
                 timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
                 urankState = this.getCurrentState(),

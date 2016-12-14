@@ -481,6 +481,35 @@ var DocViewer = (function(){
             $(".btn-close-connection").on( "click", function() {
                 var btn = $(this);//$('#'+id);
                 var id_connection = btn.attr('idC');
+                var counter = btn.attr('counter');
+
+                //Clear all filters in this connection  $('#filter-initial-port-'+index+':checked').length > 0
+                var change = false;
+                var initialPort = $('#filter-initial-port-'+id_connection);
+                var endPort = $('#filter-end-port-'+id_connection);
+                var filterPort = $('#filter-port-'+id_connection);
+                var filterProtocol = $('#filter-protocol-'+id_connection);
+                if($('#filter-initial-port-'+id_connection+':checked').length > 0 ){
+                    initialPort.prop('checked', false);
+                    change = true;
+                }
+                if($('#filter-end-port-'+id_connection+':checked').length > 0 ){
+                    endPort.prop('checked', false);
+                    change = true;
+                }
+                if($('#filter-port-'+id_connection+':checked').length > 0 ){
+                    filterPort.prop('checked', false);
+                    change = true;
+                }
+                if($('#filter-protocol-'+id_connection+':checked').length > 0 ){
+                    filterProtocol.prop('checked', false);
+                    change = true;
+                }
+               if(change){
+                   urank.findNotLabeled(this.value,null);
+               }
+
+
                 $('#urank-docviewer-'+id_connection).replaceWith('');//css('display','none');
                 var index = _selectedConnection.indexOf(id_connection)
                 if(index != -1){
@@ -489,7 +518,23 @@ var DocViewer = (function(){
                 }
 
             });
-            $('input[type=checkbox][name=connection-attribute]').change(function() {
+            //$('input[type=checkbox][name=connection-attribute]').change(function() {
+            $('#filter-initial-port-'+document.id).change(function() {
+                console.log('filtrando');
+                /*$(this).prop('checked', true);*/
+                urank.findNotLabeled(this.value,null);
+            });
+            $('#filter-end-port-'+document.id).change(function() {
+                console.log('filtrando');
+                /*$(this).prop('checked', true);*/
+                urank.findNotLabeled(this.value,null);
+            });
+            $('#filter-port-'+document.id).change(function() {
+                console.log('filtrando');
+                /*$(this).prop('checked', true);*/
+                urank.findNotLabeled(this.value,null);
+            });
+            $('#filter-protocol-'+document.id).change(function() {
                 console.log('filtrando');
                 /*$(this).prop('checked', true);*/
                 urank.findNotLabeled(this.value,null);
@@ -534,19 +579,19 @@ var DocViewer = (function(){
                             '</div>' +
                         '</div>' +
                         '<div class="doc-attributes-sontainer left">' +
-                        '<input type="checkbox" id="filter-initial-port-'+counter+'" class="filter-initial-port" name="connection-attribute" value="'+init_port+'"><label>Ip Origin:</label><label id="urank-docviewer-details-initport'+document.id+'" class="urank-docviewer-attributes">'+init_port+'</label>' +
+                        '<input type="checkbox" id="filter-initial-port-'+document.id+'" class="filter-initial-port" name="connection-attribute" value="'+init_port+'"><label>Ip Origin:</label><label id="urank-docviewer-details-initport'+document.id+'" class="urank-docviewer-attributes">'+init_port+'</label>' +
                         '</div>' +
                         '<div class="doc-attributes-sontainer left">' +
-                        '<input type="checkbox" id="filter-end-port-'+counter+'" class="filter-end-port" name="connection-attribute" value="'+dest_port+'"><label>Ip Dest:</label><label id="urank-docviewer-details-destport'+document.id+'" class="urank-docviewer-attributes">'+dest_port+'</label>' +
+                        '<input type="checkbox" id="filter-end-port-'+document.id+'" class="filter-end-port" name="connection-attribute" value="'+dest_port+'"><label>Ip Dest:</label><label id="urank-docviewer-details-destport'+document.id+'" class="urank-docviewer-attributes">'+dest_port+'</label>' +
                         '</div>' +
                         '<div class="doc-attributes-sontainer left">' +
-                        '<input type="checkbox" id="filter-port-'+counter+'" class="filter-port" name="connection-attribute" value="'+port+'"><label>Port:</label><label id="urank-docviewer-details-port'+document.id+'" class="urank-docviewer-attributes">'+port+'</label>' +
+                        '<input type="checkbox" id="filter-port-'+document.id+'" class="filter-port" name="connection-attribute" value="'+port+'"><label>Port:</label><label id="urank-docviewer-details-port'+document.id+'" class="urank-docviewer-attributes">'+port+'</label>' +
                         '</div>' +
                         '<div class="doc-attributes-sontainer left">' +
-                        '<input type="checkbox" id="filter-protocol-'+counter+'" class="filter-protocol" name="connection-attribute" value="'+protocol+'"><label>Protocol:</label><label id="urank-docviewer-details-protocol'+document.id+'" class="urank-docviewer-attributes">'+protocol+'</label>' +
+                        '<input type="checkbox" id="filter-protocol-'+document.id+'" class="filter-protocol" name="connection-attribute" value="'+protocol+'"><label>Protocol:</label><label id="urank-docviewer-details-protocol'+document.id+'" class="urank-docviewer-attributes">'+protocol+'</label>' +
                         '</div>' +
                         '<div class="rigth" style="margin: 3px">' +
-                            '<button class="btn-close-connection" idC="'+document.id+'">X</button>'+
+                            '<button class="btn-close-connection" idC="'+document.id+'" counter="'+counter+'">X</button>'+
                         '</div>'+
                         '<div style="clear: both"></div>' +
 
