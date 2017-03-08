@@ -949,9 +949,9 @@ var ContentList = (function(){
             var new_li = dict_li[connection_index];
             new_li.style['margin-bottom'] = '0px';
             new_li.style['color'] = 'black';
-            if(i + 1 == count_of_selected_items){
+            /*if(i + 1 == count_of_selected_items){
                 new_li.style['margin-bottom'] = '10px';
-            }
+            }*/
             ul.append(new_li);
         });
         $('ul#connection-list li').each(function(item){
@@ -960,6 +960,8 @@ var ContentList = (function(){
             bindEventHandlers(li, id);
         })
         $('ul#connection-list li').removeClass('hovered');
+        $('ul#connection-list li').css('margin-top','0px');
+        count_of_selected_items > 0 ? $('#connection-list > li:nth-child('+(count_of_selected_items+1)+')').css('margin-top','10px') : null;
         $('#connection-list > li:nth-child(1) > div.urank-list-li-title-container > div > div:nth-child(2)').css('color','black');
     }
 

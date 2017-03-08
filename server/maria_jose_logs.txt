@@ -1,0 +1,232 @@
+MaríaJosé,12/12/2016 12:59:58,Connection,2973
+MaríaJosé,12/12/2016 13:0:7,Sequence Connection,2973
+MaríaJosé,12/12/2016 13:0:14,Close Connection,2973
+MaríaJosé,12/12/2016 13:0:22,Connection,2478
+MaríaJosé,12/12/2016 13:0:50,Sequence Connection,2478
+MaríaJosé,12/12/2016 13:0:54,Close Connection,2478
+MaríaJosé,12/12/2016 13:1:2,Connection,428
+MaríaJosé,12/12/2016 13:1:17,Close Connection,428
+MaríaJosé,12/12/2016 13:1:25,Connection,2346
+MaríaJosé,12/12/2016 13:2:2,Label Normal,2346
+MaríaJosé,12/12/2016 13:2:3,Label Botnet,2346
+MaríaJosé,12/12/2016 13:2:6,Label Normal,2346
+MaríaJosé,12/12/2016 13:2:8,Label Botnet,2346
+MaríaJosé,12/12/2016 13:2:12,Close Connection,2346
+MaríaJosé,12/12/2016 13:2:22,Connection,129
+MaríaJosé,12/12/2016 13:2:34,Close Connection,129
+MaríaJosé,12/12/2016 13:2:43,Connection,975
+MaríaJosé,12/12/2016 13:2:48,Close Connection,975
+MaríaJosé,12/12/2016 13:2:56,Connection,975
+MaríaJosé,12/12/2016 13:3:2,Filter,0
+MaríaJosé,12/12/2016 13:3:4,Sequence Connection,975
+MaríaJosé,12/12/2016 13:3:7,Close Connection,975
+MaríaJosé,12/12/2016 13:18:43,Connection,975
+MaríaJosé,12/12/2016 13:18:47,Sequence Connection,975
+MaríaJosé,12/12/2016 13:18:51,Close Connection,975
+MaríaJosé,12/12/2016 13:18:54,Connection,2973
+MaríaJosé,12/12/2016 13:18:54,Connection,2478
+MaríaJosé,12/12/2016 13:18:58,Close Connection,2478
+MaríaJosé,12/12/2016 13:18:59,Close Connection,2973
+MaríaJosé,12/12/2016 13:19:4,Connection,975
+MaríaJosé,12/12/2016 13:19:5,Connection,2973
+MaríaJosé,12/12/2016 13:19:7,Connection,2346
+MaríaJosé,12/12/2016 13:19:8,Connection,129
+MaríaJosé,12/12/2016 13:19:17,Close Connection,975
+MaríaJosé,12/12/2016 13:19:21,Close Connection,2973
+MaríaJosé,12/12/2016 13:19:22,Close Connection,2346
+MaríaJosé,12/12/2016 13:19:23,Close Connection,129
+MaríaJosé,14/12/2016 12:10:56,Connection,2921
+MaríaJosé,14/12/2016 12:11:7,Label Botnet,2921
+MaríaJosé,14/12/2016 12:11:10,Sequence Connection,2921
+MaríaJosé,14/12/2016 12:11:17,Sequence Connection,2921
+MaríaJosé,14/12/2016 12:11:24,Sequence Connection,2921
+MaríaJosé,14/12/2016 12:11:42,Connection,2693
+MaríaJosé,14/12/2016 12:11:43,Connection,2925
+MaríaJosé,14/12/2016 12:11:45,Close Connection,2693
+MaríaJosé,14/12/2016 12:11:45,Close Connection,2925
+MaríaJosé,14/12/2016 12:11:46,Close Connection,2921
+MaríaJosé,14/12/2016 12:11:53,Connection,2346
+MaríaJosé,14/12/2016 12:11:54,Connection,2920
+MaríaJosé,14/12/2016 12:11:54,Connection,1926
+MaríaJosé,14/12/2016 12:11:59,Close Connection,2920
+MaríaJosé,14/12/2016 12:12:3,Close Connection,2346
+MaríaJosé,14/12/2016 12:12:4,Close Connection,1926
+MaríaJosé,14/12/2016 12:12:17,Connection,2787
+MaríaJosé,14/12/2016 12:12:18,Connection,2973
+MaríaJosé,14/12/2016 12:12:20,Close Connection,2973
+MaríaJosé,14/12/2016 12:12:20,Close Connection,2787
+MaríaJosé,14/12/2016 12:12:29,Connection,2787
+MaríaJosé,14/12/2016 12:12:30,Connection,2973
+MaríaJosé,14/12/2016 12:12:31,Close Connection,2787
+MaríaJosé,14/12/2016 12:12:31,Close Connection,2973
+MaríaJosé,14/12/2016 12:12:38,Connection,2787
+MaríaJosé,14/12/2016 12:12:39,Connection,2973
+MaríaJosé,14/12/2016 12:12:40,Close Connection,2787
+MaríaJosé,14/12/2016 12:12:40,Close Connection,2973
+MaríaJosé,14/12/2016 12:12:48,Connection,6830
+MaríaJosé,14/12/2016 12:12:49,Connection,1519
+MaríaJosé,14/12/2016 12:12:51,Close Connection,6830
+MaríaJosé,14/12/2016 12:12:52,Close Connection,1519
+MaríaJosé,14/12/2016 12:13:1,Connection,137
+MaríaJosé,14/12/2016 12:13:21,Sequence Connection,137
+MaríaJosé,14/12/2016 12:13:39,Close Connection,137
+MaríaJosé,14/12/2016 12:13:52,Connection,129
+MaríaJosé,14/12/2016 12:13:53,Connection,2475
+MaríaJosé,14/12/2016 12:13:58,Close Connection,2475
+MaríaJosé,14/12/2016 12:13:59,Close Connection,129
+MaríaJosé,14/12/2016 12:14:7,Connection,107
+MaríaJosé,14/12/2016 12:14:7,Connection,3103
+MaríaJosé,14/12/2016 12:14:9,Close Connection,3103
+MaríaJosé,14/12/2016 12:14:10,Close Connection,107
+MaríaJosé,14/12/2016 12:14:14,Connection,129
+MaríaJosé,14/12/2016 12:14:15,Connection,2973
+MaríaJosé,14/12/2016 12:14:16,Connection,6830
+MaríaJosé,14/12/2016 12:14:17,Close Connection,129
+MaríaJosé,14/12/2016 12:14:17,Close Connection,2973
+MaríaJosé,14/12/2016 12:14:18,Close Connection,6830
+MaríaJosé,14/12/2016 12:14:21,Filter,0
+MaríaJosé,14/12/2016 12:14:29,Connection,137
+MaríaJosé,14/12/2016 12:14:31,Label Botnet,137
+MaríaJosé,14/12/2016 12:14:34,Close Connection,137
+MaríaJosé,14/12/2016 12:14:43,Connection,3181
+MaríaJosé,14/12/2016 12:14:43,Connection,2022
+MaríaJosé,14/12/2016 12:14:47,Sequence Connection,2022
+MaríaJosé,14/12/2016 12:14:47,Sequence Connection,2022
+MaríaJosé,14/12/2016 12:14:59,Close Connection,2022
+MaríaJosé,14/12/2016 12:15:0,Close Connection,3181
+MaríaJosé,14/12/2016 12:15:7,Save Labeling,0
+MaríaJosé,14/12/2016 12:15:17,Connection,6992
+MaríaJosé,14/12/2016 12:15:18,Connection,1846
+MaríaJosé,14/12/2016 12:15:24,Label Botnet,1846
+MaríaJosé,14/12/2016 12:15:24,Label Botnet,1846
+MaríaJosé,14/12/2016 12:15:46,Label Normal,1846
+MaríaJosé,14/12/2016 12:15:47,Close Connection,1846
+MaríaJosé,14/12/2016 12:15:48,Close Connection,6992
+MaríaJosé,14/12/2016 12:15:58,Connection,5170
+MaríaJosé,14/12/2016 12:15:59,Connection,1926
+MaríaJosé,14/12/2016 12:16:1,Label Normal,1926
+MaríaJosé,14/12/2016 12:16:1,Label Normal,1926
+MaríaJosé,14/12/2016 12:16:3,Close Connection,1926
+MaríaJosé,14/12/2016 12:16:4,Close Connection,5170
+MaríaJosé,14/12/2016 12:16:7,Connection,5170
+MaríaJosé,14/12/2016 12:16:7,Connection,1926
+MaríaJosé,14/12/2016 12:16:9,Label Normal,1926
+MaríaJosé,14/12/2016 12:16:9,Label Normal,1926
+MaríaJosé,14/12/2016 12:16:12,Close Connection,5170
+MaríaJosé,14/12/2016 12:16:12,Close Connection,1926
+MaríaJosé,14/12/2016 12:16:35,Connection,7095
+MaríaJosé,14/12/2016 12:16:36,Connection,2668
+MaríaJosé,14/12/2016 12:16:38,Label Normal,2668
+MaríaJosé,14/12/2016 12:16:38,Label Normal,2668
+MaríaJosé,14/12/2016 12:16:40,Close Connection,7095
+MaríaJosé,14/12/2016 12:16:45,Label Normal,2668
+MaríaJosé,14/12/2016 12:16:47,Close Connection,2668
+MaríaJosé,14/12/2016 12:16:56,Connection,6759
+MaríaJosé,14/12/2016 12:16:56,Connection,1129
+MaríaJosé,14/12/2016 12:17:35,Label Normal,1129
+MaríaJosé,14/12/2016 12:17:35,Label Normal,1129
+MaríaJosé,14/12/2016 12:17:36,Close Connection,1129
+MaríaJosé,14/12/2016 12:17:37,Close Connection,6759
+MaríaJosé,14/12/2016 12:17:41,Connection,6842
+MaríaJosé,14/12/2016 12:17:42,Connection,1644
+MaríaJosé,14/12/2016 12:17:48,Close Connection,6842
+MaríaJosé,14/12/2016 12:17:48,Close Connection,1644
+MaríaJosé,14/12/2016 12:18:57,Ranking Reset,0
+MaríaJosé,14/12/2016 12:19:1,Ranking Reset,0
+MaríaJosé,14/12/2016 12:19:26,Connection,6842
+MaríaJosé,14/12/2016 12:19:26,Connection,6855
+MaríaJosé,14/12/2016 12:19:30,Label Normal,6855
+MaríaJosé,14/12/2016 12:19:30,Label Normal,6855
+MaríaJosé,14/12/2016 12:19:31,Close Connection,6842
+MaríaJosé,14/12/2016 12:19:32,Close Connection,6855
+MaríaJosé,14/12/2016 12:19:43,Connection,2346
+MaríaJosé,14/12/2016 12:19:43,Connection,2284
+MaríaJosé,14/12/2016 12:19:45,Label Botnet,2284
+MaríaJosé,14/12/2016 12:19:45,Label Botnet,2284
+MaríaJosé,14/12/2016 12:19:47,Close Connection,2346
+MaríaJosé,14/12/2016 12:19:48,Close Connection,2284
+MaríaJosé,14/12/2016 12:19:56,Ranking Reset,0
+MaríaJosé,14/12/2016 12:20:10,Ranking Reset,0
+MaríaJosé,14/12/2016 12:21:28,Connection,6855
+MaríaJosé,14/12/2016 12:21:28,Connection,1177
+MaríaJosé,14/12/2016 12:21:34,Close Connection,6855
+MaríaJosé,14/12/2016 12:21:35,Close Connection,1177
+MaríaJosé,14/12/2016 12:21:38,Ranking Reset,0
+MaríaJosé,14/12/2016 12:21:39,Ranking Reset,0
+MaríaJosé,14/12/2016 12:21:51,Connection,6085
+MaríaJosé,14/12/2016 12:21:51,Connection,1159
+MaríaJosé,14/12/2016 12:21:54,Sequence Connection,6085
+MaríaJosé,14/12/2016 12:21:54,Sequence Connection,6085
+MaríaJosé,14/12/2016 12:21:57,Label Botnet,1159
+MaríaJosé,14/12/2016 12:21:57,Label Botnet,1159
+MaríaJosé,14/12/2016 12:21:59,Close Connection,6085
+MaríaJosé,14/12/2016 12:22:0,Close Connection,1159
+MaríaJosé,14/12/2016 12:22:5,Connection,4237
+MaríaJosé,14/12/2016 12:22:5,Connection,1177
+MaríaJosé,14/12/2016 12:22:8,Sequence Connection,4237
+MaríaJosé,14/12/2016 12:22:8,Sequence Connection,4237
+MaríaJosé,14/12/2016 12:22:13,Close Connection,4237
+MaríaJosé,14/12/2016 12:22:14,Close Connection,1177
+MaríaJosé,14/12/2016 12:24:0,Connection,6853
+MaríaJosé,14/12/2016 12:24:1,Connection,6855
+MaríaJosé,14/12/2016 12:24:6,Close Connection,6853
+MaríaJosé,14/12/2016 12:24:7,Close Connection,6855
+MaríaJosé,14/12/2016 12:24:14,Connection,1316
+MaríaJosé,14/12/2016 12:24:15,Connection,1099
+MaríaJosé,14/12/2016 12:24:17,Close Connection,1316
+MaríaJosé,14/12/2016 12:24:17,Close Connection,1099
+MaríaJosé,14/12/2016 12:24:19,Connection,1354
+MaríaJosé,14/12/2016 12:24:29,Close Connection,1354
+MaríaJosé,14/12/2016 12:24:44,Connection,126
+MaríaJosé,14/12/2016 12:24:47,Label Botnet,126
+MaríaJosé,14/12/2016 12:24:48,Close Connection,126
+MaríaJosé,14/12/2016 12:24:53,Filter,0
+MaríaJosé,14/12/2016 12:24:57,Ranking Reset,0
+MaríaJosé,14/12/2016 12:25:2,Ranking Reset,0
+MaríaJosé,14/12/2016 12:25:40,Filter,0
+MaríaJosé,14/12/2016 12:26:0,Connection,112
+MaríaJosé,14/12/2016 12:26:0,Connection,3041
+MaríaJosé,14/12/2016 12:26:4,Close Connection,112
+MaríaJosé,14/12/2016 12:26:5,Close Connection,3041
+MaríaJosé,14/12/2016 12:26:7,Connection,2022
+MaríaJosé,14/12/2016 12:26:10,Sequence Connection,2022
+MaríaJosé,14/12/2016 12:26:18,Sequence Connection,2022
+MaríaJosé,14/12/2016 12:26:23,Close Connection,2022
+MaríaJosé,14/12/2016 12:26:31,Connection,6992
+MaríaJosé,14/12/2016 12:26:41,Sequence Connection,6992
+MaríaJosé,14/12/2016 12:26:47,Label Botnet,6992
+MaríaJosé,14/12/2016 12:26:49,Close Connection,6992
+MaríaJosé,14/12/2016 12:26:53,Connection,137
+MaríaJosé,14/12/2016 12:26:55,Sequence Connection,137
+MaríaJosé,14/12/2016 12:26:57,Close Connection,137
+MaríaJosé,14/12/2016 12:27:0,Connection,2346
+MaríaJosé,14/12/2016 12:27:1,Sequence Connection,2346
+MaríaJosé,14/12/2016 12:27:3,Label Botnet,2346
+MaríaJosé,14/12/2016 12:27:4,Close Connection,2346
+MaríaJosé,14/12/2016 12:27:10,Connection,6085
+MaríaJosé,14/12/2016 12:27:11,Sequence Connection,6085
+MaríaJosé,14/12/2016 12:27:16,Label Botnet,6085
+MaríaJosé,14/12/2016 12:27:17,Close Connection,6085
+MaríaJosé,14/12/2016 12:27:23,Connection,2403
+MaríaJosé,14/12/2016 12:27:25,Sequence Connection,2403
+MaríaJosé,14/12/2016 12:27:27,Label Botnet,2403
+MaríaJosé,14/12/2016 12:27:28,Close Connection,2403
+MaríaJosé,14/12/2016 12:27:43,Connection,3737
+MaríaJosé,14/12/2016 12:27:45,Sequence Connection,3737
+MaríaJosé,14/12/2016 12:27:59,Label Normal,3737
+MaríaJosé,14/12/2016 12:28:0,Close Connection,3737
+MaríaJosé,14/12/2016 12:28:3,Connection,2668
+MaríaJosé,14/12/2016 12:28:6,Label Normal,2668
+MaríaJosé,14/12/2016 12:28:8,Close Connection,2668
+MaríaJosé,14/12/2016 12:28:14,Connection,6855
+MaríaJosé,14/12/2016 12:28:17,Sequence Connection,6855
+MaríaJosé,14/12/2016 12:28:21,Label Normal,6855
+MaríaJosé,14/12/2016 12:28:22,Close Connection,6855
+MaríaJosé,14/12/2016 12:28:28,Connection,6824
+MaríaJosé,14/12/2016 12:28:30,Label Normal,6824
+MaríaJosé,14/12/2016 12:28:31,Close Connection,6824
+MaríaJosé,14/12/2016 12:28:34,Connection,1408
+MaríaJosé,14/12/2016 12:28:37,Label Normal,1408
+MaríaJosé,14/12/2016 12:28:38,Close Connection,1408
+MaríaJosé,14/12/2016 12:28:42,Connection,6069
+MaríaJosé,14/12/2016 12:29:15,Save Labeling,0

@@ -51,7 +51,7 @@
 
         $.generateFile({ filename: "connections.txt", content: urankState, script: scriptURL });
 
-        _this.urank.enterLog('Save Labeling');
+        _this.urank.enterLog('Save Labeling,0');
 
         event.preventDefault();
     };

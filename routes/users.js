@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
+var mongoose = require('mongoose');
 var User = require('../models/user');
 
 //Register
@@ -15,6 +15,22 @@ router.get('/login',function(req, res){
     res.render('login');
 });
 
+router.get('/list',function(req,res){
+    //var user = mongoose.model('User',User);
+    //user.find();
+    //var users = db.collection('user').find()
+    var users = User.getUsers();
+    console.log('users:');
+    //console.log(users);
+    //res.render('users',{'users':users});
+    mongoose.model('User').find(function(err,users){
+        //res.send(users);
+        var sessionId = req.sessionID;
+        res.render('users',{'users':users,'sessionId':sessionId});
+    });
+
+});
+
 //Register Users
 router.post('/register',function(req, res){
     var name = req.body.name;
@@ -22,6 +38,7 @@ router.post('/register',function(req, res){
     var email = req.body.email;
     var password = req.body.password;
     var password2 = req.body.password2;
+    var token = Math.random().toString(36).substr(2);
 
     //Validations
     req.checkBody('name','Name is required').notEmpty();
@@ -29,7 +46,7 @@ router.post('/register',function(req, res){
     req.checkBody('email','Email is not valid').isEmail();
     req.checkBody('username','Username is required').notEmpty();
     req.checkBody('password','Password is required').notEmpty();
-    req.checkBody('password2','Paswords not match').equals(req.body.password);
+    req.checkBody('password2','Passwords not match').equals(req.body.password);
 
     var errors = req.validationErrors();
     if(errors){
@@ -44,7 +61,8 @@ router.post('/register',function(req, res){
            name:name,
             email:email,
             username:username,
-            password:password
+            password:password,
+            token:token
         });
 
         User.createUser(newUser, function(err, user){

@@ -3,7 +3,8 @@ var router = express.Router();
 
 //Get Homepage
 router.get('/',ensureAhutenticated,function(req, res){
-   res.render('index');
+    var sessionId = req.sessionID;
+   res.render('index',{'sessionId':sessionId});
 });
 
 function ensureAhutenticated(req, res, next){

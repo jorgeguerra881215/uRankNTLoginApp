@@ -16,6 +16,9 @@ var UserSchema = mongoose.Schema({
     },
     name:{
         type:String
+    },
+    token:{
+        type:String
     }
 });
 
@@ -45,4 +48,10 @@ module.exports.comparePassword = function(candidatePassword,hash,callback){
 
 module.exports.getUserById = function(id, callback){
     User.findById(id,callback);
+}
+
+module.exports.getUsers = function(){
+    mongoose.model('User').find(function(err,users){
+        return users;
+    });
 }

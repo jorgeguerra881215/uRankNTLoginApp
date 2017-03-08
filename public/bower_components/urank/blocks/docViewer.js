@@ -52,9 +52,10 @@ var DocViewer = (function(){
     /**
      * Modified by Jorch
      */
-    var saveLabel = function saveLabelBton(event){
+    var saveLabel = function saveLabelBton(document_id,event){
         var label = $('#label-text').val();
         var observation = $('#urank-docviewer-labeling-text').val();
+        _document = urank.getDocumentById(document_id);
         if(_document != '' != label != ''){
 
             var terms = '';
@@ -87,7 +88,7 @@ var DocViewer = (function(){
             $.generateFile({ filename: "bookmarks.json", content: JSON.stringify(urankState), script: scriptURL });*/
 
             //Saving logs register
-            urank.enterLog('Label '+label+' - '+_document.id);
+            urank.enterLog('Label '+label+','+_document.id);
 
             urank.selectMultipleListItem();
 
@@ -124,7 +125,7 @@ var DocViewer = (function(){
         $('span#label-'+document_id).html('Botnet');
 
         keepElementFocus();
-        saveLabel(event);
+        saveLabel(document_id,event);
 
     }
 
@@ -157,7 +158,7 @@ var DocViewer = (function(){
         $('span#label-'+document_id).html('Normal');
 
         keepElementFocus();
-        saveLabel(event);
+        saveLabel(document_id,event);
     }
 
     var keepElementFocus = function(){
@@ -465,20 +466,20 @@ var DocViewer = (function(){
         $('div.urank-docviewer-container-default').removeClass('selected');
         var id = "urank-docviewer-"+document.id;
         if(_selectedConnection.indexOf(document.id) == -1){
-            urank.enterLog('Connection - '+ _document.id);
+            urank.enterLog('Connection,'+ _document.id);
             var connection_list = show_list_document(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter);
 
 
             $('#viscanvas > div.urank-hidden-scrollbar-inner > div').append(connection_list);
-            $(".btn-show-connection-sequence").on( "click", function() {
+            $("#btn-show-connection-sequence-"+document.id).on( "click", function() {
                 var connection = $(this).attr('sequence');
                 var id_connection = $(this).attr('idC');
                 $("#dialog-seguence").html('<p>'+connection+'</p>');
                 $("#dialog-seguence").dialog( "open" );
 
-                urank.enterLog('Sequence Connection - '+id_connection);
+                urank.enterLog('Sequence Connection,'+id_connection);
             });
-            $(".btn-close-connection").on( "click", function() {
+            $("#btn-close-connection-"+document.id).on( "click", function() {
                 var btn = $(this);//$('#'+id);
                 var id_connection = btn.attr('idC');
                 var counter = btn.attr('counter');
@@ -512,9 +513,15 @@ var DocViewer = (function(){
 
                 $('#urank-docviewer-'+id_connection).replaceWith('');//css('display','none');
                 var index = _selectedConnection.indexOf(id_connection)
+
+                //Remove connection from connection list
+                var li = $('ul#connection-list li[urank-id='+id_connection+']');
+                li[0].removeAttribute("style");
+                urank.onDeselectItem(id_connection);
+
                 if(index != -1){
                     _selectedConnection.splice(index,1);
-                    urank.enterLog('Close Connection - '+id_connection);
+                    urank.enterLog('Close Connection,'+id_connection);
                 }
 
             });
@@ -539,12 +546,12 @@ var DocViewer = (function(){
                 /*$(this).prop('checked', true);*/
                 urank.findNotLabeled(this.value,null);
             });
-            $('.btn-botnet-label-connection').on("click",function(){
+            $('#urank-label-button-botnet-'+document.id).on("click",function(){
                 var btn = $(this);//$('#'+id);
                 var id_connection = btn.attr('idC');
                 saveBotnetLabel(this,id_connection);
             });
-            $('.btn-normal-label-connection').on("click",function(){
+            $('#urank-label-button-normal-'+document.id).on("click",function(){
                 var btn = $(this);//$('#'+id);
                 var id_connection = btn.attr('idC');
                 saveNormalLabel(this,id_connection);
@@ -591,7 +598,7 @@ var DocViewer = (function(){
                         '<input type="checkbox" id="filter-protocol-'+document.id+'" class="filter-protocol" name="connection-attribute" value="'+protocol+'"><label>Protocol:</label><label id="urank-docviewer-details-protocol'+document.id+'" class="urank-docviewer-attributes">'+protocol+'</label>' +
                         '</div>' +
                         '<div class="rigth" style="margin: 3px">' +
-                            '<button class="btn-close-connection" idC="'+document.id+'" counter="'+counter+'">X</button>'+
+                            '<button id="btn-close-connection-'+document.id+'" class="btn-close-connection" idC="'+document.id+'" counter="'+counter+'">X</button>'+
                         '</div>'+
                         '<div style="clear: both"></div>' +
 
@@ -613,7 +620,7 @@ var DocViewer = (function(){
                     '<div>' +
                         '<div>' +
                             /*'<input type="text" placeholder="Add new label..." id="label-text" style="display: none"><label>Tell us why you select this label:</label><textarea id="urank-docviewer-labeling-text" rows="5"></textarea>' +*/
-                            '<button class="btn-show-connection-sequence" idC="'+document.id+'" sequence="'+sequence+'" style="margin:2px; float: right;">Show Sequence</button>'+
+                            '<button id="btn-show-connection-sequence-'+document.id+'" class="btn-show-connection-sequence" idC="'+document.id+'" sequence="'+sequence+'" style="margin:2px; float: right;">Show Sequence</button>'+
                             '<button id="urank-label-button-botnet-'+document.id+'" class="btn-botnet-label-connection rigth '+opacity_botnet_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_botnet+'>Botnet</button>' +
                             '<button id="urank-label-button-normal-'+document.id+'" class="btn-normal-label-connection rigth '+opacity_normal_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_normal+'>Normal</button>' +
                             '<div style="clear: both"></div>'+
@@ -661,7 +668,12 @@ var DocViewer = (function(){
          });
          // Clear content section
          $contentSection.empty();*/
+        //_selectedConnection = [];
     };
+
+    var _reset = function(){
+        _selectedConnection = [];
+    }
 
 
     var _destroy = function() {
@@ -841,6 +853,7 @@ var DocViewer = (function(){
     DocViewer.prototype = {
         build: _build,
         clear: _clear,
+        reset: _reset,
         showDocument: _showDocument,
         destroy: _destroy,
         /**

@@ -23,6 +23,7 @@ var Urank = (function(){
         onLoad: function(keywords){},
         onChange: function(rankingData, selecedKeywords){},
         onItemClicked: function(documentId){},
+        onDeselectItem: function(documentId){},
         onItemMouseEnter: function(documentId){},
         onItemMouseLeave: function(documentId){},
         onFaviconClicked: function(documentId){},
@@ -104,11 +105,11 @@ var Urank = (function(){
 
 
 var enterLog = function(value){
-    //var scriptURL = "http://localhost/loginapp/server/log.php",
-    var scriptURL = "http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/log.php";
+    var scriptURL = "http://localhost/loginapp/server/log.php",
+    //var scriptURL = "http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/log.php";
         date = new Date(),
         timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
-        urankState = urankState = $('#username').html()+' ' + timestamp+' '+value,
+        urankState = urankState = $('#username').html()+',' + timestamp+','+value,
         gf = [{ filename: 'urank_labeled_' + timestamp + '.txt', content: urankState }];//JSON.stringify(urankState)
 
     $.generateFile({ filename: "bookmarks.json", content: urankState, script: scriptURL });
@@ -340,10 +341,29 @@ var enterLog = function(value){
 
     var climbUpConnection = function(data, connection){
         connectionList.push(connection);
-        connection_id.push(connection.id);
+        connection_id.indexOf(connection.id) == -1 ? connection_id.push(connection.id):null;
         var aux = [];
         data.forEach(function(item){
             item.id != connection.id && connection_id.indexOf(item.id) == -1 ? aux.push(item) : null;
+        });
+
+        return connectionList.concat(aux);
+    }
+
+    var climbDownConnection = function(data, connection){
+        var element_index = connection_id.indexOf(connection.id);
+        if(element_index != -1){
+            connection_id.splice(element_index,1);
+        }
+        connectionList.forEach(function(item,index){
+            if(item.id == connection.id){
+                connectionList.splice(index,1);
+                return;
+            }
+        });
+        var aux = [];
+        data.forEach(function(item){
+            connection_id.indexOf(item.id) == -1 ? aux.push(item) : null;
         });
 
         return connectionList.concat(aux);
@@ -473,13 +493,16 @@ var enterLog = function(value){
             $('body > div.main-panel > div.central-panel > div.vis-panel').scroll(function () {
                 var top = $(this).position().top;
                 var left = $(this).position().left;
-                if ($(this).scrollTop() > 26 * connection_id.length ) {
+                if ($(this).scrollTop() > (26 * connection_id.length) ) {
                     for(var i =0; i < connection_id.length ; i++){
                         var x = top + (26*i);
                         $('#connection-list > li:nth-child('+ (i+1) +')').css('z-index','9999');
                         $('#connection-list > li:nth-child('+ (i+1) +')').css('position','fixed');
                         $('#connection-list > li:nth-child('+ (i+1) +')').css('left',left);
                         $('#connection-list > li:nth-child('+ (i+1) +')').css('top', x);
+                        //var width2 = $('#connection-list > li:nth-child(2)').css('width');
+                        var width = $('#connection-list > li:nth-child('+ (connection_id.length+1) +')').css('width');
+                        $('#connection-list > li:nth-child('+ (i+1) +')').css('width', width);
                     }
 
                 } else {
@@ -609,8 +632,17 @@ var enterLog = function(value){
                 visCanvas.deselectAllItems();
                 docViewer.clear();
             }
-            tagCloud.clearEffects();
+            //tagCloud.clearEffects();
             s.onItemClicked.call(this, documentId);
+        },
+
+        onDeselectItem: function(documentId){
+            var connection = _this.rankingModel.getDocumentById(documentId);
+            var new_list = climbDownConnection(_this.data,connection);
+            var count_of_selected_items = connection_id.length;
+            contentList.orderedList(new_list, count_of_selected_items);
+
+            s.onDeselectItem.call(this, documentId);
         },
 
         onItemMouseEnter: function(documentId) {
@@ -745,7 +777,7 @@ var enterLog = function(value){
             contentList.selectManyListItem(list);
 
             var filters = value.unlabelled + ' ' + value.bot + ' ' + value.notBot + ' ' + value.all + ' (IP_0)' + value.initialIp + ' (IP_1)' + value.endIp+ ' (Port)' + value.port + ' (Protocol)' + value.protocol + ' ';
-            enterLog('Filter '+filters);
+            enterLog('Filter,0');//+filters);
             $('.processing-message').hide();
             $('.processing-message').html('Processing Data...');
 
@@ -754,11 +786,11 @@ var enterLog = function(value){
          * Created by Jorch
          */
         onEnterLog: function(value){
-            //var scriptURL = "http://localhost/loginapp/server/log.php",
-            var scriptURL = "http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/log.php";
+            var scriptURL = "http://localhost/loginapp/server/log.php",
+            //var scriptURL = "http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/log.php";
                 date = new Date(),
                 timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
-                urankState = $('#username').html()+' ' + timestamp+' '+value,
+                urankState = $('#username').html()+',' + timestamp+','+value,
                 gf = [{ filename: 'urank_labeled_' + timestamp + '.txt', content: urankState }];//JSON.stringify(urankState)
 
             $.generateFile({ filename: "bookmarks.json", content: urankState, script: scriptURL });
@@ -823,10 +855,14 @@ var enterLog = function(value){
             _this.rankingModel.reset();
             _this.selectedId = STR_UNDEFINED;
             _this.selectedKeywords = [];
+            docViewer.reset();
             s.onReset.call(this);
 
+            //Clean Connection Viewer section
+            $('#viscanvas > div > div').html('');
+
             //enter Log
-            enterLog('Ranking Reset');
+            enterLog('Ranking Reset,0');
         },
 
         onDestroy: function() {
@@ -866,6 +902,7 @@ var enterLog = function(value){
             contentList: {
                 root: s.contentListRoot,
                 onItemClicked: EVTHANDLER.onItemClicked,
+                onDeselectItem: EVTHANDLER.onDeselectItem,
                 onItemMouseEnter: EVTHANDLER.onItemMouseEnter,
                 onItemMouseLeave: EVTHANDLER.onItemMouseLeave,
                 onFaviconClicked: EVTHANDLER.onFaviconClicked,
@@ -1006,9 +1043,12 @@ var enterLog = function(value){
         selectMultipleListItem: function(){
             contentList.selectMultipleListItem(connection_id);
         },
+        getDocumentById:function(documentId){
+            return _this.rankingModel.getDocumentById(documentId);
+        },
         saveLabeling: function(){
-            //var scriptURL = "http://localhost/loginapp/server/log.php",
-            var scriptURL = "http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/log.php";
+            var scriptURL = "http://localhost/loginapp/server/log.php",
+            //var scriptURL = "http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/log.php";
                 date = new Date(),
                 timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
                 urankState = this.getCurrentState(),
@@ -1038,10 +1078,12 @@ var enterLog = function(value){
         getCurrentState: MISC.getCurrentState,
         getCurrentData: MISC.getCurrentData,
         saveLabeling: MISC.saveLabeling,
+        getDocumentById: MISC.getDocumentById,
         selectMultipleListItem: MISC.selectMultipleListItem,
         updateTagsCloud: EVTHANDLER.onUpdateTagsCloud,
         onTagDropped:EVTHANDLER.onTagDropped,
-        onChange:EVTHANDLER.onChange
+        onChange:EVTHANDLER.onChange,
+        onDeselectItem:EVTHANDLER.onDeselectItem
         /**
          * Modified by Jorch
          */

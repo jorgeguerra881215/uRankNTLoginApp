@@ -34,7 +34,7 @@ var TagBox = (function(){
             keys += item.term + " ";
         });
 
-        urank.enterLog('Ranking '+ keys);
+        urank.enterLog('Ranking '+ keys+',0');
     };
 
     function Tagbox(arguments) {
