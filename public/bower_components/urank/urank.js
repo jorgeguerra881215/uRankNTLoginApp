@@ -378,6 +378,23 @@ var enterLog = function(value){
         return false;
     }
 
+    var randomUnlabelled = function(){
+        var numberList = [];
+        var countOfElement = _this.data.length;
+        var countOfUnlabelledElement = countOfElement/4;
+        Math.floor((Math.random() * 10) + 1);
+        for(var i = 0; i < countOfUnlabelledElement; i++){
+            var random = Math.floor((Math.random() * countOfElement));
+            if(numberList.indexOf(random) == -1){
+                numberList.push(random);
+                _this.data[random].title = "Unlabelled";
+            }
+            else{
+                i--;
+            }
+        }
+    }
+
     var getFilterParameter = function(value){
         var ip_origen = [];
         var ip_dest = [];
@@ -410,6 +427,7 @@ var enterLog = function(value){
 
         onLoad: function(data, options) {
             //console.log(data)
+
             _this.clear();
             var o = $.extend(true, defaultLoadOptions, options || {});
 
@@ -428,6 +446,9 @@ var enterLog = function(value){
             //  Clean documents and add them to the keyword extractor
             var primaryData = typeof data == 'string' ? JSON.parse(data) : data.slice();
             _this.data = processingData(primaryData);
+
+            //Getting random unlabelled connections
+            randomUnlabelled();
 
             _this.data.forEach(function(d, i){
                 //d.characteristicVector = "";
