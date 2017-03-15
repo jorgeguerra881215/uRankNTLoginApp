@@ -15,14 +15,24 @@
 </nav>
 
 <header>                            <!-- top panel -->
-    <select id="select-dataset"></select>
-    <select id="select-download" style="display: none">
-        <option value="2files">Keyword &amp; ranking in 2 files</option>
-        <option value="1file">All in 1 file</option>
-    </select>
-    <input type="button" id="btn-download" value="Download" style="display: none"/>
-    <input type="button" id="btn-save-labeled" value="Save Labeling"/>
-    <input type="button" id="btn-show-legend" title="Connection Legend" value="Legend"/>
+    <div class="header-menu" id="header-menu-1">
+        <select id="select-dataset"></select>
+        <select id="select-download" style="display: none">
+            <option value="2files">Keyword &amp; ranking in 2 files</option>
+            <option value="1file">All in 1 file</option>
+        </select>
+        <input type="button" id="btn-download" value="Download" style="display: none"/>
+        <input type="button" id="btn-save-labeled" value="Save Labeling"/>
+        <input type="button" id="btn-show-legend" title="Connection Legend" value="Legend"/>
+    </div>
+
+    <div class="header-menu" id="header-menu-2">
+        <div id="header-filter-ip-origin"><!-- <input type="checkbox">-->
+        </div>
+        <div id="header-filter-ip-destino"></div>
+        <div id="header-filter-ip-port"></div>
+        <div id="header-filter-ip-protocol"></div>
+    </div>
 </header>
 <div id="dialog" title="Connection Legend">
     <p>

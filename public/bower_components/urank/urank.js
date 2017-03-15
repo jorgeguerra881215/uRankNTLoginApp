@@ -12,6 +12,11 @@ var Urank = (function(){
     var connectionList = [];
     var connection_id = [];
 
+    //Cuatro HashTable para almacenar las conexiones y optimizar las busquedas.
+    var ipInitial = {}, ipEnd = {}, connectionPort = {}, connectionProtocol = {}, list_ids = [];
+
+
+
     //   defaults
     var defaultInitOptions = {
         root: 'body',
@@ -419,6 +424,82 @@ var enterLog = function(value){
 
     }
 
+    var filter = function(ipsInitial, ipsEnd, ports, protocols){
+        if(!ipsInitial.length && !ipsEnd.length && !ports.length && !protocols.length ){
+            return list_ids
+        }
+        var ids_ipInitial = [], ids_ipDest = [], ids_port = [], ids_protocol = [], result = [], union_hash = {};
+
+        //Obtener los ids de las conexiones.
+        ipsInitial.forEach(function(item){
+            ids_ipInitial = ids_ipInitial.concat(ipInitial[item]);
+        });
+        ipsEnd.forEach(function(item){
+            ids_ipDest = ids_ipDest.concat(ipEnd[item]);
+        });
+        ports.forEach(function(item){
+            ids_port = ids_port.concat(connectionPort[item]);
+        });
+        protocols.forEach(function(item){
+            ids_protocol = ids_protocol.concat(connectionProtocol[item]);
+        });
+
+        //Obteniendo la mayor lista
+        var maxLength = Math.max(ids_ipInitial.length, ids_ipDest.length, ids_port.length, ids_protocol.length);
+
+        //Hacer la Union en un Hashtable para obtimizar la interseccion despues. De esta manera en union.keys esta la union de los ids de las conexiones filtradas
+        for(var i = 0; i < maxLength; i++){
+            if(ids_ipInitial.length > i){
+                union_hash[ids_ipInitial[i]] = '';
+            }
+            if(ids_ipDest.length > i){
+                union_hash[ids_ipDest[i]] = '';
+            }
+            if(ids_port.length > i){
+                union_hash[ids_port[i]] = '';
+            }
+            if(ids_protocol.length > i){
+                union_hash[ids_protocol[i]] = '';
+            }
+        }
+        //listado con la union de los ids
+        var union = Object.keys(union_hash);
+
+        if(ids_ipInitial.length < Math.max(ids_ipDest.length, ids_port.length, ids_protocol.length) || (ids_ipDest.length == 0 && ids_port.length == 0 && ids_protocol.length == 0)){//ids_ipInitial es la menor lista
+            ids_ipInitial.forEach(function(id){
+                if(union.indexOf(id) != -1){
+                    result.push(id);
+                }
+            });
+        }
+
+        if(ids_ipDest.length < Math.max(ids_ipInitial.length, ids_port.length, ids_protocol.length) || (ids_ipInitial.length == 0 && ids_port.length == 0 && ids_protocol.length == 0)){//ids_ipDest es la menor lista
+            ids_ipDest.forEach(function(id){
+                if(union.indexOf(id) != -1){
+                    result.push(id);
+                }
+            });
+        }
+
+        if(ids_port.length < Math.max(ids_ipDest.length, ids_ipInitial.length, ids_protocol.length) || (ids_ipDest.length == 0 && ids_ipInitial.length == 0 && ids_protocol.length == 0)){//ids_ipPort es la menor lista
+            ids_port.forEach(function(id){
+                if(union.indexOf(id) != -1){
+                    result.push(id);
+                }
+            });
+        }
+
+        if(ids_protocol.length < Math.max(ids_ipDest.length, ids_port.length, ids_ipInitial.length) || (ids_ipDest.length == 0 && ids_ipInitial.length == 0 && ids_port.length == 0)){//ids_ipProtocol es la menor lista
+            ids_protocol.forEach(function(id){
+                if(union.indexOf(id) != -1){
+                    result.push(id);
+                }
+            });
+        }
+
+        return result;
+
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -468,6 +549,21 @@ var enterLog = function(value){
                  */
                 //keywordExtractor.addDocument(document.removeUnnecessaryChars(), d.id); //original version
                 keywordExtractor.addDocument(document, d.id);
+
+                /**
+                 * Filling filter hash
+                 */
+                var connection_id= d.connection_id;
+                var members = connection_id.split('-');
+                var ip_origen = members[0];
+                ip_origen in ipInitial ? ipInitial[ip_origen].push(d.id) : ipInitial[ip_origen] = [d.id];
+                var ip_det = members[1];
+                ip_det in ipEnd ? ipEnd[ip_det].push(d.id) : ipEnd[ip_det] = [d.id];
+                var port = members[2];
+                port in connectionPort ? connectionPort[port].push(d.id) : connectionPort[port] = [d.id];
+                var protocol = members[3];
+                protocol in connectionProtocol ? connectionProtocol[protocol].push(d.i) : connectionProtocol[protocol] = [d.id]
+                list_ids.push(d.id);
             });
 
             //  Extract collection and document keywords
@@ -744,8 +840,8 @@ var enterLog = function(value){
          * Created by Jorch
          */
         onFindNotLabeled: function(value,aux){
-            $('.processing-message').html('Processing Query...');
-            $('.processing-message').show();
+            //$('.processing-message').html('Processing Query...');
+            //$('.processing-message').show();
             //console.log(value);
             //Set all bar visible
             /*$('g.urank-ranking-stackedbar').css('display','none');
@@ -767,7 +863,9 @@ var enterLog = function(value){
 
             getFilterParameter(value);
 
-            var list = [];
+            var list = filter(value.initialIp, value.endIp, value.port, value.protocol)
+
+            /*var list = [];
             //var initial_Ytranslate = 0.5198514710082833;
             _this.data.forEach(function(d, i){
                 var label = d.title;
@@ -785,11 +883,11 @@ var enterLog = function(value){
 
                 if(validLabel && valid){//(validIpOrigen || validIpDest || validPort || validProtocol)){
                     list.push(d.id);
-                    /*$('g#urank-ranking-stackedbar-'+ d.id).css('display','block');
-                    $('g#urank-ranking-stackedbar-'+ d.id).attr('display','block');*/
+                    *//*$('g#urank-ranking-stackedbar-'+ d.id).css('display','block');
+                    $('g#urank-ranking-stackedbar-'+ d.id).attr('display','block');*//*
                 }
             });
-
+*/
             /*$('g.urank-ranking-stackedbar[display=block]').each(function(index, element){
                 $(this).attr( 'transform', 'translate(0, ' + initial_Ytranslate + ')');
                 initial_Ytranslate = initial_Ytranslate + 25.99257355;
@@ -799,8 +897,8 @@ var enterLog = function(value){
 
             var filters = value.unlabelled + ' ' + value.bot + ' ' + value.notBot + ' ' + value.all + ' (IP_0)' + value.initialIp + ' (IP_1)' + value.endIp+ ' (Port)' + value.port + ' (Protocol)' + value.protocol + ' ';
             enterLog('Filter,0');//+filters);
-            $('.processing-message').hide();
-            $('.processing-message').html('Processing Data...');
+            //$('.processing-message').hide();
+            //$('.processing-message').html('Processing Data...');
 
         },
         /**

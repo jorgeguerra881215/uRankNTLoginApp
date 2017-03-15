@@ -243,7 +243,7 @@ var DocViewer = (function(){
 
         $('input[type=checkbox][name=connection-attribute]').change(function() {
             urank.findNotLabeled(this.value,this.filter);
-
+            console.log('vemos cuanto demora !!!! :)');
         });
 
         this.opt.facetsToShow.forEach(function(facetName){
@@ -645,7 +645,18 @@ var DocViewer = (function(){
                     '</div>' +*//*
                 '</div>' +*/
             '</div>';
+//Para mostrar los filtros encima de las listas, en el panel de arriba en la app
+        //show_filter(document,init_port,dest_port,port,protocol);
+
         return element;
+    }
+
+    var show_filter = function(document, init_port, dest_port, port, protocol){
+        var ipOrigen = '<input type="checkbox" id="filter-initial-port-'+document.id+'" class="filter-initial-port" name="connection-attribute" value="'+init_port+'"><label>Ip Origin:</label><label id="urank-docviewer-details-initport'+document.id+'" class="urank-docviewer-attributes">'+init_port+'</label>';
+        var ipDest = '<input type="checkbox" id="filter-end-port-'+document.id+'" class="filter-end-port" name="connection-attribute" value="'+dest_port+'"><label>Ip Dest:</label><label id="urank-docviewer-details-destport'+document.id+'" class="urank-docviewer-attributes">'+dest_port+'</label>';
+        var port = '<input type="checkbox" id="filter-port-'+document.id+'" class="filter-port" name="connection-attribute" value="'+port+'"><label>Port:</label><label id="urank-docviewer-details-port'+document.id+'" class="urank-docviewer-attributes">'+port+'</label>';
+        var protocol = '<input type="checkbox" id="filter-protocol-'+document.id+'" class="filter-protocol" name="connection-attribute" value="'+protocol+'"><label>Protocol:</label><label id="urank-docviewer-details-protocol'+document.id+'" class="urank-docviewer-attributes">'+protocol+'</label>';
+        $('#header-filter-ip-origin').append(ipOrigen);
     }
 
     /**

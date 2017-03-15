@@ -150,7 +150,20 @@ header select, header input[type="button"]{
     margin-left:  14px;
 }
 
+header div{
+    float: left;
+    margin: 5px;
+}
 
+header div#header-menu-1{
+    padding: 5px;
+}
+
+header div#header-menu-2{
+    /*height: 20px;
+    width: 20px;
+    border:1px solid red;*/
+}
 
 /***************************************************************************************************/
 
