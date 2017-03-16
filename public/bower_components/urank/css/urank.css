@@ -517,6 +517,9 @@ label.characteristic{
 .selected{
     border: 5px solid gray;
 }
+.list-selected{
+    border: 1px solid #000000;/*gainsboro;*/
+}
 
 .connection-characteristic{
     /*color: transparent;*/

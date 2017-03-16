@@ -13,8 +13,9 @@ var Urank = (function(){
     var connection_id = [];
 
     //Cuatro HashTable para almacenar las conexiones y optimizar las busquedas.
-    var ipInitial = {}, ipEnd = {}, connectionPort = {}, connectionProtocol = {}, list_ids = [];
-
+    var ipInitial = {}, ipEnd = {}, connectionPort = {}, connectionProtocol = {}, labels_id = {}, ids_label = {}, list_ids = [];
+    //Cantidad de elementos seleccionados
+    var count_selected = 0;
 
 
     //   defaults
@@ -423,24 +424,42 @@ var enterLog = function(value){
         value.protocol = protocol;
 
     }
-
-    var filter = function(ipsInitial, ipsEnd, ports, protocols){
-        if(!ipsInitial.length && !ipsEnd.length && !ports.length && !protocols.length ){
-            return list_ids
+    /**
+     * Filter function
+     * Before get all connection ids using filters hashtable.
+     * Next get max connection id list to create a union hashtable. In keys is union ids and in hashtable[id] is number of list that exist this id.
+     * Finally loops for min id list and if hashtable[id] is equal to number of filter (this means that id element is in all set, is element in the intersection)
+     * insert id element in the result list.
+     * @param ipsInitial IP0 filters selected in connection viewer
+     * @param ipsEnd IP1 filters selected in connection viewer
+     * @param ports ports filters selected in connection viewer
+     * @param protocols protocols filters selected in connection viewer
+     * @param label connection label filters selected on top of connection list
+     * @returns {Array} List of connection after filter applied
+     */
+    var filter = function(ipsInitial, ipsEnd, ports, protocols,label){
+        label = (label != 'All') ? label : ''
+        if(!ipsInitial.length && !ipsEnd.length && !ports.length && !protocols.length){
+            return label == '' ? list_ids : labels_id[label]
         }
         var ids_ipInitial = [], ids_ipDest = [], ids_port = [], ids_protocol = [], result = [], union_hash = {};
+        var filter_count = 0;
 
         //Obtener los ids de las conexiones.
         ipsInitial.forEach(function(item){
+            filter_count += 1
             ids_ipInitial = ids_ipInitial.concat(ipInitial[item]);
         });
         ipsEnd.forEach(function(item){
+            filter_count += 1
             ids_ipDest = ids_ipDest.concat(ipEnd[item]);
         });
         ports.forEach(function(item){
+            filter_count += 1
             ids_port = ids_port.concat(connectionPort[item]);
         });
         protocols.forEach(function(item){
+            filter_count += 1
             ids_protocol = ids_protocol.concat(connectionProtocol[item]);
         });
 
@@ -450,24 +469,22 @@ var enterLog = function(value){
         //Hacer la Union en un Hashtable para obtimizar la interseccion despues. De esta manera en union.keys esta la union de los ids de las conexiones filtradas
         for(var i = 0; i < maxLength; i++){
             if(ids_ipInitial.length > i){
-                union_hash[ids_ipInitial[i]] = '';
+                ids_ipInitial[i] in union_hash ? union_hash[ids_ipInitial[i]] += 1 : union_hash[ids_ipInitial[i]] = 1;
             }
             if(ids_ipDest.length > i){
-                union_hash[ids_ipDest[i]] = '';
+                ids_ipDest[i] in union_hash ? union_hash[ids_ipDest[i]] += 1 : union_hash[ids_ipDest[i]] = 1;
             }
             if(ids_port.length > i){
-                union_hash[ids_port[i]] = '';
+                ids_port[i] in union_hash ? union_hash[ids_port[i]] += 1 : union_hash[ids_port[i]] = 1;
             }
             if(ids_protocol.length > i){
-                union_hash[ids_protocol[i]] = '';
+                ids_protocol[i] in union_hash ? union_hash[ids_protocol[i]] += 1 : union_hash[ids_protocol[i]] = 1;
             }
         }
-        //listado con la union de los ids
-        var union = Object.keys(union_hash);
 
         if(ids_ipInitial.length < Math.max(ids_ipDest.length, ids_port.length, ids_protocol.length) || (ids_ipDest.length == 0 && ids_port.length == 0 && ids_protocol.length == 0)){//ids_ipInitial es la menor lista
             ids_ipInitial.forEach(function(id){
-                if(union.indexOf(id) != -1){
+                if((union_hash[id] == filter_count) && (label == '' || ids_label[id] == label)){
                     result.push(id);
                 }
             });
@@ -475,7 +492,7 @@ var enterLog = function(value){
 
         if(ids_ipDest.length < Math.max(ids_ipInitial.length, ids_port.length, ids_protocol.length) || (ids_ipInitial.length == 0 && ids_port.length == 0 && ids_protocol.length == 0)){//ids_ipDest es la menor lista
             ids_ipDest.forEach(function(id){
-                if(union.indexOf(id) != -1){
+                if((union_hash[id] == filter_count) && (label == '' || ids_label[id] == label)){
                     result.push(id);
                 }
             });
@@ -483,7 +500,7 @@ var enterLog = function(value){
 
         if(ids_port.length < Math.max(ids_ipDest.length, ids_ipInitial.length, ids_protocol.length) || (ids_ipDest.length == 0 && ids_ipInitial.length == 0 && ids_protocol.length == 0)){//ids_ipPort es la menor lista
             ids_port.forEach(function(id){
-                if(union.indexOf(id) != -1){
+                if((union_hash[id] == filter_count) && (label == '' || ids_label[id] == label)){
                     result.push(id);
                 }
             });
@@ -491,7 +508,7 @@ var enterLog = function(value){
 
         if(ids_protocol.length < Math.max(ids_ipDest.length, ids_port.length, ids_ipInitial.length) || (ids_ipDest.length == 0 && ids_ipInitial.length == 0 && ids_port.length == 0)){//ids_ipProtocol es la menor lista
             ids_protocol.forEach(function(id){
-                if(union.indexOf(id) != -1){
+                if((union_hash[id] == filter_count) && (label == '' || ids_label[id] == label)){
                     result.push(id);
                 }
             });
@@ -562,8 +579,10 @@ var enterLog = function(value){
                 var port = members[2];
                 port in connectionPort ? connectionPort[port].push(d.id) : connectionPort[port] = [d.id];
                 var protocol = members[3];
-                protocol in connectionProtocol ? connectionProtocol[protocol].push(d.i) : connectionProtocol[protocol] = [d.id]
+                protocol in connectionProtocol ? connectionProtocol[protocol].push(d.id) : connectionProtocol[protocol] = [d.id]
                 list_ids.push(d.id);
+                ids_label[d.id] = d.title
+                d.title in labels_id ? labels_id[d.title].push(d.id) : labels_id[d.title] = [d.id]
             });
 
             //  Extract collection and document keywords
@@ -610,25 +629,58 @@ var enterLog = function(value){
             $('body > div.main-panel > div.central-panel > div.vis-panel').scroll(function () {
                 var top = $(this).position().top;
                 var left = $(this).position().left;
-                if ($(this).scrollTop() > (26 * connection_id.length) ) {
-                    for(var i =0; i < connection_id.length ; i++){
+                var count  = count_selected//$('li.list-selected').length
+                if ($(this).scrollTop() > (26 * count) ) {
+                    var i = 0;
+                    $('li.list-selected').each(function(index){
+                        var item  = $(this)
+                        if(!item.hasClass('li-nonshow')){
+                            var x = top + (26*i);
+                            item.css('z-index','9999');
+                            item.css('position','fixed');
+                            item.css('left',left);
+                            item.css('top', x);
+                            //var width2 = $('#connection-list > li:nth-child(2)').css('width');
+                            var width = $('#connection-list > li:nth-child('+ (count+1) +')').css('width');
+                            item.css('width', width);
+                            i++;
+                        }
+                    });
+                    /*for(var i =0; i < count ; i++){
                         var x = top + (26*i);
-                        $('#connection-list > li:nth-child('+ (i+1) +')').css('z-index','9999');
-                        $('#connection-list > li:nth-child('+ (i+1) +')').css('position','fixed');
-                        $('#connection-list > li:nth-child('+ (i+1) +')').css('left',left);
-                        $('#connection-list > li:nth-child('+ (i+1) +')').css('top', x);
-                        //var width2 = $('#connection-list > li:nth-child(2)').css('width');
-                        var width = $('#connection-list > li:nth-child('+ (connection_id.length+1) +')').css('width');
-                        $('#connection-list > li:nth-child('+ (i+1) +')').css('width', width);
-                    }
+                        if($('#connection-list > li:nth-child('+ (i+1) +')').hasClass('li-nonshow')){
+                            count ++;
+                        }
+                        else{
+                            $('#connection-list > li:nth-child('+ (i+1) +')').css('z-index','9999');
+                            $('#connection-list > li:nth-child('+ (i+1) +')').css('position','fixed');
+                            $('#connection-list > li:nth-child('+ (i+1) +')').css('left',left);
+                            $('#connection-list > li:nth-child('+ (i+1) +')').css('top', x);
+                            //var width2 = $('#connection-list > li:nth-child(2)').css('width');
+                            var width = $('#connection-list > li:nth-child('+ (count+1) +')').css('width');
+                            $('#connection-list > li:nth-child('+ (i+1) +')').css('width', width);
+                        }
 
+                    }
+*/
                 } else {
-                    for(var i =0; i < connection_id.length ; i++){
+
+                    $('li.list-selected').each(function(index){
+                        var item  = $(this)
+                        if(!item.hasClass('li-nonshow')){
+                            item.css('z-index','');
+                            item.css('position','');
+                            item.css('left','');
+                            item.css('top', '');
+                        }
+                    });
+
+                    /*for(var i =0; i < count ; i++){
                         $('#connection-list > li:nth-child('+ (i+1) +')').css('z-index','');
                         $('#connection-list > li:nth-child('+ (i+1) +')').css('position','');
                         $('#connection-list > li:nth-child('+ (i+1) +')').css('left','');
                         $('#connection-list > li:nth-child('+ (i+1) +')').css('top', '');
-                    }
+                    }*/
                 }
             });
 
@@ -743,8 +795,13 @@ var enterLog = function(value){
                 //contentList.selectListItem(documentId);
                 visCanvas.selectItem(documentId);
                 docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
+
+                $('li[urank-id = '+ documentId+']').addClass('list-selected')
+                count_selected += 1
             }
             else {                   // deselect
+                count_selected = 0;
+                $('li').removeClass('list-selected')
                 contentList.deselectAllListItems();
                 visCanvas.deselectAllItems();
                 docViewer.clear();
@@ -758,7 +815,8 @@ var enterLog = function(value){
             var new_list = climbDownConnection(_this.data,connection);
             var count_of_selected_items = connection_id.length;
             contentList.orderedList(new_list, count_of_selected_items);
-
+            $('li[urank-id = '+ documentId+']').removeClass('list-selected')
+            count_selected -= 1
             s.onDeselectItem.call(this, documentId);
         },
 
@@ -843,57 +901,30 @@ var enterLog = function(value){
             //$('.processing-message').html('Processing Query...');
             //$('.processing-message').show();
             //console.log(value);
-            //Set all bar visible
-            /*$('g.urank-ranking-stackedbar').css('display','none');
-            $('g.urank-ranking-stackedbar').attr('display','none');*/
             value = {
-                unlabelled:$('#chek-find-not-labeled').is(':checked') ? $('#chek-find-not-labeled').attr('value') : null,
-                bot:$('#chek-find-botnet').is(':checked') ? $('#chek-find-botnet').attr('value') : null,
-                notBot:$('#chek-find-normal').is(':checked') ? $('#chek-find-normal').attr('value') : null,
-                all:$('#chek-find-All').is(':checked') ? $('#chek-find-All').attr('value') : null,
+                unlabelled:$('#chek-find-not-labeled').is(':checked') ? $('#chek-find-not-labeled').attr('value') : '',
+                bot:$('#chek-find-botnet').is(':checked') ? $('#chek-find-botnet').attr('value') : '',
+                notBot:$('#chek-find-normal').is(':checked') ? $('#chek-find-normal').attr('value') : '',
+                all:$('#chek-find-All').is(':checked') ? $('#chek-find-All').attr('value') : '',
                 initialIp:null,
                 endIp:null,
                 port:null,
                 protocol:null
-                /*initialIp:$('#filter-initial-port:checked').length > 0 ? $('#filter-initial-port').attr('value'): null,
-                endIp:$('#filter-end-port:checked').length > 0 ? $('#filter-end-port').attr('value') : null,
-                port:$('#filter-port:checked').length > 0 ? $('#filter-port').attr('value') : null,
-                protocol:$('#filter-protocol:checked').length > 0 ? $('#filter-protocol').attr('value') : null*/
             }
 
             getFilterParameter(value);
-
-            var list = filter(value.initialIp, value.endIp, value.port, value.protocol)
-
-            /*var list = [];
-            //var initial_Ytranslate = 0.5198514710082833;
-            _this.data.forEach(function(d, i){
-                var label = d.title;
-                var attributes = d.connection_id.split('-');
-                var validLabel = true;
-                var valid = true;//(value.initialIp.length > 0 || value.endIp.length > 0 || value.port.length > 0 || value.protocol.length > 0)? false : true;
-                if(value.unlabelled != null && !(label != 'Botnet' && label != 'Normal')) validLabel = false;
-                if(validLabel && value.bot != null && label != 'Botnet') validLabel = false;
-                if(validLabel && value.notBot != null && label != 'Normal') validLabel = false;
-                //if(valid && value.all)
-                if(validLabel && value.initialIp.length > 0 && value.initialIp.indexOf(attributes[0]) == -1) valid = false;
-                if(validLabel && valid && value.endIp.length > 0 && value.endIp.indexOf(attributes[1]) == -1) valid = false;
-                if(validLabel && valid && value.port.length > 0 && value.port.indexOf(attributes[2]) == -1) valid = false;
-                if(validLabel && valid && value.protocol.length > 0 && value.protocol.indexOf(attributes[3]) == -1) valid = false;
-
-                if(validLabel && valid){//(validIpOrigen || validIpDest || validPort || validProtocol)){
-                    list.push(d.id);
-                    *//*$('g#urank-ranking-stackedbar-'+ d.id).css('display','block');
-                    $('g#urank-ranking-stackedbar-'+ d.id).attr('display','block');*//*
-                }
-            });
-*/
-            /*$('g.urank-ranking-stackedbar[display=block]').each(function(index, element){
-                $(this).attr( 'transform', 'translate(0, ' + initial_Ytranslate + ')');
-                initial_Ytranslate = initial_Ytranslate + 25.99257355;
-            });*/
+            var label = value.unlabelled + value.bot + value.notBot + value.all;
+            //label = label.charAt(0).toUpperCase() + label.slice(1); //haciendo la primera letra mayuscula
+            var list = filter(value.initialIp, value.endIp, value.port, value.protocol,label)
 
             contentList.selectManyListItem(list);
+
+            //Esto es para mantener los elementos seleccionados en el filtro y no queden los que estaban antes de aplicar el filtro
+            count_selected = 0;
+            list.forEach(function(id){
+                if($('li[urank-id = '+ id+']').hasClass('list-selected'))
+                    count_selected += 1
+            });
 
             var filters = value.unlabelled + ' ' + value.bot + ' ' + value.notBot + ' ' + value.all + ' (IP_0)' + value.initialIp + ' (IP_1)' + value.endIp+ ' (Port)' + value.port + ' (Protocol)' + value.protocol + ' ';
             enterLog('Filter,0');//+filters);
