@@ -42,6 +42,7 @@ var DocViewer = (function(){
     var _selectedKeywords = [];
     var counter = 0;
     var _selectedConnection = [];
+    var _periodicity_color = ['#9d5600', '#ff8c00', '#ffaf4e', '#ffe4c4'];
     //var fs = require("fs");
 
     function DocViewer(arguments) {
@@ -610,10 +611,10 @@ var DocViewer = (function(){
                         '<div style="width: 25%" id="pie-graph-'+document.id+'" class="pie-graph left">' +
                         '</div>' +
                         '<div id="legend-pie-graph'+document.id+'" class="rigth" style="width: 24%;margin-top: 30px">' +
-                            '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background: rgb(152,171,197); padding: 2px">M</span> SP </br></label>'+
-                            '<label><span style="color: transparent; background: rgb(138,137,166); padding: 2px">M</span> WP</br></label>'+
-                            '<label><span style="color: transparent; background: rgb(123,104,136); padding: 2px">M</span> SNP</br></label>'+
-                            '<label><span style="color: transparent; background: rgb(107,72,107); padding: 2px">M</span> WNP</br></label>'+
+                            '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background:' + _periodicity_color[0] +'; padding: 2px">M</span> SP </br></label>'+
+                            '<label><span style="color: transparent; background: ' + _periodicity_color[1] +'; padding: 2px">M</span> WP</br></label>'+
+                            '<label><span style="color: transparent; background: ' + _periodicity_color[2] +'; padding: 2px">M</span> SNP</br></label>'+
+                            '<label><span style="color: transparent; background: ' + _periodicity_color[3] +'; padding: 2px">M</span> WNP</br></label>'+
                         '</div>'+
                         '<div style="clear: both"></div>' +
                     '</div>' +
@@ -766,7 +767,8 @@ var DocViewer = (function(){
             radius = Math.min(width, height) / 2;
 
         var color = d3.scale.ordinal()
-            .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+            .range(_periodicity_color);
+            //.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
         var arc = d3.svg.arc()
             .outerRadius(radius - 10)
