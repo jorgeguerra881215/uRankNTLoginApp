@@ -14,6 +14,8 @@ var Urank = (function(){
 
     //Cuatro HashTable para almacenar las conexiones y optimizar las busquedas.
     var ipInitial = {}, ipEnd = {}, connectionPort = {}, connectionProtocol = {}, labels_id = {}, ids_label = {}, list_ids = [];
+    // Cosine Similarity Matrix
+    var similarity_matrix = {}
     //Cantidad de elementos seleccionados
     var count_selected = 0;
 
@@ -209,7 +211,9 @@ var enterLog = function(value){
     }
 
     var getLetterSequences = function(data){
-        var sequence = '';
+        return data
+        //Usar el resto del codigo si estamos trabajando con secuencia de letras como palabras.
+        /*var sequence = '';
         var words = data.split(' ');
         for(var i = 0; i < words.length; i++){
             if(words[i].length != words[i+1].length){
@@ -218,7 +222,7 @@ var enterLog = function(value){
             }
             sequence += words[i][0];
         }
-        return sequence;
+        return sequence;*/
     }
 
     /**
