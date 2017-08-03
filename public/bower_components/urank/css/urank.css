@@ -715,6 +715,26 @@ div#tabs-2{
     background: #008000;
 }
 
+.prob_container{
+    width: 10px;
+    margin-right: 10px;
+    background: blue;
+}
+
+.botnet-bar{
+    margin-right: 4px;
+    margin-left: -40px;
+    width: 25px;
+    /*background: linear-gradient(to right,  #9c9e9f 0%,#9c9e9f 50%,#33ccff 50%,#33ccff 100%);*/
+
+    /*background: darkred;*/
+}
+.normal-bar{
+    margin-right: 4px;
+    width: 5px;
+    background: blue;
+}
+
 /**********************************************************************************************************************
 *
 *   Connection Viewer
