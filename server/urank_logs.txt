@@ -1161,3 +1161,9 @@ Peter,2017-4-11_13.6.19,Connection,1519
 Peter Stanton,2017-7-29_23.11.27,Connection,1259
 Peter Stanton,2017-7-29_23.11.33,Connection,158
 Peter Stanton,2017-7-29_23.12.7,Connection,710
+Peter Stanton,2017-8-3_9.26.42,Connection,2434
+Peter Stanton,2017-8-3_9.26.44,Connection,1428
+Peter Stanton,2017-8-3_9.26.46,Connection,3103
+Peter Stanton,2017-8-3_9.26.51,Close Connection,2434
+Peter Stanton,2017-8-3_9.26.52,Close Connection,1428
+Peter Stanton,2017-8-3_9.26.53,Close Connection,3103
