@@ -621,8 +621,8 @@ var DocViewer = (function(){
                         '<div>' +
                             /*'<input type="text" placeholder="Add new label..." id="label-text" style="display: none"><label>Tell us why you select this label:</label><textarea id="urank-docviewer-labeling-text" rows="5"></textarea>' +*/
                             '<button id="btn-show-connection-sequence-'+document.id+'" class="btn-show-connection-sequence" idC="'+document.id+'" sequence="'+sequence+'" style="margin:2px; float: right;">Show Sequence</button>'+
-                            '<button id="urank-label-button-botnet-'+document.id+'" class="btn-botnet-label-connection rigth '+opacity_botnet_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_botnet+'>Botnet</button>' +
-                            '<button id="urank-label-button-normal-'+document.id+'" class="btn-normal-label-connection rigth '+opacity_normal_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_normal+'>Normal</button>' +
+                            '<button style="background: red; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-botnet-'+document.id+'" class="btn-botnet-label-connection rigth '+opacity_botnet_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_botnet+'>Botnet</button>' +
+                            '<button style="background: #008000; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-normal-'+document.id+'" class="btn-normal-label-connection rigth '+opacity_normal_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_normal+'>Normal</button>' +
                             '<div style="clear: both"></div>'+
                         '</div>' +
                         /*'<div class="urank-docviewer-divisor"></div>' +*/

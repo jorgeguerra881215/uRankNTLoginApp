@@ -16,7 +16,8 @@ var Urank = (function(){
     var ipInitial = {}, ipEnd = {}, connectionPort = {}, connectionProtocol = {}, labels_id = {}, ids_label = {}, list_ids = [];
     //Cantidad de elementos seleccionados
     var count_selected = 0;
-
+    // Estructura para almacenar datos para testing
+    var testing_data = []
 
     //   defaults
     var defaultInitOptions = {
@@ -221,6 +222,7 @@ var enterLog = function(value){
         return sequence;
     }
 
+
     /**
      * Computing L1 distance between vectors
      * @param v1
@@ -270,8 +272,23 @@ var enterLog = function(value){
         data.forEach(function(item,index){
             var letterSequences = getLetterSequences(item.description);
             var characteristicVector = calculateCharacteristicVector(letterSequences);
+            var list_num = characteristicVector.split(',')
+            var feature_vector_list = [
+                parseInt(list_num[0]),
+                parseInt(list_num[1]),
+                parseInt(list_num[2]),
+                parseInt(list_num[3]),
+                parseInt(list_num[4]),
+                parseInt(list_num[5]),
+                parseInt(list_num[6]),
+                parseInt(list_num[7]),
+                parseInt(list_num[8]),
+                parseInt(list_num[9])
+            ]
+
             item.letterSequence = letterSequences;
             item.characteristicVector = characteristicVector;
+            item.feature_vector_list = feature_vector_list;
             if(documentReference == null){
                 documentReference = characteristicVector;
             }
@@ -518,7 +535,6 @@ var enterLog = function(value){
 
     }
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     var EVTHANDLER = {
@@ -566,6 +582,14 @@ var enterLog = function(value){
                  */
                 //keywordExtractor.addDocument(document.removeUnnecessaryChars(), d.id); //original version
                 keywordExtractor.addDocument(document, d.id);
+
+                /**
+                 * Preparing Data for Testing
+                 */
+                if(d.title == 'Botnet' || d.title == 'Normal'){
+                    d.feature_vector_list = d.feature_vector_list.push(d.title)
+                    testing_data.push(d.feature_vector_list)
+                }
 
                 /**
                  * Filling filter hash
@@ -646,23 +670,6 @@ var enterLog = function(value){
                             i++;
                         }
                     });
-                    /*for(var i =0; i < count ; i++){
-                        var x = top + (26*i);
-                        if($('#connection-list > li:nth-child('+ (i+1) +')').hasClass('li-nonshow')){
-                            count ++;
-                        }
-                        else{
-                            $('#connection-list > li:nth-child('+ (i+1) +')').css('z-index','9999');
-                            $('#connection-list > li:nth-child('+ (i+1) +')').css('position','fixed');
-                            $('#connection-list > li:nth-child('+ (i+1) +')').css('left',left);
-                            $('#connection-list > li:nth-child('+ (i+1) +')').css('top', x);
-                            //var width2 = $('#connection-list > li:nth-child(2)').css('width');
-                            var width = $('#connection-list > li:nth-child('+ (count+1) +')').css('width');
-                            $('#connection-list > li:nth-child('+ (i+1) +')').css('width', width);
-                        }
-
-                    }
-*/
                 } else {
 
                     $('li.list-selected').each(function(index){
@@ -674,13 +681,6 @@ var enterLog = function(value){
                             item.css('top', '');
                         }
                     });
-
-                    /*for(var i =0; i < count ; i++){
-                        $('#connection-list > li:nth-child('+ (i+1) +')').css('z-index','');
-                        $('#connection-list > li:nth-child('+ (i+1) +')').css('position','');
-                        $('#connection-list > li:nth-child('+ (i+1) +')').css('left','');
-                        $('#connection-list > li:nth-child('+ (i+1) +')').css('top', '');
-                    }*/
                 }
             });
 
