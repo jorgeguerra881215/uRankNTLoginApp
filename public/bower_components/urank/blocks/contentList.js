@@ -618,6 +618,15 @@ var ContentList = (function(){
                 default: break;
             }
             var ligth_circle = '<label><span urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left '+trafic_ligth+' traffic-ligth"></span></label>';
+            var bot_prob = d.botprob != 'NA' ? d.botprob.split(".")[1][0] + d.botprob.split(".")[1][1] + '%':''
+            var bot_style = bot_prob != '' ? 'background: linear-gradient(to right,  #9c9e9f' + bot_prob +',#33ccff 100%);' : ''
+            var bot_probability_label =
+                '<label class="prob_container">' +
+                '<span style="' + bot_style + '" urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left botnet-bar"></span>' +
+                //'<span urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left normal-bar"></span>' +
+                '</label>';
+            //var bot_probability = '<label class="prob_container"></label>';
+
             // title section
             var $titleDiv = $("<div></div>").appendTo($li).addClass(liTitleContainerClass);
             var html = createVisualRepresentation(d);//&nbsp;
@@ -634,7 +643,7 @@ var ContentList = (function(){
                 value = new_index;
             }
             //var index = i+1 < 10 ? (i+1)+'-&nbsp;&nbsp;C'+ d.cluster : (i+1)+'-'+ d.cluster;
-            var list_element_container = $('<div><div style="float: left; width: 70px">'+ligth_circle+'<label value="'+value+'" id="label-'+ d.id+'">'+index+'</label></div></div>', { id: 'urank-list-li-title-' + i, class: liTitleClass +' '+ liTitleClassDefault, html: html, title: d.title + '\n' + d.description }).appendTo($titleDiv);
+            var list_element_container = $('<div><div style="float: left; width: 70px">'+bot_probability_label+ligth_circle+'<label value="'+value+'" id="label-'+ d.id+'">'+index+'</label></div></div>', { id: 'urank-list-li-title-' + i, class: liTitleClass +' '+ liTitleClassDefault, html: html, title: d.title + '\n' + d.description }).appendTo($titleDiv);
             var visual_representation = $('<div style="float: left; width: 200px" class="heat-map-carrier"></div>').appendTo(list_element_container);
             html.forEach(function(label){
                 label.appendTo(visual_representation);

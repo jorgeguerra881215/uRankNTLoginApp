@@ -441,7 +441,8 @@ var DocViewer = (function(){
             $(detailItemIdPrefix + '' + facet).html(document.facets[facet]);
         });
 
-        var sequence = '';
+        // Descomentar si en la secuencia de letras viene dividida por palabras.
+        /*var sequence = '';
         var words = document.description.split(' ');
         for(var i = 0; i < words.length; i++){
             if(words[i].length != words[i+1].length){
@@ -449,7 +450,9 @@ var DocViewer = (function(){
                 break;
             }
             sequence += words[i][0];
-        }
+        }*/
+        var sequence = document.description
+
         //$( "#tabs" ).css('display','block');
         $('#contentTabs-1').html(getStyleWordSecuencie(document.description, keywords, colorScale));
         $('#contentTabs-2').html(sequence);

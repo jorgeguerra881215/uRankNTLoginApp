@@ -550,9 +550,15 @@ var enterLog = function(value){
             _this.data = processingData(primaryData);
 
             //Getting random unlabelled connections
-            randomUnlabelled();
+            //randomUnlabelled();
 
             _this.data.forEach(function(d, i){
+
+                //Getting random unlabelled connections
+                if(d.botprob == "NA"){
+                    d.title = "Unlabelled"
+                }
+
                 //d.characteristicVector = "";
                 d.index = i;
                 //d.title = d.title.clean();
@@ -593,17 +599,17 @@ var enterLog = function(value){
             //keywordExtractor.processCollection();
 
             //  Assign document keywords
-            _this.data.forEach(function(d, i){
+            /*_this.data.forEach(function(d, i){
                 d.keywords = keywordExtractor.listDocumentKeywords(i);
-            });
+            });*/
 
             //  Assign collection keywords and set other necessary variables
-            _this.keywords = keywordExtractor.getCollectionKeywords();
+            /*_this.keywords = keywordExtractor.getCollectionKeywords();
             _this.keywordsDict = keywordExtractor.getCollectionKeywordsDictionary();
             _this.rankingMode = RANKING_MODE.overall_score;
             _this.rankingModel.clear().setData(_this.data);
             _this.selectedKeywords = [];
-            _this.selectedId = STR_UNDEFINED;
+            _this.selectedId = STR_UNDEFINED;*/
 
             //  Build blocks
 /*            var buildOpt = {
