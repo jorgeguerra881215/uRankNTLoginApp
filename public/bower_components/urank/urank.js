@@ -314,6 +314,7 @@ var enterLog = function(value){
         //var characteristicVector = calculateCharacteristicVector(letterSequences);
         documentReference = calculateCharacteristicVector(letterSequences);
         var conexionSimilarity = {};
+        var conexionid = {};
         var result = [];
         data.forEach(function(item){
             var letterSequences = getLetterSequences(item.description);
@@ -322,11 +323,23 @@ var enterLog = function(value){
             item.characteristicVector = characteristicVector;
             //var diference = vectorDistance(documentReference, characteristicVector);
             var diference = cosineSimilarity(documentReference, characteristicVector);
-            conexionSimilarity[diference] = item;
+            conexionSimilarity[item.id] = diference;
+            conexionid[item.id] = item
         });
-        Object.keys(conexionSimilarity).sort(function(a,b){return b-a}).forEach(function(key,i){
-            result.push(conexionSimilarity[key]);
+        /*Object.values(conexionSimilarity).sort(function(a,b){return b-a}).forEach(function(key,i){
+            result.push(key);
+        });*/
+
+        var items = Object.keys(conexionSimilarity).map(function(key) {
+            return [key, conexionSimilarity[key]];
         });
+        items.sort(function(first, second) {
+            return second[1] - first[1];
+        });
+        //console.log(items.slice(0, 5));
+        items.forEach(function(item){
+            result.push(conexionid[item[0]]);
+        })
         return result;
     }
 
