@@ -15,7 +15,7 @@ var Urank = (function(){
     //Cuatro HashTable para almacenar las conexiones y optimizar las busquedas.
     var ipInitial = {}, ipEnd = {}, connectionPort = {}, connectionProtocol = {}, labels_id = {}, ids_label = {}, list_ids = [];
     // Cosine Similarity Matrix
-    var similarity_matrix = {}
+    //var similarity_matrix = {}
     //Cantidad de elementos seleccionados
     var count_selected = 0;
     // Estructura para almacenar datos para testing
@@ -370,10 +370,26 @@ var enterLog = function(value){
         connectionList.push(connection);
         connection_id.indexOf(connection.id) == -1 ? connection_id.push(connection.id):null;
         var aux = [];
-        data.forEach(function(item){
-            item.id != connection.id && connection_id.indexOf(item.id) == -1 ? aux.push(item) : null;
-        });
-
+        if(connection.title == 'Unlabelled'){ //Si seleccionamos una conexion sin etiquetar entonces ordeno por los mas similares
+            var similar_data = _this.getSimilarConnectionsById(connection.id)
+            var first_similar_botnet = true, first_similar_normal = true //Variable para quedarme con la conexion botnet/normal mas similar a la seleccionada
+            similar_data.forEach(function(item){
+                item.id != connection.id && connection_id.indexOf(item.id) == -1 ? aux.push(item) : null;
+                if(item.title == 'Botnet' && first_similar_botnet){
+                    first_similar_botnet = false
+                    _this.moreSimilarBotnet = item
+                }
+                if(item.title == 'Normal' && first_similar_normal){
+                    first_similar_normal = false
+                    _this.moreSimilarNormal = item
+                }
+            });
+        }
+        else{//En caso contrario dejo el listado como esta sacando la nueva conexion seleccionada
+            data.forEach(function(item){
+             item.id != connection.id && connection_id.indexOf(item.id) == -1 ? aux.push(item) : null;
+             });
+        }
         return connectionList.concat(aux);
     }
 
@@ -594,6 +610,11 @@ var enterLog = function(value){
                 keywordExtractor.addDocument(document, d.id);
 
                 /**
+                 * Generating Matrix of Similarity
+                 */
+                _this.similarity_matrix[d.id] = sortBySimilarityToTheEnterConnection(_this.data,d)
+
+                /**
                  * Preparing Data for Testing
                  */
                 if(d.title == 'Botnet' || d.title == 'Normal'){
@@ -805,6 +826,10 @@ var enterLog = function(value){
                 //contentList.selectListItem(documentId);
                 visCanvas.selectItem(documentId);
                 docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
+                if(connection.title == 'Unlabelled'){
+                    docViewer.showDocument(_this.moreSimilarNormal, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
+                    docViewer.showDocument(_this.moreSimilarBotnet, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
+                }
 
                 $('li[urank-id = '+ documentId+']').addClass('list-selected')
                 count_selected += 1
@@ -1108,6 +1133,9 @@ var enterLog = function(value){
         this.keywords = [];
         this.keywordsDict = {};
         this.rankingModel = new RankingModel();
+        this.similarity_matrix = {}
+        this.moreSimilarBotnet = null;
+        this.moreSimilarNormal = null;
 
         contentList = new ContentList(options.contentList);
         tagCloud = new TagCloud(options.tagCloud);
@@ -1206,6 +1234,9 @@ var enterLog = function(value){
         getDocumentById:function(documentId){
             return _this.rankingModel.getDocumentById(documentId);
         },
+        getSimilarConnectionsById:function(documentId){
+           return _this.similarity_matrix[documentId]
+        },
         saveLabeling: function(){
             var scriptURL = "http://localhost/loginapp/server/log.php",
             //var scriptURL = "http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/log.php";
@@ -1239,6 +1270,7 @@ var enterLog = function(value){
         getCurrentData: MISC.getCurrentData,
         saveLabeling: MISC.saveLabeling,
         getDocumentById: MISC.getDocumentById,
+        getSimilarConnectionsById: MISC.getSimilarConnectionsById,
         selectMultipleListItem: MISC.selectMultipleListItem,
         updateTagsCloud: EVTHANDLER.onUpdateTagsCloud,
         onTagDropped:EVTHANDLER.onTagDropped,
