@@ -580,6 +580,10 @@ var DocViewer = (function(){
         var disable_botnet = document.title == "Botnet" ? "disable=''" : "";
         var disable_normal = document.title == "Normal" ? "disable=''" : "";
         var index = $('label#label-'+document.id).attr('value');
+        var bot_probability =   document.botprob != 'NA' ? parseFloat(document.botprob.replace(",", ".")) : ''
+        var bot_style = bot_probability != '' ? 'background: linear-gradient(to right,  red 0%, red ' + bot_probability*100 +'%,green ' + bot_probability*100 + '%,green 100%)' : ''
+        var botnet_left = bot_probability != '' ? 'Botnet' : ''
+        var normal_rigth = bot_probability != '' ? 'Normal' : ''
         var element =
             '<div id="urank-docviewer-'+document.id+'" class="urank-docviewer-container-default selected" style="margin-top: -3px;background: white">' +
                 '<div style="display: block;" class="urank-docviewer-details-section">' +
@@ -607,6 +611,9 @@ var DocViewer = (function(){
                         '<div style="clear: both"></div>' +
 
                         /*'<div class="urank-docviewer-divisor"></div>' +*/
+                    '</div>' +
+                    '<div style="width: 100%; margin: 5px">' +
+                        '<label><span>'+ botnet_left +' </span><span style="' + bot_style + '" urank-span-prediction-id="'+ document.id+'" class="document_view-botnet-bar"></span> <span>' + normal_rigth + '</span></label>' +
                     '</div>' +
                     '<div style=" margin-bottom: -30px">' +
                         '<div id="bar-graph-'+document.id+'" class="left">' +

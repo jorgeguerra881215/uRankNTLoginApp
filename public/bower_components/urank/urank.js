@@ -571,7 +571,7 @@ var enterLog = function(value){
             _this.data.forEach(function(d, i){
 
                 //Getting random unlabelled connections
-                if(d.botprob == "NA"){
+                if(d.botprob != "NA"){
                     d.title = "Unlabelled"
                 }
 
@@ -629,11 +629,11 @@ var enterLog = function(value){
 
             //  Assign collection keywords and set other necessary variables
             /*_this.keywords = keywordExtractor.getCollectionKeywords();
-            _this.keywordsDict = keywordExtractor.getCollectionKeywordsDictionary();
+            _this.keywordsDict = keywordExtractor.getCollectionKeywordsDictionary();*/
             _this.rankingMode = RANKING_MODE.overall_score;
             _this.rankingModel.clear().setData(_this.data);
             _this.selectedKeywords = [];
-            _this.selectedId = STR_UNDEFINED;*/
+            _this.selectedId = STR_UNDEFINED;
 
             //  Build blocks
 /*            var buildOpt = {

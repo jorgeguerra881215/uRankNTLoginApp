@@ -350,6 +350,8 @@ var ContentList = (function(){
     }
 
     var createSequence = function(connection){
+        return connection.description
+        /* Descomentar esta seccion cuando la secuencia de letras este tranformada en palabras.
         var sequence = '';
         var words = connection.description.split(' ');
         for(var i = 0; i < words.length; i++){
@@ -359,7 +361,7 @@ var ContentList = (function(){
             }
             sequence += words[i][0];
         }
-        return sequence
+        return sequence*/
     }
 
     /**
@@ -514,11 +516,12 @@ var ContentList = (function(){
                 default: break;
             }
             var ligth_circle = '<label><span urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left '+trafic_ligth+' traffic-ligth"></span></label>';
-            var bot_prob = d.botprob != 'NA' ? d.botprob.split(".")[1][0] + d.botprob.split(".")[1][1] + '%':''
-            var bot_style = bot_prob != '' ? 'background: linear-gradient(to right,  #9c9e9f' + bot_prob +',#33ccff 100%);' : ''
+            var bot_prob = d.botprob != 'NA' ? parseFloat(d.botprob.replace(",", ".")) : ''
+            //var bot_style = bot_prob != '' ? 'background: linear-gradient(to right,  red ' + bot_prob*100 +'% ,green 100%);' : ''
+            var bot_style = bot_prob != '' ? 'background: linear-gradient(to right,  red 0%, red ' + bot_prob*100 +'%,green ' + bot_prob*100 + '%,green 100%)' : ''
             var bot_probability_label =
                 '<label class="prob_container">' +
-                '<span style="' + bot_style + '" urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left botnet-bar"></span>' +
+                '<span style="' + bot_style + '" urank-span-prediction-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left botnet-bar"></span>' +
                 //'<span urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left normal-bar"></span>' +
                 '</label>';
             //var bot_probability = '<label class="prob_container"></label>';

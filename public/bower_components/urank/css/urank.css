@@ -723,16 +723,20 @@ div#tabs-2{
 
 .botnet-bar{
     margin-right: 4px;
-    margin-left: -40px;
+    margin-left: -50px;
     width: 25px;
-    /*background: linear-gradient(to right,  #9c9e9f 0%,#9c9e9f 50%,#33ccff 50%,#33ccff 100%);*/
-
-    /*background: darkred;*/
 }
 .normal-bar{
     margin-right: 4px;
     width: 5px;
     background: blue;
+}
+
+.document_view-botnet-bar{
+    width: 25px;
+    margin: 5px;
+    padding-left: 25px;
+    padding-right: 25px;
 }
 
 /**********************************************************************************************************************
