@@ -291,7 +291,7 @@ var DocViewer = (function(){
      * @param {type} document Description
      * @param {Array} keywords (only stems)
      */
-    var _showDocument = function(document, keywords, colorScale){
+    var _showDocument = function(document, keywords, colorScale, connection_comparative){
         /**
          * Modified by Jorch
          */
@@ -392,7 +392,6 @@ var DocViewer = (function(){
             weak_periodicReg.test(item) ? characteristic_porcent['WP'] += 1 : null;
             strong_nonperiodicReg.test(item) ? characteristic_porcent['SNP'] += 1 : null;
             weak_nonperiodicReg.test(item) ? characteristic_porcent['WNP'] += 1 : null;
-
         });
 
         var letter_data = [];
@@ -471,7 +470,15 @@ var DocViewer = (function(){
         var id = "urank-docviewer-"+document.id;
         if(_selectedConnection.indexOf(document.id) == -1){
             urank.enterLog('Connection,'+ _document.id);
+
             var connection_list = show_list_document(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter);
+
+            if(connection_comparative == true){
+                connection_list = show_list_document_with_similar_botnet_and_normal(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter);
+            }
+            else{
+                connection_list = show_list_document(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter);
+            }
 
 
             $('#viscanvas > div.urank-hidden-scrollbar-inner > div').append(connection_list);
@@ -487,6 +494,19 @@ var DocViewer = (function(){
                 var btn = $(this);//$('#'+id);
                 var id_connection = btn.attr('idC');
                 var counter = btn.attr('counter');
+
+                //Caso donde cierro una conexion botnet o normal
+                // que se abrio automaticamente para comparar una sin etiquetar.
+                if(btn.attr('comparative') == 'true'){
+                    $('#urank-docviewer-'+id_connection).replaceWith('');//css('display','none');
+                    var index = _selectedConnection.indexOf(id_connection)
+
+                    if(index != -1){
+                        _selectedConnection.splice(index,1);
+                        urank.enterLog('Close Comparative Connection,'+id_connection);
+                    }
+                    return false; //Termino aca la ejecucion del evento
+                }
 
                 //Clear all filters in this connection  $('#filter-initial-port-'+index+':checked').length > 0
                 var change = false;
@@ -606,7 +626,7 @@ var DocViewer = (function(){
                         '<input type="checkbox" id="filter-protocol-'+document.id+'" class="filter-protocol" name="connection-attribute" value="'+protocol+'"><label>Protocol:</label><label id="urank-docviewer-details-protocol'+document.id+'" class="urank-docviewer-attributes">'+protocol+'</label>' +
                         '</div>' +
                         '<div class="rigth" style="margin: 3px">' +
-                            '<button id="btn-close-connection-'+document.id+'" class="btn-close-connection" idC="'+document.id+'" counter="'+counter+'">X</button>'+
+                            '<button id="btn-close-connection-'+document.id+'" class="btn-close-connection" idC="'+document.id+'" comparative="false" counter="'+counter+'">X</button>'+
                         '</div>'+
                         '<div style="clear: both"></div>' +
 
@@ -661,6 +681,106 @@ var DocViewer = (function(){
 
         return element;
     }
+
+    var show_list_document_with_similar_botnet_and_normal = function (document, init_port, dest_port, port, protocol, sequence, letter_data, periodic_data,counter){
+        var title = document.title;
+        var opacity_botnet_class = document.title == "Botnet" ? "opacity" : "non-opacity";
+        var opacity_normal_class = document.title == "Normal" ? "opacity" : "non-opacity";
+        var disable_botnet = document.title == "Botnet" ? "disable=''" : "";
+        var disable_normal = document.title == "Normal" ? "disable=''" : "";
+        var index = $('label#label-'+document.id).attr('value');
+        var bot_probability =   document.botprob != 'NA' ? parseFloat(document.botprob.replace(",", ".")) : ''
+        var bot_style = bot_probability != '' ? 'background: linear-gradient(to right,  red 0%, red ' + bot_probability*100 +'%,green ' + bot_probability*100 + '%,green 100%)' : ''
+        var botnet_left = bot_probability != '' ? 'Botnet' : ''
+        var normal_rigth = bot_probability != '' ? 'Normal' : ''
+        var element =
+            '<div id="urank-docviewer-'+document.id+'" class="urank-docviewer-container-default selected" style="margin-top: -3px;background: white">' +
+                '<div style="display: block;" class="urank-docviewer-details-section">' +
+                    '<div>' +
+                        '<div class="left" style="margin-right: 25px; margin-top: 6px">' +
+                            '<div class="doc-label-container">' +
+                                '<label id="index-label-'+document.id+'" class="urank-docviewer-attributes urank-docviewer-details-label '+title.toLowerCase()+'">'+index+' | '+'<span id="label-'+document.id+'">'+title+'</span></label>' +
+                            '</div>' +
+                        '</div>' +
+                        /*'<div class="doc-attributes-sontainer left">' +
+                            '<input type="checkbox" id="filter-initial-port-'+document.id+'" class="filter-initial-port" name="connection-attribute" value="'+init_port+'"><label>Ip Origin:</label><label id="urank-docviewer-details-initport'+document.id+'" class="urank-docviewer-attributes">'+init_port+'</label>' +
+                        '</div>' +
+                        '<div class="doc-attributes-sontainer left">' +
+                            '<input type="checkbox" id="filter-end-port-'+document.id+'" class="filter-end-port" name="connection-attribute" value="'+dest_port+'"><label>Ip Dest:</label><label id="urank-docviewer-details-destport'+document.id+'" class="urank-docviewer-attributes">'+dest_port+'</label>' +
+                        '</div>' +
+                        '<div class="doc-attributes-sontainer left">' +
+                            '<input type="checkbox" id="filter-port-'+document.id+'" class="filter-port" name="connection-attribute" value="'+port+'"><label>Port:</label><label id="urank-docviewer-details-port'+document.id+'" class="urank-docviewer-attributes">'+port+'</label>' +
+                        '</div>' +
+                        '<div class="doc-attributes-sontainer left">' +
+                            '<input type="checkbox" id="filter-protocol-'+document.id+'" class="filter-protocol" name="connection-attribute" value="'+protocol+'"><label>Protocol:</label><label id="urank-docviewer-details-protocol'+document.id+'" class="urank-docviewer-attributes">'+protocol+'</label>' +
+                        '</div>' +*/
+                        '<div class="rigth" style="margin: 3px">' +
+                            '<button id="btn-close-connection-'+document.id+'" class="btn-close-connection" idC="'+document.id+'" comparative="true" counter="'+counter+'">X</button>'+
+                        '</div>'+
+                        '<div style="clear: both"></div>' +
+                        /*'<div class="urank-docviewer-divisor"></div>' +*/
+                    '</div>' +
+                    '<div style="width: 100%; margin: 5px">' +
+                       '<label><span>'+ botnet_left +' </span><span style="' + bot_style + '" urank-span-prediction-id="'+ document.id+'" class="document_view-botnet-bar"></span> <span>' + normal_rigth + '</span></label>' +
+                    '</div>' +
+                    '<div style=" margin-bottom: -30px">' +
+                        '<div id="bar-graph-'+document.id+'" class="left">' +
+                        '</div>' +
+                        '<div style="width: 25%" id="pie-graph-'+document.id+'" class="pie-graph left">' +
+                        '</div>' +
+                        '<div id="legend-pie-graph'+document.id+'" class="rigth" style="width: 24%;margin-top: 30px">' +
+                            '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background:' + _periodicity_color[0] +'; padding: 2px">M</span> SP </br></label>'+
+                            '<label><span style="color: transparent; background: ' + _periodicity_color[1] +'; padding: 2px">M</span> WP</br></label>'+
+                            '<label><span style="color: transparent; background: ' + _periodicity_color[2] +'; padding: 2px">M</span> SNP</br></label>'+
+                            '<label><span style="color: transparent; background: ' + _periodicity_color[3] +'; padding: 2px">M</span> WNP</br></label>'+
+                        '</div>'+
+                        '<div style="clear: both"></div>' +
+                    '</div>' +
+                    '<div>' +
+                        '<div>' +
+                            '<button id="btn-show-connection-sequence-'+document.id+'" class="btn-show-connection-sequence" idC="'+document.id+'" sequence="'+sequence+'" style="margin:2px; float: right;">Show Sequence</button>'+
+                            /*'<button style="background: red; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-botnet-'+document.id+'" class="btn-botnet-label-connection rigth '+opacity_botnet_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_botnet+'>Botnet</button>' +
+                            '<button style="background: #008000; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-normal-'+document.id+'" class="btn-normal-label-connection rigth '+opacity_normal_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_normal+'>Normal</button>' +
+                            */'<div style="clear: both"></div>'+
+                        '</div>' +
+                    '</div>' +
+                /*//Normal Document
+                    '<div>'+
+                        '<div style=" margin-bottom: -30px">' +
+                            '<div id="bar-graph-'+normal_document.id+'" class="left">' +
+                            '</div>' +
+                            '<div style="width: 25%" id="pie-graph-'+normal_document.id+'" class="pie-graph left">' +
+                            '</div>' +
+                            '<div id="legend-pie-graph'+normal_document.id+'" class="rigth" style="width: 24%;margin-top: 30px">' +
+                                '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background:' + _periodicity_color[0] +'; padding: 2px">M</span> SP </br></label>'+
+                                '<label><span style="color: transparent; background: ' + _periodicity_color[1] +'; padding: 2px">M</span> WP</br></label>'+
+                                '<label><span style="color: transparent; background: ' + _periodicity_color[2] +'; padding: 2px">M</span> SNP</br></label>'+
+                                '<label><span style="color: transparent; background: ' + _periodicity_color[3] +'; padding: 2px">M</span> WNP</br></label>'+
+                            '</div>'+
+                            '<div style="clear: both"></div>' +
+                        '</div>' +
+                    '</div>'+
+                //Botnet Document
+                    '<div>'+
+                        '<div style=" margin-bottom: -30px">' +
+                        '<div id="bar-graph-'+bot_document.id+'" class="left">' +
+                        '</div>' +
+                        '<div style="width: 25%" id="pie-graph-'+bot_document.id+'" class="pie-graph left">' +
+                        '</div>' +
+                        '<div id="legend-pie-graph'+bot_document.id+'" class="rigth" style="width: 24%;margin-top: 30px">' +
+                            '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background:' + _periodicity_color[0] +'; padding: 2px">M</span> SP </br></label>'+
+                            '<label><span style="color: transparent; background: ' + _periodicity_color[1] +'; padding: 2px">M</span> WP</br></label>'+
+                            '<label><span style="color: transparent; background: ' + _periodicity_color[2] +'; padding: 2px">M</span> SNP</br></label>'+
+                            '<label><span style="color: transparent; background: ' + _periodicity_color[3] +'; padding: 2px">M</span> WNP</br></label>'+
+                        '</div>'+
+                        '<div style="clear: both"></div>' +
+                    '</div>' +*/
+            '</div>'+
+                '</div>' +
+            '</div>';
+        return element;
+    }
+
 
     var show_filter = function(document, init_port, dest_port, port, protocol){
         var ipOrigen = '<input type="checkbox" id="filter-initial-port-'+document.id+'" class="filter-initial-port" name="connection-attribute" value="'+init_port+'"><label>Ip Origin:</label><label id="urank-docviewer-details-initport'+document.id+'" class="urank-docviewer-attributes">'+init_port+'</label>';

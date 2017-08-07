@@ -838,10 +838,15 @@ var enterLog = function(value){
 
                 //contentList.selectListItem(documentId);
                 visCanvas.selectItem(documentId);
-                docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
                 if(connection.title == 'Unlabelled'){
-                    docViewer.showDocument(_this.moreSimilarNormal, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
-                    docViewer.showDocument(_this.moreSimilarBotnet, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
+                    docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
+
+                    docViewer.showDocument(_this.moreSimilarNormal, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, true);
+                    docViewer.showDocument(_this.moreSimilarBotnet, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, true);
+                    //docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale,_this.moreSimilarBotnet,_this.moreSimilarNormal);
+                }
+                else{
+                    docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
                 }
 
                 $('li[urank-id = '+ documentId+']').addClass('list-selected')
