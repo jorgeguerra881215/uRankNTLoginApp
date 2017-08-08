@@ -696,6 +696,16 @@ div#tabs-2{
 *
 ***********************************************************************************************************************/
 
+.info-label-container{
+    float: left;
+    width: 120px;
+}
+
+.info-heatmap-container{
+    float: left;
+    width: 200px;
+}
+
 .traffic-ligth{
     -webkit-border-radius: 25px;
     -moz-border-radius: 25px;
@@ -744,6 +754,11 @@ div#tabs-2{
     padding: 3px;
     margin-top: 4px;
     border-radius: 5px;
+}
+
+.confidence-bar{
+    float: left;
+    margin-right: 15px;
 }
 
 /**********************************************************************************************************************

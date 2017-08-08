@@ -517,11 +517,19 @@ var ContentList = (function(){
             }
             var ligth_circle = '<label><span urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left '+trafic_ligth+' traffic-ligth"></span></label>';
             var bot_prob = d.botprob != 'NA' ? parseFloat(d.botprob.replace(",", ".")) : 'NA'
+            var confidence = d.botprob != 'NA' ? parseFloat(d.confidence.replace(",", ".").split('.')[0]) : 'NA'
             //var bot_style = bot_prob != '' ? 'background: linear-gradient(to right,  red ' + bot_prob*100 +'% ,green 100%);' : ''
             var bot_style = bot_prob != 'NA' ? 'background: linear-gradient(to right,  red 0%, red ' + bot_prob*100 +'%,green ' + bot_prob*100 + '%,green 100%)' : ''
+            var confidence_style = confidence != 'NA' ? 'color: red' : 'visibility: hidden'
             var bot_probability_label =
                 '<label class="prob_container">' +
                 '<span style="' + bot_style + '" urank-span-prediction-id="'+ d.id+'" class="prediction-bar urank-list-li-button-favicon-default-left botnet-bar"></span>' +
+                //'<span urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left normal-bar"></span>' +
+                '</label>';
+            //var confidence_value = confidence != '' ? confidence + '%' : ''
+            var confidence_label =
+                '<label class="confidence_container">' +
+                '<span style="' + confidence_style + '" urank-span-confidence-id="'+ d.id+'" class="confidence-bar">'+ confidence +'%</span>' +
                 //'<span urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left normal-bar"></span>' +
                 '</label>';
             //var bot_probability = '<label class="prob_container"></label>';
@@ -543,8 +551,8 @@ var ContentList = (function(){
                 value = new_index;
             }
             //var index = i+1 < 10 ? (i+1)+'-&nbsp;&nbsp;C'+ d.cluster : (i+1)+'-'+ d.cluster;
-            var list_element_container = $('<div><div style="float: left; width: 70px">'+bot_probability_label+ligth_circle+'<label value="'+value+'" id="label-'+ d.id+'">'+index+'</label></div></div>', { id: 'urank-list-li-title-' + i, class: liTitleClass +' '+ liTitleClassDefault, html: html, title: d.title + '\n' + d.description }).appendTo($titleDiv);
-            var visual_representation = $('<div style="float: left; width: 200px" class="heat-map-carrier"></div>').appendTo(list_element_container);
+            var list_element_container = $('<div><div class="info-label-container">'+bot_probability_label + confidence_label + ligth_circle+'<label value="'+value+'" id="label-'+ d.id+'">'+index+'</label></div></div>', { id: 'urank-list-li-title-' + i, class: liTitleClass +' '+ liTitleClassDefault, html: html, title: d.title + '\n' + d.description }).appendTo($titleDiv);
+            var visual_representation = $('<div class="info-heatmap-container heat-map-carrier"></div>').appendTo(list_element_container);
             html.forEach(function(label){
                 label.appendTo(visual_representation);
             });
