@@ -521,7 +521,7 @@ var ContentList = (function(){
             var bot_style = bot_prob != 'NA' ? 'background: linear-gradient(to right,  red 0%, red ' + bot_prob*100 +'%,green ' + bot_prob*100 + '%,green 100%)' : ''
             var bot_probability_label =
                 '<label class="prob_container">' +
-                '<span style="' + bot_style + '" urank-span-prediction-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left botnet-bar"></span>' +
+                '<span style="' + bot_style + '" urank-span-prediction-id="'+ d.id+'" class="prediction-bar urank-list-li-button-favicon-default-left botnet-bar"></span>' +
                 //'<span urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left normal-bar"></span>' +
                 '</label>';
             //var bot_probability = '<label class="prob_container"></label>';

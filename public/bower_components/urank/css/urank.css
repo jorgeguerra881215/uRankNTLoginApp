@@ -739,6 +739,13 @@ div#tabs-2{
     padding-right: 25px;
 }
 
+.prediction-bar{
+    height: 1px;
+    padding: 3px;
+    margin-top: 4px;
+    border-radius: 5px;
+}
+
 /**********************************************************************************************************************
 *
 *   Connection Viewer
