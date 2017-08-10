@@ -291,7 +291,7 @@ var DocViewer = (function(){
      * @param {type} document Description
      * @param {Array} keywords (only stems)
      */
-    var _showDocument = function(document, keywords, colorScale, connection_comparative){
+    var _showDocument = function(document, keywords, colorScale, connection_unlabelled){
         /**
          * Modified by Jorch
          */
@@ -473,8 +473,8 @@ var DocViewer = (function(){
 
             var connection_list = show_list_document(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter);
 
-            if(connection_comparative == true){
-                connection_list = show_list_document_with_similar_botnet_and_normal(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter);
+            if(connection_unlabelled != null){
+                connection_list = show_list_document_with_similar_botnet_and_normal(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter, connection_unlabelled);
             }
             else{
                 connection_list = show_list_document(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter);
@@ -683,12 +683,18 @@ var DocViewer = (function(){
         return element;
     }
 
-    var show_list_document_with_similar_botnet_and_normal = function (document, init_port, dest_port, port, protocol, sequence, letter_data, periodic_data,counter){
+    var show_list_document_with_similar_botnet_and_normal = function (document, init_port, dest_port, port, protocol, sequence, letter_data, periodic_data,counter, connection_unlabelled){
         var title = document.title;
-        var opacity_botnet_class = document.title == "Botnet" ? "opacity" : "non-opacity";
-        var opacity_normal_class = document.title == "Normal" ? "opacity" : "non-opacity";
-        var disable_botnet = document.title == "Botnet" ? "disable=''" : "";
-        var disable_normal = document.title == "Normal" ? "disable=''" : "";
+        var connection_unlabelled_info = connection_unlabelled.connection_id.split("-");
+        var init_port_unlabelled = connection_unlabelled_info[0];
+        var dest_port_unlabelled = connection_unlabelled_info[1];
+        var port_unlabelled = connection_unlabelled_info[2];
+        var protocol_unlabelled = connection_unlabelled_info[3];
+        var class_similar_init_port = init_port_unlabelled == init_port ? 'similar-connection-feature' : ''
+        var class_similar_dest_port = dest_port_unlabelled == dest_port ? 'similar-connection-feature' : ''
+        var class_similar_port = port_unlabelled == port ? 'similar-connection-feature' : ''
+        var class_similar_protocol = protocol_unlabelled == protocol ? 'similar-connection-feature' : ''
+
         var index = $('label#label-'+document.id).attr('value');
         var bot_probability =   document.botprob != 'NA' ? parseFloat(document.botprob.replace(",", ".")) : ''
         var bot_style = bot_probability != '' ? 'background: linear-gradient(to right,  red 0%, red ' + bot_probability*100 +'%,green ' + bot_probability*100 + '%,green 100%)' : ''
@@ -703,18 +709,18 @@ var DocViewer = (function(){
                                 '<label id="index-label-'+document.id+'" class="urank-docviewer-attributes urank-docviewer-details-label '+title.toLowerCase()+'">'+index+' | '+'<span id="label-'+document.id+'">'+title+'</span></label>' +
                             '</div>' +
                         '</div>' +
-                        /*'<div class="doc-attributes-sontainer left">' +
-                            '<input type="checkbox" id="filter-initial-port-'+document.id+'" class="filter-initial-port" name="connection-attribute" value="'+init_port+'"><label>Ip Origin:</label><label id="urank-docviewer-details-initport'+document.id+'" class="urank-docviewer-attributes">'+init_port+'</label>' +
+                        '<div class="' + class_similar_init_port + ' doc-attributes-sontainer left doc-attributes-container-comparative">' +
+                            '<label>Ip Origin:</label><label id="urank-docviewer-details-initport'+document.id+'" class="urank-docviewer-attributes">'+init_port+'</label>' +
                         '</div>' +
-                        '<div class="doc-attributes-sontainer left">' +
-                            '<input type="checkbox" id="filter-end-port-'+document.id+'" class="filter-end-port" name="connection-attribute" value="'+dest_port+'"><label>Ip Dest:</label><label id="urank-docviewer-details-destport'+document.id+'" class="urank-docviewer-attributes">'+dest_port+'</label>' +
+                        '<div class="' + class_similar_dest_port + ' doc-attributes-sontainer left doc-attributes-container-comparative">' +
+                            '<label>Ip Dest:</label><label id="urank-docviewer-details-destport'+document.id+'" class="urank-docviewer-attributes">'+dest_port+'</label>' +
                         '</div>' +
-                        '<div class="doc-attributes-sontainer left">' +
-                            '<input type="checkbox" id="filter-port-'+document.id+'" class="filter-port" name="connection-attribute" value="'+port+'"><label>Port:</label><label id="urank-docviewer-details-port'+document.id+'" class="urank-docviewer-attributes">'+port+'</label>' +
+                        '<div class="' + class_similar_port + ' doc-attributes-sontainer left doc-attributes-container-comparative">' +
+                            '<label>Port:</label><label id="urank-docviewer-details-port'+document.id+'" class="urank-docviewer-attributes">'+port+'</label>' +
                         '</div>' +
-                        '<div class="doc-attributes-sontainer left">' +
-                            '<input type="checkbox" id="filter-protocol-'+document.id+'" class="filter-protocol" name="connection-attribute" value="'+protocol+'"><label>Protocol:</label><label id="urank-docviewer-details-protocol'+document.id+'" class="urank-docviewer-attributes">'+protocol+'</label>' +
-                        '</div>' +*/
+                        '<div class="' + class_similar_protocol + ' doc-attributes-sontainer left doc-attributes-container-comparative">' +
+                            '<label>Protocol:</label><label id="urank-docviewer-details-protocol'+document.id+'" class="urank-docviewer-attributes">'+protocol+'</label>' +
+                        '</div>' +
                         '<div class="rigth" style="margin: 3px">' +
                             '<button id="btn-close-connection-'+document.id+'" class="btn-close-connection" idC="'+document.id+'" comparative="true" counter="'+counter+'">X</button>'+
                         '</div>'+

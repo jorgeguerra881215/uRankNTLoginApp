@@ -842,8 +842,8 @@ var enterLog = function(value){
                 if(connection.title == 'Unlabelled'){
                     docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
 
-                    docViewer.showDocument(_this.moreSimilarNormal, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, true);
-                    docViewer.showDocument(_this.moreSimilarBotnet, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, true);
+                    docViewer.showDocument(_this.moreSimilarNormal, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection);
+                    docViewer.showDocument(_this.moreSimilarBotnet, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection);
                     //docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale,_this.moreSimilarBotnet,_this.moreSimilarNormal);
                     contentList.toggleWatchListItem(_this.moreSimilarNormal.id)
                     contentList.toggleWatchListItem(_this.moreSimilarBotnet.id)

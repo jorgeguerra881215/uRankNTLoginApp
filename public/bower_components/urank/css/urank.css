@@ -471,7 +471,7 @@ label.characteristic{
     /*box-shadow: inset 1px 1px 2px rgba(128, 128, 128, 0.6), inset -1px -1px 2px rgba(128, 128, 128, 0.6);*/
     box-shadow: inset 1000px 1px 2px rgba(128, 128, 128, 0.6), inset -1px -1px 2px rgba(128, 128, 128, 0.6);
     -webkit-transition: box-shadow 0s linear;
-    z-index: 9999;
+    /*z-index: 9999;*/
 }
 
 .urank-list-li.watched .urank-list-li-title {
@@ -825,6 +825,13 @@ label.urank-docviewer-attributes{
 
 .doc-attributes-sontainer{
     height: 17px;
+}
+.doc-attributes-container-comparative{
+    margin: 5px;
+}
+
+.similar-connection-feature{
+    color: darkslategrey;
 }
 
 div.urank-docviewer-divisor{
