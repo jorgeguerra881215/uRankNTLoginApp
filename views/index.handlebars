@@ -3,7 +3,10 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 {{#if user}}
-                    <li role="presentation"><a href="/">RiskID <span id="username" style="display: none">{{user.name}}</span></a></li>
+                    <li role="presentation"><a href="/">
+                        RiskID
+                        <span id="username" style="display: none">{{user.name}}</span>
+                        <span id="usertoken" style="display: none">{{user.token}}</span></a></li>
                     <li role="presentation"><a href="/users/logout">Logout <span id="sessionid" style="display: none">{{sessionId}}</span></a></li>
                 {{else}}
                     <li role="presentation"><a href="/users/login">Login</a></li>

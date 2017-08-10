@@ -686,6 +686,7 @@ var ContentList = (function(){
         $('.'+liClass).show().find('.'+liRankingContainerClass).css('visibility', 'hidden');
 
         $ul.removeClass(ulPaddingBottomclass);
+        $('ul#connection-list li').removeClass('list-selected')
     };
 
 
