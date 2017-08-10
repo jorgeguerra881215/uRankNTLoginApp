@@ -161,8 +161,8 @@
 }
 
 .urank-tagbox-container {
-    overflow-x: hidden;
-    overflow-y: auto;
+    /*overflow-x: hidden;
+    overflow-y: auto;*/
     align-items: center;
     width: calc(100% - 6px);
     height: 100%;
