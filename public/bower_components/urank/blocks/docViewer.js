@@ -641,7 +641,7 @@ var DocViewer = (function(){
                         '</div>' +
                         '<div style="width: 25%" id="pie-graph-'+document.id+'" class="pie-graph left">' +
                         '</div>' +
-                        '<div id="legend-pie-graph'+document.id+'" class="rigth" style="width: 24%;margin-top: 30px">' +
+                        '<div id="legend-pie-graph'+document.id+'" class="rigth" style="width: 10%;margin-top: 30px">' +
                             '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background:' + _periodicity_color[0] +'; padding: 2px">M</span> SP </br></label>'+
                             '<label><span style="color: transparent; background: ' + _periodicity_color[1] +'; padding: 2px">M</span> WP</br></label>'+
                             '<label><span style="color: transparent; background: ' + _periodicity_color[2] +'; padding: 2px">M</span> SNP</br></label>'+
@@ -729,7 +729,7 @@ var DocViewer = (function(){
                         '</div>' +
                         '<div style="width: 25%" id="pie-graph-'+document.id+'" class="pie-graph left">' +
                         '</div>' +
-                        '<div id="legend-pie-graph'+document.id+'" class="rigth" style="width: 24%;margin-top: 30px">' +
+                        '<div id="legend-pie-graph'+document.id+'" class="rigth" style="width: 10%;margin-top: 30px">' +
                             '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background:' + _periodicity_color[0] +'; padding: 2px">M</span> SP </br></label>'+
                             '<label><span style="color: transparent; background: ' + _periodicity_color[1] +'; padding: 2px">M</span> WP</br></label>'+
                             '<label><span style="color: transparent; background: ' + _periodicity_color[2] +'; padding: 2px">M</span> SNP</br></label>'+
