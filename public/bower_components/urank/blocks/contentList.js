@@ -780,7 +780,7 @@ var ContentList = (function(){
     };
 
 
-    var _toggleWatchListItem = function(id){
+    var     _toggleWatchListItem = function(id){
         var $li = $('.'+liClass+'['+urankIdAttr+'="'+id+'"]');
         var watchIcon = $li.find(' .' + watchiconClass);
         var classToAdd = watchIcon.hasClass(watchiconOffClass) ? watchiconOnClass : watchiconOffClass;

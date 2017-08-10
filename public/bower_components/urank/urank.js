@@ -838,12 +838,15 @@ var enterLog = function(value){
 
                 //contentList.selectListItem(documentId);
                 visCanvas.selectItem(documentId);
+                contentList.toggleWatchListItem(documentId);
                 if(connection.title == 'Unlabelled'){
                     docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
 
                     docViewer.showDocument(_this.moreSimilarNormal, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, true);
                     docViewer.showDocument(_this.moreSimilarBotnet, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, true);
                     //docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale,_this.moreSimilarBotnet,_this.moreSimilarNormal);
+                    contentList.toggleWatchListItem(_this.moreSimilarNormal.id)
+                    contentList.toggleWatchListItem(_this.moreSimilarBotnet.id)
                 }
                 else{
                     docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
@@ -1296,7 +1299,8 @@ var enterLog = function(value){
         updateTagsCloud: EVTHANDLER.onUpdateTagsCloud,
         onTagDropped:EVTHANDLER.onTagDropped,
         onChange:EVTHANDLER.onChange,
-        onDeselectItem:EVTHANDLER.onDeselectItem
+        onDeselectItem:EVTHANDLER.onDeselectItem,
+        onWatchiconClicked:EVTHANDLER.onWatchiconClicked
         /**
          * Modified by Jorch
          */

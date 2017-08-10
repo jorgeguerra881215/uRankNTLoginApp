@@ -494,6 +494,7 @@ var DocViewer = (function(){
                 var btn = $(this);//$('#'+id);
                 var id_connection = btn.attr('idC');
                 var counter = btn.attr('counter');
+                urank.onWatchiconClicked(id_connection)
 
                 //Caso donde cierro una conexion botnet o normal
                 // que se abrio automaticamente para comparar una sin etiquetar.
