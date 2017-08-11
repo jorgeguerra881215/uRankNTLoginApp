@@ -391,10 +391,15 @@ var enterLog = function(value){
                 if(item.title == 'Botnet' && first_similar_botnet){
                     first_similar_botnet = false
                     _this.moreSimilarBotnet = item
+                    _this.firstSimilar = _this.firstSimilar == ''? 'botnet' : _this.firstSimilar
                 }
                 if(item.title == 'Normal' && first_similar_normal){
                     first_similar_normal = false
                     _this.moreSimilarNormal = item
+                    _this.firstSimilar = _this.firstSimilar == ''? 'normal' : _this.firstSimilar
+                }
+                if(!first_similar_botnet  && !first_similar_normal){
+                    return false
                 }
             });
         }
@@ -842,8 +847,17 @@ var enterLog = function(value){
                 if(connection.title == 'Unlabelled'){
                     docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
 
-                    docViewer.showDocument(_this.moreSimilarNormal, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection);
-                    docViewer.showDocument(_this.moreSimilarBotnet, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection);
+                    //Mostrar conexiones comparativas en el mismo orden que aparecen en el listado
+                    if(_this.firstSimilar == 'botnet'){
+                        docViewer.showDocument(_this.moreSimilarBotnet, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection);
+                        docViewer.showDocument(_this.moreSimilarNormal, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection);
+                    }
+                    else{
+                        docViewer.showDocument(_this.moreSimilarNormal, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection);
+                        docViewer.showDocument(_this.moreSimilarBotnet, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection);
+                    }
+                    _this.firstSimilar = ''
+
                     //docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale,_this.moreSimilarBotnet,_this.moreSimilarNormal);
                     contentList.toggleWatchListItem(_this.moreSimilarNormal.id)
                     contentList.toggleWatchListItem(_this.moreSimilarBotnet.id)
@@ -1160,6 +1174,7 @@ var enterLog = function(value){
         this.similarity_matrix = {}
         this.moreSimilarBotnet = null;
         this.moreSimilarNormal = null;
+        this.firstSimilar = '';
 
         contentList = new ContentList(options.contentList);
         tagCloud = new TagCloud(options.tagCloud);
