@@ -291,7 +291,7 @@ var DocViewer = (function(){
      * @param {type} document Description
      * @param {Array} keywords (only stems)
      */
-    var _showDocument = function(document, keywords, colorScale, connection_unlabelled){
+    var _showDocument = function(document, keywords, colorScale, connection_unlabelled, heatmap){
         /**
          * Modified by Jorch
          */
@@ -471,13 +471,13 @@ var DocViewer = (function(){
         if(_selectedConnection.indexOf(document.id) == -1){
             urank.enterLog('Connection,'+ _document.id);
 
-            var connection_list = show_list_document(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter);
+            //var connection_list = show_list_document(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter,heatmap);
 
             if(connection_unlabelled != null){
-                connection_list = show_list_document_with_similar_botnet_and_normal(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter, connection_unlabelled);
+                connection_list = show_list_document_with_similar_botnet_and_normal(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter, connection_unlabelled, heatmap);
             }
             else{
-                connection_list = show_list_document(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter);
+                connection_list = show_list_document(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter,heatmap);
             }
 
 
@@ -594,7 +594,7 @@ var DocViewer = (function(){
 
     };
 
-    var show_list_document = function (document, init_port, dest_port, port, protocol, sequence, letter_data, periodic_data,counter){
+    var show_list_document = function (document, init_port, dest_port, port, protocol, sequence, letter_data, periodic_data,counter,heatmap){
         var title = document.title;
         var opacity_botnet_class = document.title == "Botnet" ? "opacity" : "non-opacity";
         var opacity_normal_class = document.title == "Normal" ? "opacity" : "non-opacity";
@@ -635,13 +635,17 @@ var DocViewer = (function(){
                     '</div>' +
                     '<div style="width: 100%; margin: 5px">' +
                         '<label><span>'+ botnet_left +' </span><span style="' + bot_style + '" urank-span-prediction-id="'+ document.id+'" class="document_view-botnet-bar"></span> <span>' + normal_rigth + '</span></label>' +
+                        '<div  style="margin: 5px">' +
+                        heatmap[0].outerHTML() + heatmap[1].outerHTML() + heatmap[2].outerHTML() +heatmap[3].outerHTML() +heatmap[4].outerHTML() +heatmap[5].outerHTML() +heatmap[6].outerHTML() +heatmap[7].outerHTML() +heatmap[8].outerHTML() +heatmap[9].outerHTML() +
+                        '</div>'+
                     '</div>' +
+
                     '<div style=" margin-bottom: -30px">' +
                         '<div id="bar-graph-'+document.id+'" class="left">' +
                         '</div>' +
                         '<div style="width: 25%" id="pie-graph-'+document.id+'" class="pie-graph left">' +
                         '</div>' +
-                        '<div id="legend-pie-graph'+document.id+'" class="rigth" style="width: 10%;margin-top: 30px">' +
+                        '<div id="legend-pie-graph'+document.id+'" class="left" style="width: 10%;margin-top: 30px">' +
                             '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background:' + _periodicity_color[0] +'; padding: 2px">M</span> SP </br></label>'+
                             '<label><span style="color: transparent; background: ' + _periodicity_color[1] +'; padding: 2px">M</span> WP</br></label>'+
                             '<label><span style="color: transparent; background: ' + _periodicity_color[2] +'; padding: 2px">M</span> SNP</br></label>'+
@@ -683,7 +687,7 @@ var DocViewer = (function(){
         return element;
     }
 
-    var show_list_document_with_similar_botnet_and_normal = function (document, init_port, dest_port, port, protocol, sequence, letter_data, periodic_data,counter, connection_unlabelled){
+    var show_list_document_with_similar_botnet_and_normal = function (document, init_port, dest_port, port, protocol, sequence, letter_data, periodic_data,counter, connection_unlabelled, heatmap){
         var title = document.title;
         var connection_unlabelled_info = connection_unlabelled.connection_id.split("-");
         var init_port_unlabelled = connection_unlabelled_info[0];
@@ -729,13 +733,17 @@ var DocViewer = (function(){
                     '</div>' +
                     '<div style="width: 100%; margin: 5px">' +
                        '<label><span>'+ botnet_left +' </span><span style="' + bot_style + '" urank-span-prediction-id="'+ document.id+'" class="document_view-botnet-bar"></span> <span>' + normal_rigth + '</span></label>' +
+                        '<div style="margin: 5px">' +
+                            heatmap[0].outerHTML() + heatmap[1].outerHTML() + heatmap[2].outerHTML() +heatmap[3].outerHTML() +heatmap[4].outerHTML() +heatmap[5].outerHTML() +heatmap[6].outerHTML() +heatmap[7].outerHTML() +heatmap[8].outerHTML() +heatmap[9].outerHTML() +
+                        '</div>'+
                     '</div>' +
+
                     '<div style=" margin-bottom: -30px">' +
                         '<div id="bar-graph-'+document.id+'" class="left">' +
                         '</div>' +
                         '<div style="width: 25%" id="pie-graph-'+document.id+'" class="pie-graph left">' +
                         '</div>' +
-                        '<div id="legend-pie-graph'+document.id+'" class="rigth" style="width: 10%;margin-top: 30px">' +
+                        '<div id="legend-pie-graph'+document.id+'" class="left" style="width: 10%;margin-top: 30px">' +
                             '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background:' + _periodicity_color[0] +'; padding: 2px">M</span> SP </br></label>'+
                             '<label><span style="color: transparent; background: ' + _periodicity_color[1] +'; padding: 2px">M</span> WP</br></label>'+
                             '<label><span style="color: transparent; background: ' + _periodicity_color[2] +'; padding: 2px">M</span> SNP</br></label>'+
