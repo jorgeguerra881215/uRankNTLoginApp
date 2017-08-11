@@ -471,7 +471,7 @@ var DocViewer = (function(){
         if(_selectedConnection.indexOf(document.id) == -1){
             urank.enterLog('Connection,'+ _document.id);
 
-            //var connection_list = show_list_document(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter,heatmap);
+            var connection_list = ''//show_list_document(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter,heatmap);
 
             if(connection_unlabelled != null){
                 connection_list = show_list_document_with_similar_botnet_and_normal(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter, connection_unlabelled, heatmap);
@@ -484,7 +484,12 @@ var DocViewer = (function(){
             $('#viscanvas > div.urank-hidden-scrollbar-inner > div').append(connection_list);
             $("#btn-show-connection-sequence-"+document.id).on( "click", function() {
                 var connection = $(this).attr('sequence');
+                var index = $(this).attr('index');
+                var title = $(this).attr('title');
                 var id_connection = $(this).attr('idC');
+                var sequence_template = '<div class="doc-label-container">' +
+                    '<label class="urank-docviewer-attributes urank-docviewer-details-label '+title.toLowerCase()+'">'+index+' | '+'<span id="label-'+id_connection+'">'+title+'</span></label>' +
+                    '</div>'
                 $("#dialog-seguence").html('<p>'+connection+'</p>');
                 $("#dialog-seguence").dialog( "open" );
 
@@ -656,7 +661,7 @@ var DocViewer = (function(){
                     '<div>' +
                         '<div>' +
                             /*'<input type="text" placeholder="Add new label..." id="label-text" style="display: none"><label>Tell us why you select this label:</label><textarea id="urank-docviewer-labeling-text" rows="5"></textarea>' +*/
-                            '<button id="btn-show-connection-sequence-'+document.id+'" class="btn-show-connection-sequence" idC="'+document.id+'" sequence="'+sequence+'" style="margin:2px; float: right;">Show Sequence</button>'+
+                            '<button id="btn-show-connection-sequence-'+document.id+'" class="btn-show-connection-sequence" idC="'+document.id+'" sequence="'+sequence+'" index="'+index+'" title="'+document.title+'" style="margin:2px; float: right;">Show Sequence</button>'+
                             '<button style="background: red; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-botnet-'+document.id+'" class="btn-botnet-label-connection rigth '+opacity_botnet_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_botnet+'>Botnet</button>' +
                             '<button style="background: #008000; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-normal-'+document.id+'" class="btn-normal-label-connection rigth '+opacity_normal_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_normal+'>Normal</button>' +
                             '<div style="clear: both"></div>'+
@@ -753,7 +758,7 @@ var DocViewer = (function(){
                     '</div>' +
                     '<div>' +
                         '<div>' +
-                            '<button id="btn-show-connection-sequence-'+document.id+'" class="btn-show-connection-sequence" idC="'+document.id+'" sequence="'+sequence+'" style="margin:2px; float: right;">Show Sequence</button>'+
+                        '<button id="btn-show-connection-sequence-'+document.id+'" class="btn-show-connection-sequence" idC="'+document.id+'" sequence="'+sequence+'" index="'+index+'" title="'+document.title+'" style="margin:2px; float: right;">Show Sequence</button>'+
                             /*'<button style="background: red; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-botnet-'+document.id+'" class="btn-botnet-label-connection rigth '+opacity_botnet_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_botnet+'>Botnet</button>' +
                             '<button style="background: #008000; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-normal-'+document.id+'" class="btn-normal-label-connection rigth '+opacity_normal_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_normal+'>Normal</button>' +
                             */'<div style="clear: both"></div>'+

@@ -975,7 +975,7 @@ var enterLog = function(value){
                     contentList.toggleWatchListItem(_this.moreSimilarBotnet.id)
                 }
                 else{
-                    docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale);
+                    docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, null, heatmap);
                 }
 
                 $('li[urank-id = '+ documentId+']').addClass('list-selected')
