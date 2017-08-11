@@ -1172,3 +1172,79 @@ DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-9_12.26.11
 DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-9_12.26.11,Connection,17
 DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-9_12.26.14,Connection,24
 DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-9_12.26.14,Connection,29
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_9.41.28,Connection,1
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_9.41.28,Connection,17
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_9.41.28,Connection,179
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_9.41.45,Connection,24
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_9.41.45,Connection,29
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.25.25,Connection,1
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.25.25,Connection,17
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.25.25,Connection,179
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.25.39,Connection,29
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.26.16,Close Connection,1
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.26.18,Close Comparative Connection,17
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.26.18,Close Comparative Connection,179
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.26.19,Close Connection,29
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.28.5,Connection,1
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.28.5,Connection,17
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.28.5,Connection,179
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.30.40,Connection,11
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.30.40,Connection,29
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.30.40,Connection,179
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.36.17,Connection,29
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.36.17,Connection,11
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.36.17,Connection,179
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.36.20,Close Comparative Connection,29
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.36.26,Close Comparative Connection,179
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.36.31,Close Connection,11
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.36.35,Connection,2
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_10.36.43,Close Connection,2
+rsUwAkK5U7_fxA9VHUx3NWj8tJNG_Wfh,Jorge,az7a1szv08p8pvi,2017-8-10_10.59.47,Connection,29
+rsUwAkK5U7_fxA9VHUx3NWj8tJNG_Wfh,Jorge,az7a1szv08p8pvi,2017-8-10_10.59.47,Connection,11
+rsUwAkK5U7_fxA9VHUx3NWj8tJNG_Wfh,Jorge,az7a1szv08p8pvi,2017-8-10_10.59.47,Connection,179
+rsUwAkK5U7_fxA9VHUx3NWj8tJNG_Wfh,Jorge,az7a1szv08p8pvi,2017-8-10_11.0.2,Close Connection,11
+rsUwAkK5U7_fxA9VHUx3NWj8tJNG_Wfh,Jorge,az7a1szv08p8pvi,2017-8-10_11.0.13,Close Comparative Connection,179
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_11.0.34,Connection,182
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_11.7.5,Connection,29
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_11.7.5,Connection,11
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_11.7.5,Connection,179
+IoItSqJKb45SqPdSqBgCZ27k9VqQWxZk,Jorge,az7a1szv08p8pvi,2017-8-10_11.11.25,Connection,180
+IoItSqJKb45SqPdSqBgCZ27k9VqQWxZk,Jorge,az7a1szv08p8pvi,2017-8-10_11.11.30,Close Connection,180
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_11.15.41,Connection,29
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_11.15.41,Connection,179
+DqC_GCCxXNwuIzY9FDWkN0W4NZOCvkje,Peter Malock,44p09qv3gtygy14i,2017-8-10_11.15.41,Connection,11
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_15.56.4,Connection,17
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_15.56.4,Connection,1
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_15.56.4,Connection,179
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_15.57.58,Connection,1
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_15.57.58,Connection,17
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_15.57.58,Connection,179
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.11.11,Close Comparative Connection,179
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.11.18,Close Connection,1
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.11.20,Close Comparative Connection,17
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.11.58,Connection,11
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.11.58,Connection,29
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.11.58,Connection,179
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.12.8,Connection,8
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.12.20,Close Connection,8
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.12.24,Close Comparative Connection,29
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.12.25,Close Comparative Connection,179
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.12.26,Close Connection,11
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.14.1,Connection,1
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.14.1,Connection,17
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.14.1,Connection,179
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.21.0,Connection,1
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.21.0,Connection,17
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.21.0,Connection,179
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.46.50,Connection,11
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.46.50,Connection,179
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_16.46.50,Connection,29
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_17.8.3,Connection,29
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_17.8.3,Connection,24
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_17.8.3,Connection,179
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_17.8.20,Close Connection,24
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_17.8.21,Close Comparative Connection,29
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_17.8.21,Close Comparative Connection,179
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_17.8.27,Connection,11
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_17.8.27,Connection,29
+xkLVSj-FJGmYZMsq_dYJCJlEKs0WNbU3,Peter Malock,44p09qv3gtygy14i,2017-8-10_17.8.27,Connection,179
