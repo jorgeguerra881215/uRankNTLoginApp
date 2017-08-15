@@ -573,7 +573,7 @@ var ContentList = (function(){
              $("<span>",{'urank-span-id': d.id}).appendTo($buttonsDiv).addClass(faviconDefaultClass+' '+trafic_ligth+' '+'traffic-ligth');*/
 
             $("<span style='margin-left: 8px'>").appendTo($buttonsDiv).addClass(watchiconClass+' '+watchiconDefaultClass+' '+watchiconOffClass);
-            $("<span style='margin-left: -8px'>").appendTo($buttonsDiv).addClass(faviconClass+' '+faviconDefaultClass+' '+faviconOffClass);
+            //$("<span style='margin-left: -8px'>").appendTo($buttonsDiv).addClass(faviconClass+' '+faviconDefaultClass+' '+faviconOffClass);
 
             $('.heat-map-carrier').css('color','transparent');
             $('#connection-list > li:nth-child(1) > div.urank-list-li-title-container > div > div:nth-child(2)').css('color','black');
@@ -693,14 +693,14 @@ var ContentList = (function(){
 
     var _selectListItem = function(id) {
         stopAnimation();
-        $('.'+liClass).css("opacity", "0.3");
+        /*$('.'+liClass).css("opacity", "0.3");*/
         //$(liItem + '' + id).css("opacity", "1");
         $('.'+liClass+'['+urankIdAttr+'="'+id+'"]').css("opacity", "1");
     };
 
     var _selectMultipleListItem = function(connection_id) {
         stopAnimation();
-        $('.'+liClass).css("opacity", "0.3");
+        /*$('.'+liClass).css("opacity", "0.3");*/
         for(var i =0; i < connection_id.length; i++){
             var id = connection_id[i];
             $('.'+liClass+'['+urankIdAttr+'="'+id+'"]').css("opacity", "1");
@@ -717,9 +717,8 @@ var ContentList = (function(){
         $('.'+liClass).addClass('li-nonshow');
         for(var i = 0; i < idArray.length; i++){
             var id = idArray[i];
-            //$('.'+liClass+'['+urankIdAttr+'="'+id+'"]').css("display", "block");
             $('.'+liClass+'['+urankIdAttr+'="'+id+'"]').removeClass('li-nonshow');
-            $('.'+liClass+'['+urankIdAttr+'="'+id+'"]').addClass('li-show');
+            //$('.'+liClass+'['+urankIdAttr+'="'+id+'"]').addClass('li-show');
         }
         return false;
 
@@ -780,7 +779,7 @@ var ContentList = (function(){
     };
 
 
-    var     _toggleWatchListItem = function(id){
+    var _toggleWatchListItem = function(id){
         var $li = $('.'+liClass+'['+urankIdAttr+'="'+id+'"]');
         var watchIcon = $li.find(' .' + watchiconClass);
         var classToAdd = watchIcon.hasClass(watchiconOffClass) ? watchiconOnClass : watchiconOffClass;
@@ -789,6 +788,21 @@ var ContentList = (function(){
         $li.toggleClass(liWatchedClass);
     };
 
+    var _onWatchListItem = function(id){
+        var $li = $('.'+liClass+'['+urankIdAttr+'="'+id+'"]');
+        var watchIcon = $li.find(' .' + watchiconClass);
+        watchIcon.removeClass("urank-list-li-button-watchicon-off")
+        watchIcon.addClass("urank-list-li-button-watchicon-on")
+        $li.addClass(liWatchedClass);
+    };
+
+    var _offWatchListItem = function(id){
+        var $li = $('.'+liClass+'['+urankIdAttr+'="'+id+'"]');
+        var watchIcon = $li.find(' .' + watchiconClass);
+        watchIcon.removeClass("urank-list-li-button-watchicon-on")
+        watchIcon.addClass("urank-list-li-button-watchicon-off")
+        $li.removeClass(liWatchedClass);
+    };
 
     var _clearEffects = function() {
         this.deselectAllListItems();
@@ -899,6 +913,8 @@ var ContentList = (function(){
         clearAllFavicons: _clearAllFavicons,
         toggleFavicon: _toggleFavicon,
         toggleWatchListItem: _toggleWatchListItem,
+        onWatchListItem:_onWatchListItem,
+        offWatchListItem:_offWatchListItem,
         clearEffects: _clearEffects,
         destroy: _destroy,
         scrollTo: _scrollTo,

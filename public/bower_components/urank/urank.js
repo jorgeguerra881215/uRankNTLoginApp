@@ -14,8 +14,6 @@ var Urank = (function(){
 
     //Cuatro HashTable para almacenar las conexiones y optimizar las busquedas.
     var ipInitial = {}, ipEnd = {}, connectionPort = {}, connectionProtocol = {}, labels_id = {}, ids_label = {}, list_ids = [];
-    // Cosine Similarity Matrix
-    //var similarity_matrix = {}
     //Cantidad de elementos seleccionados
     var count_selected = 0;
     // Estructura para almacenar datos para testing
@@ -51,7 +49,8 @@ var Urank = (function(){
         onTagInBoxClick: function(index){},
         onReset: function(){},
         onRankByOverallScore: function(){},
-        onRankByMaximumScore: function(){}
+        onRankByMaximumScore: function(){},
+        onShowSequence: function(){}
     };
 
     var defaultLoadOptions = {
@@ -816,7 +815,7 @@ var enterLog = function(value){
                         var item  = $(this)
                         if(!item.hasClass('li-nonshow')){
                             var x = top + (26*i);
-                            item.css('z-index','9999');
+                            item.css('z-index','99');
                             item.css('position','fixed');
                             item.css('left',left);
                             item.css('top', x);
@@ -941,6 +940,10 @@ var enterLog = function(value){
             if(_this.selectedId !== STR_UNDEFINED) {    // select
 
                 var connection = _this.rankingModel.getDocumentById(documentId);
+
+                //Save connection selected in dictionary
+                _this.connection_selected[connection.index] = connection
+
                 //var new_list = getDataOrdered(_this.data,connection);
                 var new_list = climbUpConnection(_this.data,connection);
                 var count_of_selected_items = connection_id.length;
@@ -950,9 +953,10 @@ var enterLog = function(value){
 
                 //contentList.selectListItem(documentId);
                 visCanvas.selectItem(documentId);
-                contentList.toggleWatchListItem(documentId);
+                contentList.onWatchListItem(documentId);
                 var heatmap = createHeatmapVisualRepresentation(connection.description)
                 if(connection.title == 'Unlabelled'){
+
                     docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale,null,heatmap);
 
                     //Mostrar conexiones comparativas en el mismo orden que aparecen en el listado
@@ -961,18 +965,26 @@ var enterLog = function(value){
                         docViewer.showDocument(_this.moreSimilarBotnet, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection,heatmap);
                         heatmap = createHeatmapVisualRepresentation(_this.moreSimilarNormal.description)
                         docViewer.showDocument(_this.moreSimilarNormal, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection,heatmap);
+
+                        //Save connection botnet and normal in dictionary
+                        _this.connection_selected[_this.moreSimilarBotnet.index] = _this.moreSimilarBotnet
+                        _this.connection_selected[_this.moreSimilarNormal.index] = _this.moreSimilarNormal
                     }
                     else{
                         heatmap = createHeatmapVisualRepresentation(_this.moreSimilarNormal.description)
                         docViewer.showDocument(_this.moreSimilarNormal, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection,heatmap);
                         heatmap = createHeatmapVisualRepresentation(_this.moreSimilarBotnet.description)
                         docViewer.showDocument(_this.moreSimilarBotnet, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection,heatmap);
+
+                        //Save connection botnet and normal in dictionary
+                        _this.connection_selected[_this.moreSimilarNormal.index] = _this.moreSimilarNormal
+                        _this.connection_selected[_this.moreSimilarBotnet.index] = _this.moreSimilarBotnet
                     }
                     _this.firstSimilar = ''
 
                     //docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale,_this.moreSimilarBotnet,_this.moreSimilarNormal);
-                    contentList.toggleWatchListItem(_this.moreSimilarNormal.id)
-                    contentList.toggleWatchListItem(_this.moreSimilarBotnet.id)
+                    contentList.onWatchListItem(_this.moreSimilarNormal.id);
+                    contentList.onWatchListItem(_this.moreSimilarBotnet.id);
                 }
                 else{
                     docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, null, heatmap);
@@ -994,6 +1006,10 @@ var enterLog = function(value){
 
         onDeselectItem: function(documentId){
             var connection = _this.rankingModel.getDocumentById(documentId);
+
+            //Remove connection from connection selected list
+            delete _this.connection_selected[connection.index]
+
             var new_list = climbDownConnection(_this.data,connection);
             var count_of_selected_items = connection_id.length;
             contentList.orderedList(new_list, count_of_selected_items);
@@ -1194,10 +1210,47 @@ var enterLog = function(value){
             s.onReset.call(this);
 
             //Clean Connection Viewer section
-            $('#viscanvas > div > div').html('');
+            $("#btn-close-connections").trigger('click');
+            //$('#viscanvas > div > div').html('');
 
             //enter Log
             enterLog('Ranking Reset,0');
+        },
+
+        onShowSequence: function(event){
+            if(event) event.stopPropagation();
+            $("#dialog-seguence").html('')
+            var main_div = $('<div></div>')
+            var seq_element = ''
+            //var class_label = 'unlabelled'
+            Object.keys(_this.connection_selected).forEach(function(key){
+                var seq = _this.connection_selected[key].description
+                var index = _this.connection_selected[key].index + 1
+                var current_label = _this.connection_selected[key].title
+                var class_label = current_label.toLowerCase()
+                seq_element = '<div style="margin: 5px;"><div><label class="urank-docviewer-attributes urank-docviewer-details-label '+ class_label +'" ><span>'+ index + ' | ' + current_label +'</span></label></div><div><p style="font-size: 1em">'+ seq +'</p></div></div>'
+                main_div.append(seq_element)
+            })
+
+/*
+            <label id="index-label-1" class="urank-docviewer-attributes urank-docviewer-details-label unlabelled">1 | <span id="label-1">Unlabelled</span></label>
+*/
+
+            $("#dialog-seguence").html(main_div);
+            $("#dialog-seguence").dialog( "open" );
+
+            enterLog('Show Sequence Connection');
+
+            s.onShowSequence.call(this);
+        },
+
+        onCloseConnections: function(event){
+            if(event) event.stopPropagation();
+            Object.keys(_this.connection_selected).forEach(function(key){
+                var id = _this.connection_selected[key].id
+                $("#btn-close-connection-"+id).trigger('click');
+            })
+            //s.onCloseConnections.call(this);
         },
 
         onDestroy: function() {
@@ -1287,6 +1340,7 @@ var enterLog = function(value){
         this.moreSimilarBotnet = null;
         this.moreSimilarNormal = null;
         this.firstSimilar = '';
+        this.connection_selected = {}
 
         contentList = new ContentList(options.contentList);
         tagCloud = new TagCloud(options.tagCloud);
@@ -1427,7 +1481,9 @@ var enterLog = function(value){
         onTagDropped:EVTHANDLER.onTagDropped,
         onChange:EVTHANDLER.onChange,
         onDeselectItem:EVTHANDLER.onDeselectItem,
-        onWatchiconClicked:EVTHANDLER.onWatchiconClicked
+        onWatchiconClicked:EVTHANDLER.onWatchiconClicked,
+        onShowSequence: EVTHANDLER.onShowSequence,
+        onCloseConnections: EVTHANDLER.onCloseConnections
         /**
          * Modified by Jorch
          */

@@ -86,6 +86,7 @@
 
     // Bind event handlers for urank specific buttons
     $('#btn-reset').off().on('click', this.urank.reset);
+    /*$('#btn-show-sequence').off().on('click', this.urank.onShowSequence);*/
     $('#btn-sort-by-overall-score').off().on('click', this.urank.rankByOverallScore);
     $('#btn-sort-by-max-score').off().on('click', this.urank.rankByMaximumScore);
 

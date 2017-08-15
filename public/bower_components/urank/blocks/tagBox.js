@@ -21,7 +21,7 @@ var TagBox = (function(){
     //  Helpers
     var $root, $tagContainer;
 
-    var onTagboxChanged = function(){
+    /*var onTagboxChanged = function(){
         setTimeout(function(){
             s.onChange.call(this, _this.selectedKeywords)   // Bind onChange event handler for custom event
             if(_this.selectedKeywords.length == 0)
@@ -34,8 +34,8 @@ var TagBox = (function(){
             keys += item.term + " ";
         });
 
-        urank.enterLog('Ranking '+ keys+',0');
-    };
+        //urank.enterLog('Ranking '+ keys+',0');
+    };*/
 
     function Tagbox(arguments) {
 
@@ -104,10 +104,13 @@ var TagBox = (function(){
         var tagboxClasses = (opt.misc.defaultBlockStyle) ? tagboxClass +' '+ tagboxDefaultClass : tagboxClass;
         $root = $(s.root).addClass(tagboxClasses);
         $tagContainer = $('<div></div>').appendTo($root).addClass(tagboxContainerClass)
-            .off(tagBoxChangeEvent, onTagboxChanged)
-            .on(tagBoxChangeEvent, onTagboxChanged)
-            .droppable(this.droppableOptions)                       // bind droppable behavior to tag box;
+            //.off(tagBoxChangeEvent, onTagboxChanged)
+            //.on(tagBoxChangeEvent, onTagboxChanged)
+            //.droppable(this.droppableOptions)                       // bind droppable behavior to tag box;
+            .append('<div class="rigth"> <button id="btn-show-sequence">Show Sequences</button> <button id="btn-close-connections">Close Connections</button> </div>')
             .append('<p>' + STR_DROP_TAGS_HERE + '</p>');
+        $('#btn-show-sequence').off().on('click', urank.onShowSequence);
+        $('#btn-close-connections').off().on('click', urank.onCloseConnections);
     };
 
 
@@ -187,10 +190,10 @@ var TagBox = (function(){
     Tagbox.prototype = {
         build: _build,
         clear: _clear,
-        dropTag: _dropTag,
+        //dropTag: _dropTag,
         deleteTag: _deleteTag,
-        destroy: _destroy,
-        onTagboxChanged: onTagboxChanged
+        destroy: _destroy
+        //onTagboxChanged: onTagboxChanged
     };
 
     return Tagbox;

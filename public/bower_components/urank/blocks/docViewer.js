@@ -499,7 +499,15 @@ var DocViewer = (function(){
                 var btn = $(this);//$('#'+id);
                 var id_connection = btn.attr('idC');
                 var counter = btn.attr('counter');
-                urank.onWatchiconClicked(id_connection)
+                //urank.onWatchiconClicked(id_connection)
+
+                //Desmarcar las conexiones en la lista
+                var $li = $('.'+'urank-list-li'+'['+'urank-id'+'="'+id_connection+'"]');
+                var watchIcon = $li.find(' .' + 'urank-list-li-button-watchicon');
+                watchIcon.removeClass("urank-list-li-button-watchicon-on")
+                watchIcon.addClass("urank-list-li-button-watchicon-off")
+                $li.removeClass('watched');
+
 
                 //Caso donde cierro una conexion botnet o normal
                 // que se abrio automaticamente para comparar una sin etiquetar.
@@ -511,6 +519,7 @@ var DocViewer = (function(){
                         _selectedConnection.splice(index,1);
                         urank.enterLog('Close Comparative Connection,'+id_connection);
                     }
+                    urank.onDeselectItem(id_connection);
                     return false; //Termino aca la ejecucion del evento
                 }
 
