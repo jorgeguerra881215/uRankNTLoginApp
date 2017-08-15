@@ -573,7 +573,7 @@ var ContentList = (function(){
              $("<span>",{'urank-span-id': d.id}).appendTo($buttonsDiv).addClass(faviconDefaultClass+' '+trafic_ligth+' '+'traffic-ligth');*/
 
             $("<span style='margin-left: 8px'>").appendTo($buttonsDiv).addClass(watchiconClass+' '+watchiconDefaultClass+' '+watchiconOffClass);
-            $("<span style='margin-left: -8px'>").appendTo($buttonsDiv).addClass(faviconClass+' '+faviconDefaultClass+' '+faviconOffClass);
+            //$("<span style='margin-left: -8px'>").appendTo($buttonsDiv).addClass(faviconClass+' '+faviconDefaultClass+' '+faviconOffClass);
 
             $('.heat-map-carrier').css('color','transparent');
             $('#connection-list > li:nth-child(1) > div.urank-list-li-title-container > div > div:nth-child(2)').css('color','black');
