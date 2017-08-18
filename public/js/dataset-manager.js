@@ -5,6 +5,7 @@ function datasetManager(){
     var datasetMappings = {
         DS_Co: {
             description: 'Connections 22',
+            //file: 'dataset_ctu13.json'
             file: 'dataset_test.json'
         }/*,
         DS_Ro: {

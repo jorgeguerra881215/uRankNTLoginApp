@@ -364,6 +364,65 @@ var ContentList = (function(){
         return sequence*/
     }
 
+    var createHeatmapRepresentation = function(vector_feature){
+        var vector = vector_feature.split(',')
+        var snp_v = parseFloat(vector[0])
+        var wnp_v = parseFloat(vector[1])
+        var wp_v = parseFloat(vector[2])
+        var sp_v = parseFloat(vector[3])
+        var ds_v = parseFloat(vector[4])
+        var dm_v = parseFloat(vector[5])
+        var dl_v = parseFloat(vector[6])
+        var ss_v = parseFloat(vector[7])
+        var sm_v = parseFloat(vector[8])
+        var sl_v = parseFloat(vector[9])
+
+        //Periodicity feature
+        var sNP = $('<label id="representation-snp" class="connection-characteristic">snp</label>')
+        var wNP = $('<label id="representation-wnp" class="connection-characteristic">wnp</label>')
+        var wP = $('<label id="representation-wp" class="connection-characteristic">wp</label>')
+        var sP = $('<label id="representation-sp" class="connection-characteristic">sp</label>')
+        //Duration feature
+        var dS = $('<label id="representation-dS" class="connection-characteristic" style="margin-left:5px; ">ds</label>')
+        var dM = $('<label id="representation-dM" class="connection-characteristic">dm</label>')
+        var dL = $('<label id="representation-dL" class="connection-characteristic">dl</label>')
+        //Size feature
+        var sS = $('<label id="representation-sS" class="connection-characteristic" style="margin-left:5px;">ss</label>')
+        var sM = $('<label id="representation-sM" class="connection-characteristic">sm</label>')
+        var sL = $('<label id="representation-sL" class="connection-characteristic">sl</label>')
+
+        var periodicity_color = ['#ffffff','#fff8eb','#ffeac4','#ffdc9d','#ffd589','#ffc862','#ffc14e','#ffba3b','#ffb327','#ffac14'];
+        var duration_color = ['#ffffff','#e6f7f2','#d7f3eb','#b9e9db','#9be0cc','#8cdcc5','#6ed3b5','#5fceae','#50c9a6','#41c59f'];
+        var size_color = ['#ffffff','#e6ebf7','#d7dff3','#b9c7e9','#aabbe5','#8ca3dc','#6e8bd3','#5f7fce','#5073c9','#4167c5'];
+
+        var ranges = 101 / 10;
+        //Count periodicity feature
+        sNP.css('background',periodicity_color[Math.floor((snp_v*100)/ranges)]);
+
+        wNP.css('background',periodicity_color[Math.floor((wnp_v*100)/ranges)]);
+
+        wP.css('background',periodicity_color[Math.floor((wp_v*100)/ranges)]);
+
+        sP.css('background',periodicity_color[Math.floor((sp_v*100)/ranges)]);
+
+        //Count duration feature
+        dS.css('background',duration_color[Math.floor((ds_v*100)/ranges)]);
+
+        dM.css('background',duration_color[Math.floor((dm_v*100)/ranges)]);
+
+        dL.css('background',duration_color[Math.floor((dl_v*100)/ranges)]);
+
+        //Count size feature
+        sS.css('background',size_color[Math.floor((ss_v*100)/ranges)]);
+
+        sM.css('background',size_color[Math.floor((sm_v*100)/ranges)]);
+
+        sL.css('background',size_color[Math.floor((sl_v*100)/ranges)]);
+
+        return [sP,wP,wNP,sNP,dS,dM,dL,sS,sM,sL];
+
+    }
+
     /**
      * Creating HeatMap for visual representation
      * @param connection
@@ -518,26 +577,21 @@ var ContentList = (function(){
             var ligth_circle = '<label><span urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left '+trafic_ligth+' traffic-ligth"></span></label>';
             var bot_prob = d.botprob != 'NA' ? parseFloat(d.botprob.replace(",", ".")) : 'NA'
             var confidence = d.botprob != 'NA' ? parseFloat(d.confidence.replace(",", ".").split('.')[0]) : 'NA'
-            //var bot_style = bot_prob != '' ? 'background: linear-gradient(to right,  red ' + bot_prob*100 +'% ,green 100%);' : ''
             var bot_style = bot_prob != 'NA' ? 'background: linear-gradient(to right,  red 0%, red ' + bot_prob*100 +'%,green ' + bot_prob*100 + '%,green 100%)' : ''
             var confidence_style = confidence != 'NA' ? 'color: red' : 'visibility: hidden'
             var bot_probability_label =
                 '<label class="prob_container">' +
                 '<span style="' + bot_style + '" urank-span-prediction-id="'+ d.id+'" class="prediction-bar urank-list-li-button-favicon-default-left botnet-bar"></span>' +
-                //'<span urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left normal-bar"></span>' +
                 '</label>';
-            //var confidence_value = confidence != '' ? confidence + '%' : ''
             var confidence_label =
                 '<label class="confidence_container">' +
                 '<span style="' + confidence_style + '" urank-span-confidence-id="'+ d.id+'" class="confidence-bar">'+ confidence +'%</span>' +
-                //'<span urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left normal-bar"></span>' +
                 '</label>';
-            //var bot_probability = '<label class="prob_container"></label>';
 
             // title section
             var $titleDiv = $("<div></div>").appendTo($li).addClass(liTitleContainerClass);
-            var secuence = createSequence(d);
-            var html = createVisualRepresentation(secuence);
+            //var secuence = d.description//createSequence(d);
+            var html = createHeatmapRepresentation(d.characteristicVector)//createVisualRepresentation(secuence);
             var index = 0;
             var value = 0;
             if(typeof index_flag === 'undefined'){
@@ -586,7 +640,14 @@ var ContentList = (function(){
                     });
                 }
             });
+
+            //Format title
+            var formattedTitle = (d.title.length > 60) ? (d.title.substring(0, 56) + '...') : d.title + '';
+            formattedTitle = (_this.selectedKeywords.length == 0) ? formattedTitle : getStyledText(formattedTitle, _this.selectedKeywords, colorScale);
+            $('.'+liClass+'['+urankIdAttr+'="'+d.id+'"]').find('.'+liTitleClass).html(formattedTitle);
+
         });
+
     };
 
 
@@ -606,8 +667,8 @@ var ContentList = (function(){
         else
             buildDefaultList(index_flag);
 
-        formatTitles();
-        updateLiBackground();
+        //formatTitles();
+        //updateLiBackground();
     };
 
 
