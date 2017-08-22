@@ -210,113 +210,6 @@ var enterLog = function(value){
             porcent_count_sL.toString();
     }
 
-    /*
-    * TODO Rebuild this method to use characteristic vector instead the letter sequence
-    * */
-    var createHeatmapVisualRepresentation = function(sequence){
-        //Periodicity feature
-        var sNP = $('<label id="representation-snp" class="connection-characteristic">snp</label>'), rep_sNP = /[R-Z]/, count_sNP = 0;
-        var wNP = $('<label id="representation-wnp" class="connection-characteristic">wnp</label>'), rep_wNP = /[r-z]/, count_wNP = 0;
-        var wP = $('<label id="representation-wp" class="connection-characteristic">wp</label>'), rep_wP = /[A-I]/, count_wP = 0;
-        var sP = $('<label id="representation-sp" class="connection-characteristic">sp</label>'), rep_sP = /[a-i]/, count_sP = 0;
-        //Duration feature
-        var dS = $('<label id="representation-dS" class="connection-characteristic" style="margin-left:5px; ">ds</label>'), rep_dS = {a:1,A:1,r:1,R:1,d:1,D:1,u:1,U:1,g:1,G:1,x:1,X:1}, count_dS = 0;
-        var dM = $('<label id="representation-dM" class="connection-characteristic">dm</label>'), rep_dM = {b:1,B:1,s:1,S:1,e:1,E:1,v:1,V:1,h:1,H:1,y:1,Y:1}, count_dM = 0;
-        var dL = $('<label id="representation-dL" class="connection-characteristic">dl</label>'), rep_dL = {c:1,C:1,t:1,T:1,f:1,F:1,w:1,W:1,i:1,I:1,z:1,Z:1}, count_dL = 0;
-        //Size feature
-        var sS = $('<label id="representation-sS" class="connection-characteristic" style="margin-left:5px;">ss</label>'), rep_sS = {a:1,A:1,b:1,B:1,c:1,C:1,r:1,R:1,s:1,S:1,t:1,T:1}, count_sS = 0;
-        var sM = $('<label id="representation-sM" class="connection-characteristic">sm</label>'), rep_sM = {d:1,D:1,e:1,E:1,f:1,F:1,u:1,U:1,v:1,V:1,w:1,W:1}, count_sM = 0;
-        var sL = $('<label id="representation-sL" class="connection-characteristic">sl</label>'), rep_sL = {g:1,G:1,h:1,H:1,i:1,I:1,x:1,X:1,y:1,Y:1,z:1,Z:1}, count_sL = 0;
-
-        var description = sequence;
-        var count  = description.length;
-        var i = count
-        while(i--){
-            var letter = description[i];
-            //Count periodicity feature
-            if(rep_sNP.test(letter)){
-                count_sNP ++;
-            }
-            else if(rep_wNP.test(letter)){
-                count_wNP++;
-            }
-            else if(rep_wP.test(letter)){
-                count_wP++;
-            }
-            else if(rep_sP.test(letter)){
-                count_sP++;
-            }
-
-            //Count duration feature
-            if(letter in rep_dS){
-                count_dS++;
-            }
-            else if(letter in rep_dM){
-                count_dM++;
-            }
-            else if(letter in rep_dL){
-                count_dL++;
-            }
-
-            //Count size feature
-            if(letter in rep_sS){
-                count_sS++;
-            }
-            else if(letter in rep_sM){
-                count_sM++;
-            }
-            else if(letter in rep_sL){
-                count_sL++;
-            }
-        }
-
-        var count_of_letter = count_sNP + count_wNP + count_wP + count_sP;
-
-        //var colors = ['#ffefd8','#ffe7c4','#ffdfb1','#ffd89d','#ffd089','#ffc876','#ffc062','#ffb84f','#ffb03b','#ffa827','#ffa014','#ff9800','#ec8d00','#d88100','#c47500','#b16900','#9d5e00','#895200','#623b00','#3b2300']
-        //var colors = ['#00008F','#0000BF','#0000EF','#001FFF','#005FFF','#008FFF','#00BFFF','#00EFFF','#2FFFCF','#5FFF9F','#AFFF4F','#DFFF1F','#FFDF00','#FFAF00','#FF7F00','#FF4F00','#FF0F00','#DF0000','#AF0000','#7F0000']
-        var colors = ['#ffffff','#f9f1f1','#fbefef','#fdeded','#ffebeb','#ffd8d8','#ffc4c4','#ffb1b1','#ff9d9d','#ff8989','#ff7676','#ff6262','#ff4e4e','#ff3b3b','#ff2727','#ff1414','#ff1010','#ff0505','#ff1001','#ff0000']//'#e21d1d','#eb1414','#f50a0a','#ff0000']
-        var periodicity_color = ['#ffffff','#fff8eb','#ffeac4','#ffdc9d','#ffd589','#ffc862','#ffc14e','#ffba3b','#ffb327','#ffac14'];
-        var duration_color = ['#ffffff','#e6f7f2','#d7f3eb','#b9e9db','#9be0cc','#8cdcc5','#6ed3b5','#5fceae','#50c9a6','#41c59f'];
-        var size_color = ['#ffffff','#e6ebf7','#d7dff3','#b9c7e9','#aabbe5','#8ca3dc','#6e8bd3','#5f7fce','#5073c9','#4167c5'];
-
-        var ranges = 101 / 10;//(colors.length);
-        //Count periodicity feature
-        var porcent_count_sNP = (count_sNP * 100)/ count_of_letter;
-        sNP.css('background',periodicity_color[Math.floor(porcent_count_sNP/ranges)]);
-
-        var porcent_count_wNP = (count_wNP * 100)/ count_of_letter;
-        wNP.css('background',periodicity_color[Math.floor(porcent_count_wNP/ranges)]);
-
-        var porcent_count_wP = (count_wP * 100)/ count_of_letter;
-        wP.css('background',periodicity_color[Math.floor(porcent_count_wP/ranges)]);
-
-        var porcent_count_sP = (count_sP * 100)/ count_of_letter;
-        sP.css('background',periodicity_color[Math.floor(porcent_count_sP/ranges)]);
-
-        //Count duration feature
-        var porcent_count_dS = (count_dS * 100)/ count_of_letter;
-        dS.css('background',duration_color[Math.floor(porcent_count_dS/ranges)]);
-
-        var porcent_count_dM = (count_dM * 100)/ count_of_letter;
-        dM.css('background',duration_color[Math.floor(porcent_count_dM/ranges)]);
-
-        var porcent_count_dL = (count_dL * 100)/ count_of_letter;
-        dL.css('background',duration_color[Math.floor(porcent_count_dL/ranges)]);
-
-        //Count size feature
-        var porcent_count_sS = (count_sS * 100)/ count_of_letter;
-        sS.css('background',size_color[Math.floor(porcent_count_sS/ranges)]);
-
-        var porcent_count_sM = (count_sM * 100)/ count_of_letter;
-        sM.css('background',size_color[Math.floor(porcent_count_sM/ranges)]);
-
-        var porcent_count_sL = (count_sL * 100)/ count_of_letter;
-        sL.css('background',size_color[Math.floor(porcent_count_sL/ranges)]);
-
-        return [sP,wP,wNP,sNP,dS,dM,dL,sS,sM,sL];
-
-    }
-
     var getLetterSequences = function(data){
         return data
         //Usar el resto del codigo si estamos trabajando con secuencia de letras como palabras.
@@ -356,6 +249,8 @@ var enterLog = function(value){
         data.forEach(function(item,index){
             var cluster = item.cluster;
             result[cluster].push(item);
+            var characteristicVector = calculateCharacteristicVector(item.description);
+            item.characteristicVector = characteristicVector;
         });
         return result;
     }
@@ -378,10 +273,11 @@ var enterLog = function(value){
     var sortBySimilarityToTheFirstConnection = function(data){
         var documentReference = null;
         var conexionSimilarity = {};
+        var conexionid = {};
         var result = [];
         data.forEach(function(item,index){
             var letterSequences = getLetterSequences(item.description);
-            var characteristicVector = calculateCharacteristicVector(letterSequences);
+            var characteristicVector = item.characteristicVector//calculateCharacteristicVector(letterSequences);
             var list_num = characteristicVector.split(',')
             var feature_vector_list = [
                 parseInt(list_num[0]),
@@ -397,20 +293,32 @@ var enterLog = function(value){
             ]
 
             item.letterSequence = letterSequences;
-            item.characteristicVector = characteristicVector;
+            //item.characteristicVector = characteristicVector;
             item.feature_vector_list = feature_vector_list;
             if(documentReference == null){
                 documentReference = characteristicVector;
             }
             //var diference = vectorDistance(documentReference, characteristicVector);
             var diference = cosineSimilarity(documentReference, characteristicVector);
-            conexionSimilarity[diference] = item;
+            //conexionSimilarity[diference] = item;
+            conexionSimilarity[item.id] = diference;
+            conexionid[item.id] = item
             //This code is to create characteristic vector data set using urank_logs.txt file
             //enterText(characteristicVector + ',' +letterSequences.length+','+item.title+','+item.label);
         });
-        Object.keys(conexionSimilarity).sort(function(a,b){return b-a}).forEach(function(key,i){
+        /*Object.keys(conexionSimilarity).sort(function(a,b){return b-a}).forEach(function(key,i){
             result.push(conexionSimilarity[key]);
+        });*/
+        var items = Object.keys(conexionSimilarity).map(function(key) {
+            return [key, conexionSimilarity[key]];
         });
+        items.sort(function(first, second) {
+            return second[1] - first[1];
+        });
+        //console.log(items.slice(0, 5));
+        items.forEach(function(item){
+            result.push(conexionid[item[0]]);
+        })
         return result;
     }
 
@@ -424,9 +332,9 @@ var enterLog = function(value){
         var result = [];
         data.forEach(function(item){
             var letterSequences = getLetterSequences(item.description);
-            var characteristicVector = calculateCharacteristicVector(letterSequences);
+            var characteristicVector = item.characteristicVector //calculateCharacteristicVector(letterSequences);
             item.letterSequence = letterSequences;
-            item.characteristicVector = characteristicVector;
+            //item.characteristicVector = characteristicVector;
             //var diference = vectorDistance(documentReference, characteristicVector);
             var diference = cosineSimilarity(documentReference, characteristicVector);
             conexionSimilarity[item.id] = diference;
@@ -709,6 +617,7 @@ var enterLog = function(value){
             //randomUnlabelled();
 
 
+            contentList.build(_this.data, o.contentList);
 
             _this.data.forEach(function(d, i){
 
@@ -764,7 +673,12 @@ var enterLog = function(value){
                 list_ids.push(d.id);
                 ids_label[d.id] = d.title
                 d.title in labels_id ? labels_id[d.title].push(d.id) : labels_id[d.title] = [d.id]
-            });
+
+                /**
+                 * Build Each element in the list
+                 * */
+                contentList.buildOneElement(d,i);
+             });
 
             _this.rankingMode = RANKING_MODE.overall_score;
             _this.rankingModel.clear().setData(_this.data);
@@ -792,7 +706,6 @@ var enterLog = function(value){
                 visCanvas:   $.extend(o.visCanvas, { customScrollBars: o.misc.customScrollBars }),
                 docViewer:   $.extend(o.docViewer, { customScrollBars: o.misc.customScrollBars })
             };*/
-            contentList.build(_this.data, o.contentList);
             //tagCloud.build(_this.keywords, _this.data, _this.tagColorScale, o.tagCloud, _this.keywordsDict);
             tagBox.build(o.tagBox);
             visCanvas.build(contentList.getListHeight(), o.visCanvas);
@@ -824,7 +737,7 @@ var enterLog = function(value){
                             item.css('left',left);
                             item.css('top', x);
                             //var width2 = $('#connection-list > li:nth-child(2)').css('width');
-                            var width = $('#connection-list > li:nth-child('+ (count+1) +')').css('width');
+                            var width = $('#connection-list').css('width');//$('#connection-list > li:nth-child('+ (count+1) +')').css('width');
                             item.css('width', width);
                             i++;
                         }
@@ -947,6 +860,7 @@ var enterLog = function(value){
 
                 //Save connection selected in dictionary
                 _this.connection_selected[connection.index] = connection
+                _this.connection_selected_list[connection.index] = connection
 
                 //var new_list = getDataOrdered(_this.data,connection);
                 var new_list = climbUpConnection(_this.data,connection);
@@ -958,16 +872,16 @@ var enterLog = function(value){
                 //contentList.selectListItem(documentId);
                 visCanvas.selectItem(documentId);
                 contentList.onWatchListItem(documentId);
-                var heatmap = createHeatmapVisualRepresentation(connection.description)
+                var heatmap = contentList.createHeatmapRepresentation(connection.characteristicVector)//createHeatmapVisualRepresentation(connection.description)
                 if(connection.title == 'Unlabelled'){
 
                     docViewer.showDocument(connection, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale,null,heatmap);
 
                     //Mostrar conexiones comparativas en el mismo orden que aparecen en el listado
                     if(_this.firstSimilar == 'botnet'){
-                        heatmap = createHeatmapVisualRepresentation(_this.moreSimilarBotnet.description)
+                        heatmap = contentList.createHeatmapRepresentation(_this.moreSimilarBotnet.characteristicVector)////createHeatmapVisualRepresentation(_this.moreSimilarBotnet.description)
                         docViewer.showDocument(_this.moreSimilarBotnet, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection,heatmap);
-                        heatmap = createHeatmapVisualRepresentation(_this.moreSimilarNormal.description)
+                        heatmap = contentList.createHeatmapRepresentation(_this.moreSimilarNormal.characteristicVector)//createHeatmapVisualRepresentation(_this.moreSimilarNormal.description)
                         docViewer.showDocument(_this.moreSimilarNormal, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection,heatmap);
 
                         //Save connection botnet and normal in dictionary
@@ -975,9 +889,9 @@ var enterLog = function(value){
                         _this.connection_selected[_this.moreSimilarNormal.index] = _this.moreSimilarNormal
                     }
                     else{
-                        heatmap = createHeatmapVisualRepresentation(_this.moreSimilarNormal.description)
+                        heatmap = contentList.createHeatmapRepresentation(_this.moreSimilarNormal.characteristicVector)//createHeatmapVisualRepresentation(_this.moreSimilarNormal.description)
                         docViewer.showDocument(_this.moreSimilarNormal, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection,heatmap);
-                        heatmap = createHeatmapVisualRepresentation(_this.moreSimilarBotnet.description)
+                        heatmap = contentList.createHeatmapRepresentation(_this.moreSimilarBotnet.characteristicVector)//createHeatmapVisualRepresentation(_this.moreSimilarBotnet.description)
                         docViewer.showDocument(_this.moreSimilarBotnet, _this.selectedKeywords.map(function(k){return k.stem}), _this.queryTermColorScale, connection,heatmap);
 
                         //Save connection botnet and normal in dictionary
@@ -995,7 +909,7 @@ var enterLog = function(value){
                 }
 
                 $('li[urank-id = '+ documentId+']').addClass('list-selected')
-                count_selected += 1
+                count_selected += 1//Object.keys(_this.connection_selected).length
             }
             else {                   // deselect
                 count_selected = 0;
@@ -1014,11 +928,16 @@ var enterLog = function(value){
             //Remove connection from connection selected list
             delete _this.connection_selected[connection.index]
 
+            if(connection.index in _this.connection_selected_list){
+                //Remove connection from connection selected list
+                delete _this.connection_selected_list[connection.index]
+                count_selected -= 1
+            }
+
             var new_list = climbDownConnection(_this.data,connection);
             var count_of_selected_items = connection_id.length;
             contentList.orderedList(new_list, count_of_selected_items);
             $('li[urank-id = '+ documentId+']').removeClass('list-selected')
-            count_selected -= 1
             s.onDeselectItem.call(this, documentId);
         },
 
@@ -1345,6 +1264,7 @@ var enterLog = function(value){
         this.moreSimilarNormal = null;
         this.firstSimilar = '';
         this.connection_selected = {}
+        this.connection_selected_list = {}
 
         contentList = new ContentList(options.contentList);
         tagCloud = new TagCloud(options.tagCloud);

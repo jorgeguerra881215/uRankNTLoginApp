@@ -533,6 +533,106 @@ var ContentList = (function(){
 
     }
 
+    var buildList = function(d,i){
+        var cluster = d.cluster;
+        var cluster_class = '';
+        switch (cluster){
+            case '1':
+                cluster_class = 'c-uno';
+                break;
+            case '2':
+                cluster_class = 'c-dos';
+                break;
+            case '3':
+                cluster_class = 'c-tres';
+                break;
+        }
+
+        // li element
+        var $li = $('<li></li>', { 'urank-id': d.id, 'listIndex':i+1 }).appendTo($ul).addClass(liClass +' '+ liClassDefault + ' ' + cluster_class);
+        //var $li = $('<li listIndex="'+(i+1)+'"></li>', { 'urank-id': d.id }).appendTo($ul).addClass(liClass +' '+ liClassDefault + ' ' + cluster_class);
+        //var $li = $('<li></li>', { 'urank-id': d.id }).appendTo($ul).addClass(liClass +' '+ liClassDefault);
+        // ranking section
+        var $rankingDiv = $("<div></div>").appendTo($li).addClass(liRankingContainerClass).css('visibility', 'hidden');
+        $("<div></div>").appendTo($rankingDiv).addClass(rankingPosClass);
+        $("<div></div>").appendTo($rankingDiv).addClass(rankingPosMovedClass)
+
+        /**
+         * Modified by Jorch
+         * Adding traffic light in the connection list to indicate the labeling process
+         */
+        var trafic_ligth = 'yellow-circle';
+        switch (d.title) {
+            case 'Botnet': trafic_ligth = 'red-circle'; break;
+            case 'Normal': trafic_ligth = 'green-circle'; break;
+            default: break;
+        }
+        var ligth_circle = '<label><span urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left '+trafic_ligth+' traffic-ligth"></span></label>';
+        var bot_prob = d.botprob != 'NA' ? parseFloat(d.botprob.replace(",", ".")) : 'NA'
+        var confidence = d.botprob != 'NA' ? parseFloat(d.confidence.replace(",", ".").split('.')[0]) : 'NA'
+        var bot_style = bot_prob != 'NA' ? 'background: linear-gradient(to right,  red 0%, red ' + bot_prob*100 +'%,green ' + bot_prob*100 + '%,green 100%)' : ''
+        var confidence_style = confidence != 'NA' ? 'color: red' : 'visibility: hidden'
+        var bot_probability_label =
+            '<label class="prob_container">' +
+                '<span style="' + bot_style + '" urank-span-prediction-id="'+ d.id+'" class="prediction-bar urank-list-li-button-favicon-default-left botnet-bar"></span>' +
+                '</label>';
+        var confidence_label =
+            '<label class="confidence_container">' +
+                '<span style="' + confidence_style + '" urank-span-confidence-id="'+ d.id+'" class="confidence-bar">'+ confidence +'%</span>' +
+                '</label>';
+
+        // title section
+        var $titleDiv = $("<div></div>").appendTo($li).addClass(liTitleContainerClass);
+        //var secuence = d.description//createSequence(d);
+        var html = createHeatmapRepresentation(d.characteristicVector)//createVisualRepresentation(secuence);
+        var index = 0;
+        var value = 0;
+        index = i+1 < 10 ? (i+1)+'-&nbsp;&nbsp;&nbsp;&nbsp;' : (i+1)+'-';
+        value = i+1;
+        d.viewIndex = i+1;
+        //var index = i+1 < 10 ? (i+1)+'-&nbsp;&nbsp;C'+ d.cluster : (i+1)+'-'+ d.cluster;
+        var list_element_container = $('<div><div class="info-label-container">'+bot_probability_label + confidence_label + ligth_circle+'<label value="'+value+'" id="label-'+ d.id+'">'+index+'</label></div></div>', { id: 'urank-list-li-title-' + i, class: liTitleClass +' '+ liTitleClassDefault, html: html, title: d.title + '\n' + d.description }).appendTo($titleDiv);
+        var visual_representation = $('<div class="info-heatmap-container heat-map-carrier"></div>').appendTo(list_element_container);
+        html.forEach(function(label){
+            label.appendTo(visual_representation);
+        });
+
+        // buttons sectionh
+        var $buttonsDiv = $("<div></div>").appendTo($li).addClass(liButtonsContainerClass);
+
+        /**
+         * Modified by Jorch
+         * Adding traffic light in the connection list to indicate the labeling process
+
+         var trafic_ligth = 'yellow-circle';
+         switch (d.title) {
+            case 'Botnet': trafic_ligth = 'red-circle'; break;
+            case 'Normal': trafic_ligth = 'green-circle'; break;
+            default: break;
+        }
+         $("<span>",{'urank-span-id': d.id}).appendTo($buttonsDiv).addClass(faviconDefaultClass+' '+trafic_ligth+' '+'traffic-ligth');*/
+
+        $("<span style='margin-left: 8px'>").appendTo($buttonsDiv).addClass(watchiconClass+' '+watchiconDefaultClass+' '+watchiconOffClass);
+        //$("<span style='margin-left: -8px'>").appendTo($buttonsDiv).addClass(faviconClass+' '+faviconDefaultClass+' '+faviconOffClass);
+
+        $('.heat-map-carrier').css('color','transparent');
+        $('#connection-list > li:nth-child(1) > div.urank-list-li-title-container > div > div:nth-child(2)').css('color','black');
+
+        // Subtle animation
+        $li.animate({'top': 5}, {
+            'complete': function(){
+                $(this).animate({'top': ''}, (i+1)*100, 'swing', function(){
+                    bindEventHandlers($li, d.id);
+                });
+            }
+        });
+
+        //Format title
+        var formattedTitle = (d.title.length > 60) ? (d.title.substring(0, 56) + '...') : d.title + '';
+        formattedTitle = (_this.selectedKeywords.length == 0) ? formattedTitle : getStyledText(formattedTitle, _this.selectedKeywords, colorScale);
+        $('.'+liClass+'['+urankIdAttr+'="'+d.id+'"]').find('.'+liTitleClass).html(formattedTitle);
+    }
+
     var buildDefaultList = function(index_flag) {
         $root.empty().addClass(hiddenScrollbarClass);
         $scrollable = $('<div></div>').appendTo($root)
@@ -540,7 +640,7 @@ var ContentList = (function(){
             .on('scroll', onScroll);
 
         $ul = $('<ul id="connection-list"></ul>').appendTo($scrollable).addClass(ulClass +' '+ ulClassDefault);
-        _this.data.forEach(function(d, i){
+        /*_this.data.forEach(function(d, i){
             var cluster = d.cluster;
             var cluster_class = '';
             switch (cluster){
@@ -564,10 +664,10 @@ var ContentList = (function(){
             $("<div></div>").appendTo($rankingDiv).addClass(rankingPosClass);
             $("<div></div>").appendTo($rankingDiv).addClass(rankingPosMovedClass)
 
-            /**
+            *//**
              * Modified by Jorch
              * Adding traffic light in the connection list to indicate the labeling process
-             */
+             *//*
             var trafic_ligth = 'yellow-circle';
             switch (d.title) {
                 case 'Botnet': trafic_ligth = 'red-circle'; break;
@@ -614,7 +714,7 @@ var ContentList = (function(){
             // buttons sectionh
             var $buttonsDiv = $("<div></div>").appendTo($li).addClass(liButtonsContainerClass);
 
-            /**
+            *//**
              * Modified by Jorch
              * Adding traffic light in the connection list to indicate the labeling process
 
@@ -624,7 +724,7 @@ var ContentList = (function(){
                 case 'Normal': trafic_ligth = 'green-circle'; break;
                 default: break;
             }
-             $("<span>",{'urank-span-id': d.id}).appendTo($buttonsDiv).addClass(faviconDefaultClass+' '+trafic_ligth+' '+'traffic-ligth');*/
+             $("<span>",{'urank-span-id': d.id}).appendTo($buttonsDiv).addClass(faviconDefaultClass+' '+trafic_ligth+' '+'traffic-ligth');*//*
 
             $("<span style='margin-left: 8px'>").appendTo($buttonsDiv).addClass(watchiconClass+' '+watchiconDefaultClass+' '+watchiconOffClass);
             //$("<span style='margin-left: -8px'>").appendTo($buttonsDiv).addClass(faviconClass+' '+faviconDefaultClass+' '+faviconOffClass);
@@ -646,7 +746,7 @@ var ContentList = (function(){
             formattedTitle = (_this.selectedKeywords.length == 0) ? formattedTitle : getStyledText(formattedTitle, _this.selectedKeywords, colorScale);
             $('.'+liClass+'['+urankIdAttr+'="'+d.id+'"]').find('.'+liTitleClass).html(formattedTitle);
 
-        });
+        });*/
 
     };
 
@@ -669,6 +769,9 @@ var ContentList = (function(){
 
         //formatTitles();
         //updateLiBackground();
+    };
+    var _buildOneElement = function(connection,index){
+        buildList(connection,index)
     };
 
 
@@ -962,6 +1065,7 @@ var ContentList = (function(){
     // Prototype
     ContentList.prototype = {
         build: _build,
+        buildOneElement: _buildOneElement,
         reset: _reset,
         update: _update,
         hover: _hover,
@@ -981,7 +1085,8 @@ var ContentList = (function(){
         scrollTo: _scrollTo,
         getListHeight: _getListHeight,
         orderedList: _orderedList,
-        selectOneListItem: _selectOneListItem
+        selectOneListItem: _selectOneListItem,
+        createHeatmapRepresentation: createHeatmapRepresentation
     };
 
     return ContentList;
