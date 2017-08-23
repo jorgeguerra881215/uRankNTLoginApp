@@ -117,7 +117,10 @@ var enterLog = function(value){
     //var scriptURL = "http://itic.uncu.edu.ar/hadoop/uRankNTLoginApp/server/log.php";
         date = new Date(),
         timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
-        urankState = urankState = $('#username').html()+',' + timestamp+','+value,
+        userName = $('#username').html(),
+        userToken = $('#usertoken').html(),
+        sessionId = $('#sessionid').html(),
+        urankState = sessionId + ',' + userName +',' + userToken + ',' + timestamp+','+value + ', full app',
         gf = [{ filename: 'urank_labeled_' + timestamp + '.txt', content: urankState }];//JSON.stringify(urankState)
 
     $.generateFile({ filename: "bookmarks.json", content: urankState, script: scriptURL });
@@ -1064,7 +1067,7 @@ var enterLog = function(value){
                 userName = $('#username').html(),
                 userToken = $('#usertoken').html(),
                 sessionId = $('#sessionid').html(),
-                urankState = sessionId + ',' + userName +',' + userToken + ',' + timestamp+','+value,
+                urankState = sessionId + ',' + userName +',' + userToken + ',' + timestamp+','+value + ', full app',
                 gf = [{ filename: 'urank_labeled_' + timestamp + '.txt', content: urankState }];//JSON.stringify(urankState)
 
             $.generateFile({ filename: "bookmarks.json", content: urankState, script: scriptURL });
