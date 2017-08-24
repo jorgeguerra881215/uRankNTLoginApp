@@ -2243,10 +2243,12 @@
 
 		.icon.style1:before {
 			color: #c3e895;
+            /*color: #000000;*/
 		}
 
 		.icon.style2:before {
 			color: #8addaa;
+            /*color: gray;*/
 		}
 
 		.icon.style3:before {
