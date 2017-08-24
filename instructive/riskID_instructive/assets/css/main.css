@@ -2252,11 +2252,11 @@
 		}
 
 		.icon.style3:before {
-			color: #6bd4c8;
+			color: #ffb327 /*#6bd4c8;*/
 		}
 
 		.icon.style4:before {
-			color: #57aed3;
+			color: #ffd589 /*#57aed3;*/
 		}
 
 		.icon.style5:before {
