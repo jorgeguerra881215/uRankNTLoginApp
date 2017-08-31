@@ -114,7 +114,7 @@ var Urank = (function(){
 
 var enterLog = function(value){
     //var scriptURL = "http://localhost/riskID/server/log.php",
-    var scriptURL = "http://itic.uncu.edu.ar/riskID/app/server/log.php",
+    var scriptURL = "http://192.168.1.49/riskID/app/server/log.php",//"http://itic.uncu.edu.ar/riskID/app/server/log.php",
         date = new Date(),
         timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
         userName = $('#username').html(),
