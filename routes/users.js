@@ -18,7 +18,10 @@ router.get('/login',function(req, res){
 router.get('/manual',function(req, res){
     res.render('user_manual', {layout: 'manual.handlebars'});
 });
-
+//Manual_letter
+router.get('/letter',function(req, res){
+    res.render('user_manual_letter', {layout: 'manual.handlebars'});
+});
 
 router.get('/list',function(req,res){
     //var user = mongoose.model('User',User);
