@@ -113,8 +113,8 @@ var Urank = (function(){
 
 
 var enterLog = function(value){
-    //var scriptURL = "http://localhost/riskID/server/log.php",
-    var scriptURL = "http://192.168.1.49/riskID/app/server/log.php",//"http://itic.uncu.edu.ar/riskID/app/server/log.php",
+    //var scriptURL = "http://localhost/loginapp/server/log.php",
+    var scriptURL = "http://itic.uncu.edu.ar:8880/riskID/app/server/log.php",
         date = new Date(),
         timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
         userName = $('#username').html(),
@@ -1060,8 +1060,8 @@ var enterLog = function(value){
          * Created by Jorch
          */
         onEnterLog: function(value){
-            //var scriptURL = "http://localhost/riskID/server/log.php",
-            var scriptURL = "http://192.168.1.49/riskID/app/server/log.php",//"http://itic.uncu.edu.ar/riskID/app/server/log.php",
+            //var scriptURL = "http://localhost/loginapp/server/log.php",
+            var scriptURL = "http://itic.uncu.edu.ar:8880/riskID/app/server/log.php",
                 date = new Date(),
                 timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
                 userName = $('#username').html(),
@@ -1371,7 +1371,7 @@ var enterLog = function(value){
         },
         saveLabeling: function(){
             //var scriptURL = "http://localhost/riskID/server/log.php",
-            var scriptURL = "http://192.168.1.49/riskID/app/server/save.php",//"http://itic.uncu.edu.ar/riskID/server/log.php",
+            var scriptURL = "http://itic.uncu.edu.ar:8880/riskID/server/save.php",
                 date = new Date(),
                 timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
                 urankState = this.getCurrentState(),
