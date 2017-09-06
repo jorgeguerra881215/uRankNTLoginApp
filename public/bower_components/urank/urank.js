@@ -1165,7 +1165,7 @@ var enterLog = function(value){
             $("#dialog-seguence").html(main_div);
             $("#dialog-seguence").dialog( "open" );
 
-            enterLog('Show Sequence Connection');
+            enterLog('Show Sequence Connection,0');
 
             s.onShowSequence.call(this);
         },
