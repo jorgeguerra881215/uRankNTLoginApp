@@ -5,10 +5,10 @@
             <span class="icon major fa-user"></span>
             <h1>Hi, Welcome to <strong>RiskID</strong>, <br />
                 a visual analytics tool to assist <br />
-                research in labeling connections process.<br />
+                researchers in process of labelling datasets.<br />
             </h1>
             <p>This tutorial will guide you through the application <br />
-                and show you the task to complete.</p>
+                and show you the different tasks to be completed.</p>
             <ul class="actions">
                 <li><a href="#one" class="button scrolly">Lets Start</a></li>
             </ul>
@@ -23,10 +23,13 @@
                         <h2>RiskID application<br />
                         </h2>
                     </header>
-                    <p>RiskID is a visual analytics tool that combines visualization
-                        with clustering techniques to assist the user in the process
-                        of labeling connections. The connection behavioral used was created by <a href="https://stratosphereips.org/">Stratosphere Intrusion Prevention
-                            System (IPS)</a>. For more information visit <a href="/users/letter">this explanation site</a></p>.
+                    <p>RiskID is a visual analytics tool that combines visualization components
+			with clustering analysis techniques to assist the user
+			in the process of labeling network traffic connections for generating high
+			quality dataset. RiskID relies on the concept of behavioral models and the
+			letter representation models developed as part of the 
+			<a href="https://stratosphereips.org/">Stratosphere Intrusion Prevention
+                            System (IPS)</a>. For more information about the letter representation model visit <a href="/users/letter"> the following explanation section </a></p>.
 
                 </div>
                 <div class="6u$ 12u$(medium) important(medium)" style="width: 100%">
@@ -51,28 +54,32 @@
                 </div>
                 <div class="6u$ 12u$(medium)">
                     <header class="major">
-                        <h2>Main Visual Component<br />
+                        <h2>Main Visual Components<br />
                         </h2>
                     </header>
                     <p>
-                        Connection List to shows the connections grouped according with their encoding behavior similarity.
-                        Filter options to customize the list of connections.
+                        A Connection List to show the connections grouped according with their encoding behavior similarity.
+                        Several filtering options to customize the output.
                     </p>
                     <p>
-                        Traffic light metaphor to represent current connection label: red circle means ”Botnet”, green circle means ”Normal” and yellow circle means ”Unlabeled”.
+                        A Traffic light metaphor to represent current connection label: red circle means ”Botnet”, green circle means ”Normal” and yellow circle means ”Unlabeled”.
                     </p>
                     <p>
-                        A Heatmap to easily recognize the predominant features of each connection and relate connections with similar features.
+                        A Heatmap to easily recognize the predominant features from each connection and those related connections with similar features.
                     </p>
                     <p>
-                        Bar chart to describing the frequency of occurrence of the different letters from the behavioral encoding and Pie chart of periodicity feature distribution.
+                        Charts to describe the frequency of occurrence of the different letters from the behavioral encoding and the periodicity feature distribution.
                     </p>
                     <header class="major">
-                        <h2>Both features: Prediction Bars and Order by Similarity with Connection Selected<br />
+                        <h2>Main features: Label Probability and Ordering by Similarity with the selected Connection <br />
                         </h2>
                     </header>
                     <p>
-                        Prediction bar to suggest label probability to unlabeled connections. Reorder connection list when an unlabeled connection is selected.
+                        A bar for suggesting the label probability for unlabeled connections. 
+                    </p>
+
+                    <p>
+                        Reordering the connection list when an unlabeled connection is selected. Reordering is done by similarity with the selected connection.
                     </p>
                 </div>
             </div>
@@ -84,7 +91,7 @@
             <header class="major">
                 <h2>Task Description</h2>
             </header>
-            <p>The main purpose in RiskID is assisting the labeling of unlabeled connections to finally result in a labeled dataset. In this study, we evaluate the utility of visual tools in RiskID to ease looking for Botnet and Normal behaviors. In this way, the task to realize consist in labeling, as much as possible, the unlabeled connections inside a semi labeled dataset. For better user experience use <a href="https://www.google.com/chrome/browser/features.html?brand=CHBD&gclid=Cj0KCQjwoZTNBRCWARIsAOMZHmEHLz9qlBclgpBVXJp1W6-qYxeqU_tWBbLzP2xN4TzNieNJOehVfFQaApMZEALw_wcB&dclid=CKyz4PL1_NUCFQ8RkQodQmMAGQ"><b>Google Chrome</b></a> like web browser</p>
+            <p>The main purpose behind RiskID is assisting in the labeling process of aggregated connections to generate valuable labeled datasets. In this study, we evaluate the the potential of the visual tools inside RiskID for labeling only between Botnet and Normal behaviors. In particular, the required task consists of labeling as much as possible of the unlabeled connections inside a partially labeled dataset. For a better user experience use <a href="https://www.google.com/chrome/browser/features.html?brand=CHBD&gclid=Cj0KCQjwoZTNBRCWARIsAOMZHmEHLz9qlBclgpBVXJp1W6-qYxeqU_tWBbLzP2xN4TzNieNJOehVfFQaApMZEALw_wcB&dclid=CKyz4PL1_NUCFQ8RkQodQmMAGQ"><b>Google Chrome</b></a> like your web browser</p>
             <div class="row 150%">
                 <div>
 							<span class="image fit">
@@ -101,9 +108,12 @@
                             </span>
                     <h3>Simple Video Tutorial</h3>
                     <p>
-                        To use RiskID is necessary to create an account and being logging.
-                        When you select an unlabeled connection from connection list the connection detail section display more information for this connection and get you the possibility of selecting a label for it.
-                        Once you finish the labeling task you can export the resultant dataset.
+			To use RiskID is necessary to create an account and log
+in to it. Then, every time you select an unlabeled connection from the connection
+list, the connection detail section will display more information for this particular
+connection and let you assign a label for it. Once you've
+finished the labeling task you can export the resulting dataset and use it for your own purposes.
+>>>>>>> 58f496bf35edd240e76264052c59f1ba9446191c
                     </p>
                 </div>
             </div>
@@ -125,7 +135,7 @@
     <!-- Footer -->
     <section id="footer">
         <ul class="copyright">
-            <li>&copy; ITIC UNCuyo</li>
+            <li>&copy; UNCuyo</li>
         </ul>
     </section>
 

@@ -4,16 +4,18 @@
             <div class="row 150%">
                 <div class="6u 12u$(medium)">
                     <header class="major">
-                        <h2>Network behavior codification<br />
+                        <h2>Network flows codification strategy<br />
                         </h2>
                     </header>
-                    <p>
-                        This project uses the encoding network behavior proposed by <a href="https://stratosphereips.org/"><strong>Stratosphere Intrusion Prevention
-                        System (IPS)</strong></a>.
-                        Stratosphere IPS to encode the behavior of a connection, starts by aggregating the flows according to a 4-tuple composed of:
-                        the source IP address, the destination IP address, the destination port and the protocol. All the flows that match a tuple are
-                        aggregated to gether and compose a Stratosphere connection. From a traffic capture several of these Stratosphere connections are
-                        created.
+		    <p> RiskID uses an encoding strategy for representing the
+			network behavior that was first  proposed by <a
+href="https://stratosphereips.org/"><strong>Stratosphere Intrusion Prevention
+System (IPS)</strong></a>. The strategy consists of aggregating the flows
+according to a 4-tuple composed of: source and   destination IP addresses,
+destination port and protocol. All the flows matching a given tuple are
+aggregated together to compose the so called <em>Stratosphere connection</em>. A
+<em>Stratosphere connection</em> provides us with information about the interaction of  particular client
+with a specific service. From a traffic capture several of these Stratosphere connections are created
                     </p>
 
                 </div>
@@ -23,23 +25,28 @@
             </div>
             <div class="row 150%">
                 <p>
-                    The behavior of a connection is computed as follows:
+                    A Stratosphere connection is computed as follows:
                 </p>
                 <ul>
-                    <li>Extract three features of each flow: size, duration and
+                    <li>Calculate three features for each flow: size, duration and
                         periodicity.</li>
-                    <li>Assign to each flow a state symbol according to the
-                        features extracted.</li>
-                    <li>After the assignment, each connection has its own string
-                        of symbols that represents its behavior in the network.</li>
+                    <li>Depending on the values for the three considered features, assign to each flow a state symbol according to the above table. </li>
+		    <li>Assign also a special symbol for the time difference between flows.
                 </ul>
                 <p>
-                    Finally connection behavior encoding for all the flows in a Stratosphere connection
-                    look like this:
+
+                    After the assignment, each <em>Stratosphere connection</em> will end with an string
+                    of symbols representing the behavior of a given user to a given service in the network. 
+		    We usually refers to this letter representation as the behavioral model of a Stratosphere connection.
+ 
+                    Example:
                 </p>
                 <h3>
                     <strong>2.4.R*R.R.R*a*b*a*a*b*b*a*R.R*R.R*a*a*b*a*a*a*a*</strong>
                 </h3>
+		<p>
+
+		</p>
             </div>
         </div>
     </section>
