@@ -239,7 +239,13 @@ var ContentList = (function(){
         });
     };
 
-
+    var animateOrderedList = function(){
+        var ul = $('ul#connection-list');
+        var duration = 1500;
+        var easing = 'swing';
+        ul.animate({opacity: "0.1"}, duration, easing);
+        ul.animate({opacity: "1"}, duration, easing);
+    }
 
     var animateResortEffect = function() {
         var duration = 1500;
@@ -249,7 +255,7 @@ var ContentList = (function(){
         var listTop = $ul.position().top;
 
         _this.data.forEach(function(d, i){
-            if(d.rankingPos > 0) {
+            //if(d.rankingPos > 0) {
                 //var $item = $(liItem +''+ d.id);
                 var $item = $('.'+liClass+'['+urankIdAttr+'="'+d.id+'"]');
                 var itemTop = $item.position().top;
@@ -260,7 +266,7 @@ var ContentList = (function(){
                 $item.animate({"top": '+=' + shift+'px'}, duration, easing);
 
                 acumHeight += $item.fullHeight();
-            }
+            //}
         });
     };
 
@@ -1038,7 +1044,7 @@ var ContentList = (function(){
             dict_li[key] = li_s[i];
             //ul.remove(li_s[i]);
          }
-         ul.html('');
+        ul.html('');
         var element_top = 185;
         data.forEach(function(item,i){
             var connection_index = item.viewIndex;
@@ -1049,7 +1055,9 @@ var ContentList = (function(){
                 new_li.style['margin-bottom'] = '10px';
             }*/
             ul.append(new_li);
+
         });
+
         $('ul#connection-list li').each(function(item){
             var li = $(this);
             var id = li.attr('urank-id');
@@ -1085,6 +1093,7 @@ var ContentList = (function(){
         scrollTo: _scrollTo,
         getListHeight: _getListHeight,
         orderedList: _orderedList,
+        orderVisualEfect: animateOrderedList,
         selectOneListItem: _selectOneListItem,
         createHeatmapRepresentation: createHeatmapRepresentation
     };

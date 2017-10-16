@@ -868,7 +868,9 @@ var enterLog = function(value){
                 //var new_list = getDataOrdered(_this.data,connection);
                 var new_list = climbUpConnection(_this.data,connection);
                 var count_of_selected_items = connection_id.length;
+                contentList.orderVisualEfect();
                 contentList.orderedList(new_list, count_of_selected_items);
+
                 contentList.selectMultipleListItem(connection_id);
                 $('body > div.main-panel > div.central-panel > div.vis-panel').scrollTop(0,0);
 
