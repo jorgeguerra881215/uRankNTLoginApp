@@ -14,7 +14,7 @@
     display: block;
     color: #ffffff;/*#555555;*/
     text-align: center;
-    padding: 14px 16px;
+    padding: 8px 16px;
     text-decoration: none;
 }
 
@@ -23,7 +23,13 @@
     background-color: #111;/*#E7E7E7;*/
 }
 
-
+#close-session-link{
+    background: -webkit-linear-gradient(top, #eee, #ccc);
+    margin: 1px;
+    /*color: rgb(102, 102, 102);*/
+    color: darkred;
+    border-radius: 0.5em;
+}
 /*.navbar-static-top {
     margin-bottom: 19px;
 }
