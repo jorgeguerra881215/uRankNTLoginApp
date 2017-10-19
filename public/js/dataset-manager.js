@@ -7,7 +7,7 @@ function datasetManager(){
             //description: 'Connections 22',
             //file: 'dataset_ctu13.json'
             description: 'CTU-13 Dataset',
-            file: 'dataset_test_6.json'
+            file: 'dataset_test.json'
         }/*,
         DS_Ro: {
             description: 'Connections 87',
