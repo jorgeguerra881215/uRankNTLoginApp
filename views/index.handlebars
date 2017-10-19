@@ -7,7 +7,7 @@
                         RiskID
                         <span id="username" style="display: none">{{user.name}}</span>
                         <span id="usertoken" style="display: none">{{user.token}}</span></a></li>
-                    <li role="presentation"><a href="/users/logout">Logout <span id="sessionid" style="display: none">{{sessionId}}</span></a></li>
+                    <li role="presentation"><a id="close-session-link" href="/users/logout">End Task and Close Session <span id="sessionid" style="display: none">{{sessionId}}</span></a></li>
                 {{else}}
                     <li role="presentation"><a href="/users/login">Login</a></li>
                     <li role="presentation"><a href="/users/register">Register</a></li>
