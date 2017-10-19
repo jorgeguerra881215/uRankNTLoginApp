@@ -1202,6 +1202,17 @@ var enterLog = function(value){
         onUpdateTagsCloud: function(stf_value,pattern_value,length_value,order_by_periodicity,options){
             var o = $.extend(true, defaultLoadOptions, options || {});
             tagCloud.build(_this.keywords, _this.data, _this.tagColorScale, o.tagCloud, _this.keywordsDict,stf_value,pattern_value,length_value,order_by_periodicity);
+        },
+
+        onUpdateLabelDictionary: function (id_connection, new_label) {
+            Object.keys(labels_id).forEach(function(currentKey) {
+                var index = labels_id[currentKey].indexOf(id_connection);
+                if (index > -1) {
+                    labels_id[currentKey].splice(index, 1);
+                }
+            });
+            labels_id[new_label]
+            new_label in labels_id ? labels_id[new_label].push(id_connection) : labels_id[new_label] = [id_connection]
         }
     };
 
@@ -1406,6 +1417,7 @@ var enterLog = function(value){
         getSimilarConnectionsById: MISC.getSimilarConnectionsById,
         selectMultipleListItem: MISC.selectMultipleListItem,
         updateTagsCloud: EVTHANDLER.onUpdateTagsCloud,
+        updateLabelDictionary: EVTHANDLER.onUpdateLabelDictionary,
         onTagDropped:EVTHANDLER.onTagDropped,
         onChange:EVTHANDLER.onChange,
         onDeselectItem:EVTHANDLER.onDeselectItem,
