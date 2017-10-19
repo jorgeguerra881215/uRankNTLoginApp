@@ -160,6 +160,7 @@ var DocViewer = (function(){
         $('span#label-'+document_id).html('Normal');
 
         keepElementFocus();
+        urank.updateLabelDictionary(document_id, label = 'Normal');
         saveLabel(document_id,event);
     }
 
