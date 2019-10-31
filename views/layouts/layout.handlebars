@@ -102,6 +102,7 @@
         });
         $( "#dialog-seguence" ).dialog({
             autoOpen: false,
+            minWidth: 400,
             show: {
                 effect: "blind",
                 duration: 100
@@ -116,12 +117,6 @@
             urank.enterLog('Show Characteristic Legend,0');
             $( "#dialog" ).dialog( "open" );
         });
-        /*$("#btn-test").on( "click", function() {
-            console.log('entro');
-            var connection = $(this).attr('sequence');
-            $("#dialog-seguence").html('<p>'+connection+'</p>');
-            $("#dialog-seguence").dialog( "open" );
-        });*/
     } );
 </script>
 

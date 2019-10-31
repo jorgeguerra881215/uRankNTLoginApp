@@ -38,6 +38,38 @@ var ContentList = (function(){
         liClassDefault = liClass + '-default',
         liTitleClassDefault = liTitleClass + '-default';
 
+    // sequence color codification
+    var color_seq_codification = {
+            '1': '#FF00F5FF','2': '#FF00D6FF',
+            '3': '#FF00B8FF','4': '#FF0099FF',
+            '5': '#FF007AFF','6': '#FF005CFF',
+            '7': '#FF003DFF','8': '#FF001FFF',
+            '9': '#FF7A00FF',
+
+            'a': '#FF0000FF','A': '#FF1F00FF',
+            'b': '#FF3D00FF','B': '#FF5C00FF',
+            'c': '#FF9900FF','C': '#FFB800FF',
+            'd': '#FFD600FF','D': '#FFF500FF',
+            'e': '#EBFF00FF','E': '#CCFF00FF',
+            'f': '#ADFF00FF','F': '#8FFF00FF',
+            'g': '#70FF00FF','G': '#52FF00FF',
+            'h': '#33FF00FF','H': '#14FF00FF',
+            'i': '#00FF0AFF','I': '#00FF29FF',
+            'r': '#00FF47FF','R': '#00FF66FF',
+            's': '#00FF85FF','S': '#00FFA3FF',
+            't': '#00FFC2FF','T': '#00FFE0FF',
+            'u': '#00FFFFFF','U': '#00E0FFFF',
+            'v': '#00C2FFFF','V': '#00A3FFFF',
+            'w': '#0085FFFF','W': '#0066FFFF',
+            'x': '#0047FFFF','X': '#0029FFFF',
+            'y': '#000AFFFF','Y': '#1400FFFF',
+            'z': '#3300FFFF','Z': '#5200FFFF',
+
+            '.': '#FFECD4',',': '#E4BB87',
+            '+': '#B17D3B','*': '#85500E',
+            '0': '#532E00'
+        };
+
     // Ids
     var liItem = '#urank-list-li-';
 
@@ -93,7 +125,7 @@ var ContentList = (function(){
             event.stopPropagation(); s.onWatchiconClicked.call(this, event.data);
         };
         var onFaviconClick = function(event){
-            /*event.stopPropagation(); s.onFaviconClicked.call(this, event.data);*/
+            event.stopPropagation(); s.onFaviconClicked.call(this, event.data);
         };
 
         $li.off({
@@ -370,6 +402,22 @@ var ContentList = (function(){
         return sequence*/
     }
 
+    var createSequenceRepresentation = function(sequence, count_sequence){
+        var result = [];
+        /**
+           Display only the first "count_sequence" character of each sequence
+         */
+        for(var i = 0; i < sequence.length && i < count_sequence; i++){
+            var current_letter = sequence[i];
+            var current_color = color_seq_codification[current_letter];
+            var current_label_element = $('<label id="representation-snp" class="connection-characteristic">.</label>');
+            //var current_label_element = $('<div id="representation-snp" class="connection-characteristic"></div>');
+            current_label_element.css('background',current_color);
+            result[i] = current_label_element;
+        }
+        return result;
+    }
+
     var createHeatmapRepresentation = function(vector_feature){
         var vector = vector_feature.split(',')
         var snp_v = parseFloat(vector[0])
@@ -590,7 +638,14 @@ var ContentList = (function(){
         // title section
         var $titleDiv = $("<div></div>").appendTo($li).addClass(liTitleContainerClass);
         //var secuence = d.description//createSequence(d);
-        var html = createHeatmapRepresentation(d.characteristicVector)//createVisualRepresentation(secuence);
+        /**
+         * Modified by Jorch
+         * Switch between Heatmap and Color sequence representation.
+         */
+        //var html = createHeatmapRepresentation(d.characteristicVector)
+        var html = d.description.length > 150 ? createSequenceRepresentation(d.description,150): createSequenceRepresentation(d.description,d.description.length)
+
+
         var index = 0;
         var value = 0;
         index = i+1 < 10 ? (i+1)+'-&nbsp;&nbsp;&nbsp;&nbsp;' : (i+1)+'-';
@@ -603,26 +658,14 @@ var ContentList = (function(){
             label.appendTo(visual_representation);
         });
 
-        // buttons sectionh
+        // buttons section
         var $buttonsDiv = $("<div></div>").appendTo($li).addClass(liButtonsContainerClass);
-
-        /**
-         * Modified by Jorch
-         * Adding traffic light in the connection list to indicate the labeling process
-
-         var trafic_ligth = 'yellow-circle';
-         switch (d.title) {
-            case 'Botnet': trafic_ligth = 'red-circle'; break;
-            case 'Normal': trafic_ligth = 'green-circle'; break;
-            default: break;
-        }
-         $("<span>",{'urank-span-id': d.id}).appendTo($buttonsDiv).addClass(faviconDefaultClass+' '+trafic_ligth+' '+'traffic-ligth');*/
-
         $("<span style='margin-left: 8px'>").appendTo($buttonsDiv).addClass(watchiconClass+' '+watchiconDefaultClass+' '+watchiconOffClass);
-        //$("<span style='margin-left: -8px'>").appendTo($buttonsDiv).addClass(faviconClass+' '+faviconDefaultClass+' '+faviconOffClass);
+        //Only display More_Button if the sequence is largest than 150 characters.
+        d.description.length > 150 ? $("<span style='margin-left: -8px' seq = '"+d.description+"'>").appendTo($buttonsDiv).addClass(faviconClass+' '+faviconDefaultClass+' '+faviconOffClass): null;
 
         $('.heat-map-carrier').css('color','transparent');
-        $('#connection-list > li:nth-child(1) > div.urank-list-li-title-container > div > div:nth-child(2)').css('color','black');
+        //$('#connection-list > li:nth-child(1) > div.urank-list-li-title-container > div > div:nth-child(2)').css('color','black');
 
         // Subtle animation
         $li.animate({'top': 5}, {
@@ -947,7 +990,18 @@ var ContentList = (function(){
         var classToRemove = classToAdd === faviconOnClass ? faviconOffClass : faviconOnClass;
         favIcon.switchClass(classToRemove, classToAdd);
     };
-
+    var _onFavicon = function(sequence){
+        var dialog_html = ''
+        for(var i = 0; i < sequence.length; i++){
+            var current_letter = sequence[i];
+            var current_color = color_seq_codification[current_letter];
+            var current_label_element = i>0 && i%100 == 0 ? '<label class="connection-characteristic" style="background:'+current_color+' ">.</label></br></br>' :
+                                                     '<label class="connection-characteristic" style="background:'+current_color+' ">.</label>';
+            dialog_html = dialog_html + current_label_element;
+        }
+        $("#dialog-seguence").html('<div style="color: transparent">'+dialog_html+'</div>');
+        $("#dialog-seguence").dialog("open");
+    };
 
     var _toggleWatchListItem = function(id){
         var $li = $('.'+liClass+'['+urankIdAttr+'="'+id+'"]');
@@ -1085,6 +1139,7 @@ var ContentList = (function(){
         highlightListItems: _highlightListItems,
         clearAllFavicons: _clearAllFavicons,
         toggleFavicon: _toggleFavicon,
+        onFavicon: _onFavicon,
         toggleWatchListItem: _toggleWatchListItem,
         onWatchListItem:_onWatchListItem,
         offWatchListItem:_offWatchListItem,

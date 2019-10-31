@@ -593,7 +593,7 @@ label.characteristic{
     opacity: 0.5;
 }
 
-.urank-list-li .urank-list-li-button-favicon-off,
+/*.urank-list-li .urank-list-li-button-favicon-off,*/
 .urank-list-li .urank-list-li-button-watchicon-off {
     display: none;
 }
@@ -685,9 +685,9 @@ label.characteristic{
 }
 
 .connection-characteristic{
-    /*color: transparent;*/
-    padding: 5px;
-    border-right:1px solid #ffffff
+    /*color: transparent;
+    padding: 5px;*/
+    border-right:0.2px solid #ffffff;
 }
 .legend-color-transparent{
     color: transparent;

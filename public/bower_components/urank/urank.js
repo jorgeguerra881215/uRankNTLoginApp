@@ -959,13 +959,15 @@ var enterLog = function(value){
         },
 
         onFaviconClicked: function(documentId){
-            contentList.toggleFavicon(documentId);
+            //contentList.toggleFavicon(documentId);
+            var current_connection = _this.rankingModel.getDocumentById(documentId)
+            contentList.onFavicon(current_connection.description)
             s.onFaviconClicked.call(this, documentId);
 
             /**
              * Modified by Jorch
              * @type {{name: string, score: number}}
-             */
+
             var scriptURL = '/server/save.php',
              date = new Date(),
              timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
@@ -980,6 +982,7 @@ var enterLog = function(value){
             };
             var content  = JSON.stringify(obj);
             $.generateFile({ filename: "bookmarks.json", content: content, script: '/server/save.php' });
+             */
         },
 
         onWatchiconClicked: function(documentId) {
@@ -1147,17 +1150,17 @@ var enterLog = function(value){
 
         onShowSequence: function(event){
             if(event) event.stopPropagation();
-            $("#dialog-seguence").html('')
-            var main_div = $('<div></div>')
-            var seq_element = ''
-            //var class_label = 'unlabelled'
+            $("#dialog-seguence").html('');
+            var main_div = $('<div></div>');
+            var seq_element = '';
+            //var class_label = 'unlabelled';
             Object.keys(_this.connection_selected).forEach(function(key){
-                var seq = _this.connection_selected[key].description
-                var index = _this.connection_selected[key].index + 1
-                var current_label = _this.connection_selected[key].title
-                var class_label = current_label.toLowerCase()
-                seq_element = '<div style="margin: 5px;"><div><label class="urank-docviewer-attributes urank-docviewer-details-label '+ class_label +'" ><span>'+ index + ' | ' + current_label +'</span></label></div><div><p style="font-size: 1em">'+ seq +'</p></div></div>'
-                main_div.append(seq_element)
+                var seq = _this.connection_selected[key].description;
+                var index = _this.connection_selected[key].index + 1;
+                var current_label = _this.connection_selected[key].title;
+                var class_label = current_label.toLowerCase();
+                seq_element = '<div style="margin: 5px;"><div><label class="urank-docviewer-attributes urank-docviewer-details-label '+ class_label +'" ><span>'+ index + ' | ' + current_label +'</span></label></div><div><p style="font-size: 1em">'+ seq +'</p></div></div>';
+                main_div.append(seq_element);
             })
 
 /*
@@ -1175,7 +1178,7 @@ var enterLog = function(value){
         onCloseConnections: function(event){
             if(event) event.stopPropagation();
             Object.keys(_this.connection_selected).forEach(function(key){
-                var id = _this.connection_selected[key].id
+                var id = _this.connection_selected[key].id;
                 $("#btn-close-connection-"+id).trigger('click');
             })
             //s.onCloseConnections.call(this);
