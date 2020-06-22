@@ -6,22 +6,15 @@ RiskID is a web application designed to generate fully labeled connection datase
 ### Prerequisites 📋
 For a correct operation of RiskID, you should have the following:
  - An Ubuntu 16.04 (or high) server and a regular, non-root user with sudo privileges.
- - An Apache2 web server
  - A MongoDB database server
  - A NodeJS cross-platform JavaScript run-time environment
 
 If you do not have any of these tools installed, follow these steps for easy installation. (This simple guide was developed using an Ubuntu 18.04 operating system)
 
-Installing Apache Web Server
-Update your local package index:
+First update your local package index:
 ```
 $ sudo apt update
 ```
-Install the apache2 package:
-```
-$ sudo apt install apache2
-```
-
 Installing MongoDB
 Install the MongoDB package:
 ```
