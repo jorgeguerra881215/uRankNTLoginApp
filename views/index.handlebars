@@ -5,9 +5,18 @@
                 {{#if user}}
                     <li role="presentation"><a href="/">
                         RiskID
-                        <span id="username" style="display: none">{{user.name}}</span>
-                        <span id="usertoken" style="display: none">{{user.token}}</span></a></li>
+                        <span id="username">// user: {{user.username}}</span>
+                        <span id="usertoken" style="display: none">{{user.token}}</span>
+                        <span id="token" style="display: none">{{user.id}}</span></a></li>
                     <li role="presentation"><a id="close-session-link" href="/users/logout">End Task and Close Session <span id="sessionid" style="display: none">{{sessionId}}</span></a></li>
+                    <li id="li-header">
+                        <div class="header-menu" id="header-menu-1">
+                            <select id="select-dataset"></select>
+                            <input type="button" id="btn-download" value="Download" style="display: none"/>
+                            <input type="button" id="btn-save-labeled" value="Save Labeling"/>
+                            <input type="button" id="btn-show-legend" title="Connection Legend" value="Legend"/>
+                        </div>
+                    </li>
                 {{else}}
                     <li role="presentation"><a href="/users/login">Login</a></li>
                     <li role="presentation"><a href="/users/register">Register</a></li>
@@ -17,26 +26,10 @@
     </div>
 </nav>
 
-<header>                            <!-- top panel -->
-    <div class="header-menu" id="header-menu-1">
-        <select id="select-dataset"></select>
-        <select id="select-download" style="display: none">
-            <option value="2files">Keyword &amp; ranking in 2 files</option>
-            <option value="1file">All in 1 file</option>
-        </select>
-        <input type="button" id="btn-download" value="Download" style="display: none"/>
-        <input type="button" id="btn-save-labeled" value="Save Labeling"/>
-        <input type="button" id="btn-show-legend" title="Connection Legend" value="Legend"/>
-    </div>
+<script>
+window.typeOfRepresentation = "{{typeOfRepresentation}}"
+</script>
 
-    <div class="header-menu" id="header-menu-2">
-        <div id="header-filter-ip-origin"><!-- <input type="checkbox">-->
-        </div>
-        <div id="header-filter-ip-destino"></div>
-        <div id="header-filter-ip-port"></div>
-        <div id="header-filter-ip-protocol"></div>
-    </div>
-</header>
 <div id="dialog" title="Connection Legend">
     <p>
         SP => Strong Periodicity </br>
@@ -50,8 +43,52 @@
         SM => Size Medium </br>
         SL => Size Large </br>
     </p>
-</div><div id="dialog-seguence" title="Connection Sequence">
+</div>
+<div id="dialog-seguence" title="Connection Sequence">
     <p></p>
+</div>
+<div id="dialog-info-heatmap" title="Feature proportions bars">
+    <div>
+        <!-- Use this to the bar representation -->
+        <!--<label id="representation-sp" class="connection-characteristic conn-char-list" style="background: linear-gradient(to right, #ffac14 25%, white 25%);">sp</label>
+        <label id="representation-wp" class="connection-characteristic conn-char-list" style="background: linear-gradient(to right, #ffac14 25%, white 25%);">wp</label>
+        <label id="representation-wnp" class="connection-characteristic conn-char-list" style="background: linear-gradient(to right, #ffac14 25%, white 25%);">wnp</label>
+        <label id="representation-snp" class="connection-characteristic conn-char-list" style="background: linear-gradient(to right, #ffac14 25%, white 25%);">snp</label>
+        <label id="representation-dS" class="connection-characteristic conn-char-list" style="background: linear-gradient(to right, #41c59f 25%, white 25%);">ds</label>
+        <label id="representation-dM" class="connection-characteristic conn-char-list" style="background: linear-gradient(to right, #41c59f 25%, white 25%);">dm</label>
+        <label id="representation-dL" class="connection-characteristic conn-char-list" style="background: linear-gradient(to right, #41c59f 25%, white 25%);">dl</label>
+        <label id="representation-sS" class="connection-characteristic conn-char-list" style="background: linear-gradient(to right, #4167c5 25%, white 25%);">ss</label>
+        <label id="representation-sM" class="connection-characteristic conn-char-list" style="background: linear-gradient(to right, #4167c5 25%, white 25%);">sm</label>
+        <label id="representation-sL" class="connection-characteristic conn-char-list" style="background: linear-gradient(to right, #4167c5 25%, white 25%);">sl</label>-->
+
+        <!-- Use this to the heatmap representation -->
+        <label id="representation-sp" class="connection-characteristic conn-char-list" style="background: rgb(255, 213, 137);">sp</label>
+        <label id="representation-wp" class="connection-characteristic conn-char-list" style="background: rgb(255, 213, 137);">wp</label>
+        <label id="representation-wnp" class="connection-characteristic conn-char-list" style="background: rgb(255, 213, 137);">wnp</label>
+        <label id="representation-snp" class="connection-characteristic conn-char-list" style="background: rgb(255, 213, 137);">snp</label>
+        <label id="representation-dS" class="connection-characteristic conn-char-list" style="background: rgb(65, 197, 159);">ds</label>
+        <label id="representation-dM" class="connection-characteristic conn-char-list" style="background: rgb(65, 197, 159);">dm</label>
+        <label id="representation-dL" class="connection-characteristic conn-char-list" style="background: rgb(65, 197, 159);">dl</label>
+        <label id="representation-sS" class="connection-characteristic conn-char-list" style="background: rgb(65, 103, 197);">ss</label>
+        <label id="representation-sM" class="connection-characteristic conn-char-list" style="background: rgb(65, 103, 197);">sm</label>
+        <label id="representation-sL" class="connection-characteristic conn-char-list" style="background: rgb(65, 103, 197);">sl</label>
+    </div>
+    <div style="margin-top: 25px">
+        <!-- Use this to the bar representation -->
+        <!--<p>
+            Each cell represents the proportion of a feature in the connection using a color bar.<br>
+            <label style="color: orange">Orange</label> color is used to represent the periodicity feature in the connection(sp:strongly periodic, wp: weakly periodic, wnp: weakly no periodic, snp: strongly no periodic)<br>
+            <label style="color: green">Green</label> color is used to represent the duration time of each connection(ds:duration short, dm:duration medium, dl:duration large)<br>
+            <label style="color: blue">Blue</label> color is used to represent the size of the package transfered by each connection(ss: size small, sm:size medium, sl: size large)<br>
+        </p>-->
+        <!-- Use this to the heatmap representation -->
+        <p>
+            Each cell represents the proportion of a feature in the connection using a color heatmap representation: the greater the intensity of the color the greater the presence of the feature<br>
+            <label style="color: orange">Orange</label> color is used to represent the periodicity feature in the connection(sp:strongly periodic, wp: weakly periodic, wnp: weakly no periodic, snp: strongly no periodic)<br>
+            <label style="color: green">Green</label> color is used to represent the duration time of each connection(ds:duration short, dm:duration medium, dl:duration large)<br>
+            <label style="color: blue">Blue</label> color is used to represent the size of the package transfered by each connection(ss: size small, sm:size medium, sl: size large)<br>
+        </p>
+    </div>
 </div>
 <div class="main-panel">
     <div class="tagCloud-control-panel" style="display: none">

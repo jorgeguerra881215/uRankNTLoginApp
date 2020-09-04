@@ -107,7 +107,7 @@ var TagBox = (function(){
             //.off(tagBoxChangeEvent, onTagboxChanged)
             //.on(tagBoxChangeEvent, onTagboxChanged)
             //.droppable(this.droppableOptions)                       // bind droppable behavior to tag box;
-            .append('<div class="rigth"> <button id="btn-show-sequence">Show Sequences</button> <button id="btn-close-connections">Close Connections</button> </div>')
+            .append('<div class="rigth" style="margin: 5px"> <button id="btn-show-sequence">Show Sequences</button> <button id="btn-close-connections">Close Connections</button> </div>')
             .append('<p>' + STR_DROP_TAGS_HERE + '</p>');
         $('#btn-show-sequence').off().on('click', urank.onShowSequence);
         $('#btn-close-connections').off().on('click', urank.onCloseConnections);

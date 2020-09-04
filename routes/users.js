@@ -4,6 +4,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var User = require('../models/user');
+const fs = require('fs');
 
 //Register
 router.get('/register',function(req, res){

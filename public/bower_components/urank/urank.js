@@ -5,21 +5,95 @@ var Urank = (function(){
         contentList, tagCloud, tagBox, visCanvas, docViewer;
     // Color scales
     var tagColorRange = colorbrewer.Blues[TAG_CATEGORIES + 1].slice(1, TAG_CATEGORIES+1);
-  //  tagColorRange.splice(tagColorRange.indexOf("#08519c"), 1, "#2171b5");
+    // tagColorRange.splice(tagColorRange.indexOf("#08519c"), 1, "#2171b5");
     var queryTermColorRange = colorbrewer.Set2[8];
     queryTermColorRange.splice(queryTermColorRange.indexOf("#ffff33"), 1, "#ffd700");
 
     var connectionList = [];
     var connection_id = [];
 
-    //Cuatro HashTable para almacenar las conexiones y optimizar las busquedas.
+    // HashTables to save connections and optimize searchs.
     var ipInitial = {}, ipEnd = {}, connectionPort = {}, connectionProtocol = {}, labels_id = {}, ids_label = {}, list_ids = [];
-    //Cantidad de elementos seleccionados
+    // Count of element selected
     var count_selected = 0;
-    // Estructura para almacenar datos para testing
-    var testing_data = []
+    // List for testing data
+    var testing_data = [];
 
-    //   defaults
+    // to not double-train when have just trained
+    var historical_percentages = [];
+
+    // const fs = require('fs');
+
+    var generateWs = function () {
+        var wsServerConn = new WebSocket("ws://" + window.location.host + '/training/ws');
+        wsServerConn.onmessage = function(event) {
+            console.log(event)
+            if (event.data === "Training exited.") {
+                training_handler(event)
+            } else if (event.data === "Label update exited. (code 0)") {
+                label_update_handler(event)
+            }
+        }
+
+        return wsServerConn;
+    }
+
+    var wsServerConn = generateWs();
+
+    var token = $("#token").text();
+
+    var checkTrainingThreshold = function () {
+      const labelledCount = labels_id["Botnet"].length + labels_id["Normal"].length;
+      const totalCount = labelledCount + labels_id["Unlabelled"].length;
+
+      const percentLabelledRounded = Math.floor(labelledCount/totalCount*100);
+      console.log(percentLabelledRounded + "%")
+
+      // if percent labelled is multiple of 2% (i.e. of 2)
+      if (percentLabelledRounded % 2 === 0 && sessionStorage.getItem('savedPercent') != percentLabelledRounded) {
+        console.log("Reached training checkpoint.");
+        sessionStorage.setItem('savedPercent', percentLabelledRounded)
+        return true;
+      }
+
+      return false;
+
+    }
+
+    var training_handler = function(event) {
+        location.reload();
+    }
+
+    var label_update_handler = function (event) {
+        var retrainNeeded = checkTrainingThreshold();
+        if (retrainNeeded) {
+            $("<div title='Retraining'>You can now retrain to get new updated predictions.</div>").dialog(
+                {
+                    buttons: [
+                      {
+                        text: "Retrain?",
+                        click: function() {
+                            wsServerConn.send(JSON.stringify({
+                                action: "trigger-training",
+                                token: token
+                            }));
+                            $("<div title='Retraining'>Page will refresh when training is completed, please wait.</div>").dialog();
+
+                        }
+                      },
+                      {
+                          text: "Keep labelling",
+                          click: function() {
+                              $(this).dialog("close");
+                          }
+                      }
+                    ]
+                  }
+            );
+        }
+    }
+
+    // defaults
     var defaultInitOptions = {
         root: 'body',
         tagCloudRoot: '',
@@ -112,21 +186,31 @@ var Urank = (function(){
     };
 
 
-var enterLog = function(value){
-    //var scriptURL = "http://localhost/loginapp/server/log.php",
-    var scriptURL = "http://itic.uncu.edu.ar:8880/riskID/app/server/log.php",
-        date = new Date(),
-        timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
-        userName = $('#username').html(),
-        userToken = $('#usertoken').html(),
-        sessionId = $('#sessionid').html(),
-        urankState = sessionId + ',' + userName +',' + userToken + ',' + timestamp+','+value + ', full app',
-        gf = [{ filename: 'urank_labeled_' + timestamp + '.txt', content: urankState }];//JSON.stringify(urankState)
-
-    $.generateFile({ filename: "bookmarks.json", content: urankState, script: scriptURL });
-
-    return false;
-}
+    var enterLog = function(value){
+        const date = new Date();
+        const current_log ={
+            SessionID: $('#sessionid').html(),
+            Username: $('#username').html(),
+            Usertoken: $('#usertoken').html(),
+            Time: date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
+            Action: value
+        }
+        if (wsServerConn.readyState === WebSocket.OPEN) {
+            wsServerConn.send(JSON.stringify({
+                action: "new-log",
+                data: JSON.stringify(current_log),
+                token: token
+            }));
+        } else {
+            wsServerConn = generateWs();
+        }
+        /*wsServerConn.send(JSON.stringify({
+                    action: "new-log",
+                    data: JSON.stringify(current_log),
+                    token: token
+        }))*/
+        /*$.post('/users/update-logs', current_log)*/
+    }
     var calculateCharacteristicVector = function(value){
         var rep_sNP = /[R-Z]/, count_sNP = 0;
         var rep_wNP = /[r-z]/, count_wNP = 0;
@@ -306,7 +390,7 @@ var enterLog = function(value){
             //conexionSimilarity[diference] = item;
             conexionSimilarity[item.id] = diference;
             conexionid[item.id] = item
-            //This code is to create characteristic vector data set using urank_logs.txt file
+            //This code is to create characteristic vector data set using user_logs.txt file
             //enterText(characteristicVector + ',' +letterSequences.length+','+item.title+','+item.label);
         });
         /*Object.keys(conexionSimilarity).sort(function(a,b){return b-a}).forEach(function(key,i){
@@ -604,9 +688,9 @@ var enterLog = function(value){
             o.tagColorArray = o.misc.tagColorArray.length >= TAG_CATEGORIES ? o.misc.tagColorArray : tagColorRange;
             o.queryTermColorArray = o.misc.queryTermColorArray.length >= TAG_CATEGORIES ? o.misc.queryTermColorArray : queryTermColorRange;
             _this.tagColorScale = null;
-            _this.tagColorScale = d3.scale.ordinal().domain(d3.range(0, TAG_CATEGORIES, 1)).range(o.tagColorArray);
+            _this.tagColorScale = null//d3.scale.ordinal().domain(d3.range(0, TAG_CATEGORIES, 1)).range(o.tagColorArray);
             _this.queryTermColorScale = null;
-            _this.queryTermColorScale = d3.scale.ordinal().range(o.queryTermColorArray);
+            _this.queryTermColorScale = null;//d3.scale.ordinal().range(o.queryTermColorArray);
 
             //  Initialize keyword extractor
             var keywordExtractorOptions = { minRepetitions: (parseInt(data.length * 0.05) >= 5) ? parseInt(data.length * 0.05) : 5 };
@@ -618,8 +702,6 @@ var enterLog = function(value){
 
             //Getting random unlabelled connections
             //randomUnlabelled();
-
-
             contentList.build(_this.data, o.contentList);
 
             _this.data.forEach(function(d, i){
@@ -629,7 +711,6 @@ var enterLog = function(value){
                     d.title = "Unlabelled"
                 }
 
-                //d.characteristicVector = "";
                 d.index = i;
                 //d.title = d.title.clean();
                 d.description = d.description.clean();
@@ -860,6 +941,7 @@ var enterLog = function(value){
             if(_this.selectedId !== STR_UNDEFINED) {    // select
 
                 var connection = _this.rankingModel.getDocumentById(documentId);
+                enterLog('Connection('+connection.title+')'+ connection.id);
 
                 //Save connection selected in dictionary
                 _this.connection_selected[connection.index] = connection
@@ -1065,19 +1147,7 @@ var enterLog = function(value){
          * Created by Jorch
          */
         onEnterLog: function(value){
-            //var scriptURL = "http://localhost/loginapp/server/log.php",
-            var scriptURL = "http://itic.uncu.edu.ar:8880/riskID/app/server/log.php",
-                date = new Date(),
-                timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
-                userName = $('#username').html(),
-                userToken = $('#usertoken').html(),
-                sessionId = $('#sessionid').html(),
-                urankState = sessionId + ',' + userName +',' + userToken + ',' + timestamp+','+value + ', full app',
-                gf = [{ filename: 'urank_labeled_' + timestamp + '.txt', content: urankState }];//JSON.stringify(urankState)
-
-            $.generateFile({ filename: "bookmarks.json", content: urankState, script: scriptURL });
-
-            return false;
+            enterLog(value)
         },
 
         onFindBotnet:function(value){
@@ -1208,15 +1278,34 @@ var enterLog = function(value){
         },
 
         onUpdateLabelDictionary: function (id_connection, new_label) {
-            Object.keys(labels_id).forEach(function(currentKey) {
-                var index = labels_id[currentKey].indexOf(id_connection);
-                if (index > -1) {
-                    labels_id[currentKey].splice(index, 1);
+            var innerFunc = function (id_connection, new_label) {
+                Object.keys(labels_id).forEach(function(currentKey) {
+                    var index = labels_id[currentKey].indexOf(id_connection);
+                    if (index > -1) {
+                        labels_id[currentKey].splice(index, 1);
+                    }
+                });
+                labels_id[new_label]
+                new_label in labels_id ? labels_id[new_label].push(id_connection) : labels_id[new_label] = [id_connection]
+
+                if (wsServerConn.readyState === WebSocket.OPEN) {
+                    wsServerConn.send(JSON.stringify({
+                        action: "update-labels",
+                        data: JSON.stringify(labels_id),
+                        token: token
+                    }));
+                } else if (wsServerConn.readyState === WebSocket.CONNECTING || wsServerConn.readyState === WebSocket.CLOSING) {
+                    console.log("Retrying in 1 second...")
+                    setTimeout(function() {innerFunc(id_connection, new_label)}, 1000);
+                } else {
+                    wsServerConn = generateWs();
+                    innerFunc(id_connection, new_label);
                 }
-            });
-            labels_id[new_label]
-            new_label in labels_id ? labels_id[new_label].push(id_connection) : labels_id[new_label] = [id_connection]
-        }
+            }
+
+            innerFunc(id_connection, new_label);
+        },
+
     };
 
 
@@ -1284,6 +1373,7 @@ var enterLog = function(value){
         this.firstSimilar = '';
         this.connection_selected = {}
         this.connection_selected_list = {}
+        this.unLabelledElementCount = -1;
 
         contentList = new ContentList(options.contentList);
         tagCloud = new TagCloud(options.tagCloud);

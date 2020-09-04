@@ -13,15 +13,22 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+
+var expressWs_ = require('express-ws')
+
 //mongoose.connect('mongodb://192.168.1.49/loginapp');
 mongoose.connect('mongodb://localhost/loginapp');
 var db = mongoose.connection;
 
+//Init app
+var app = express();
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-//Init app
-var app = express();
+var expressWs = expressWs_(app);
+
+var training = require('./routes/training');
 
 //View Engine
 app.set('views', path.join(__dirname, 'views'));
@@ -79,6 +86,7 @@ app.use(function(req,res,next){
 
 app.use('/',routes);
 app.use('/users', users);
+app.use('/training', training)
 
 //Set Port
 app.set('port', (process.env.PORT || 3000));
@@ -86,36 +94,3 @@ app.set('port', (process.env.PORT || 3000));
 app.listen(app.get('port'), function(){
     console.log('Server started on port ' +app.get('port'));
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

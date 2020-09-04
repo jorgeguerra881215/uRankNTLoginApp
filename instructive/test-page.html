@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Page</title>
+
+    <style>
+        div.float_left {
+            float: left;
+        }
+        div.clear {
+            clear: both;
+        }
+        div.container {
+            background-color: #FFB800;
+            /*margin: 1px;*/
+            border: 1px solid black;
+            width: 10px;
+        }
+        div.box {
+            background-color: aliceblue;
+            width: 1px;
+            margin: 0px 0px 0px 4px;
+            border: 1px solid black;
+        }
+
+        div.container-up{
+            padding-top: 20px;
+        }
+        div.container-down{
+            padding-bottom: 20px;
+        }
+
+        div.box-up{
+            padding-bottom: 20px;
+        }
+        div.box-down{
+            padding-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<!--    <div>-->
+<!--        <div class='box float_left' style="padding-top: 40px">-->
+<!--            <div class='inside'></div>-->
+<!--        </div>-->
+<!--        <div class='box float_left' style="padding-top: 30px">-->
+<!--            <div class='inside' style="padding-top: 20px"></div>-->
+<!--        </div>-->
+<!--        <div class='clear'></div>-->
+<!--    </div>-->
+
+    <div class="container container-up float_left"><div class="box box-up"></div></div>
+
+    <div class="container container-up float_left">
+        <div class="box box-up"></div>
+    </div>
+    <div class='clear'></div>
+
+    <div class="container" style="width: 100px; padding-top: 20px"></div>
+    <div class="container" style="width: 80px; padding-top: 30px"></div>
+    <div class="container" style="width: 50px; padding-top: 40px"></div>
+
+</body>
+
+
+<script>
+    var values = [0.1, 0.2, 0.3];
+</script>
+
+</html>
+<!--
+<div class='color float_left'></div>
+<div class='color float_left'></div>
+<div class='color float_left'></div>
+<div class='color float_left'></div>
+<div class='color float_left'></div>
+<div class='color float_left'></div>
+<div class='color float_left'></div>
+<div class='color float_left'></div>
+<div class='color float_left'></div>
+<div class='color float_left'></div>
+

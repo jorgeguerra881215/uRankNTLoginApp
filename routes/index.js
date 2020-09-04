@@ -1,13 +1,19 @@
 var express = require('express');
 var router = express.Router();
+const fs = require('fs');
+
+const path = require("path");
+
+var raw_settings = fs.readFileSync(path.resolve(__dirname, '../app_settings.json'));
+var settings_json = JSON.parse(raw_settings);
 
 //Get Homepage
-router.get('/',ensureAhutenticated,function(req, res){
+router.get('/',ensureAuthenticated,function(req, res){
     var sessionId = req.sessionID;
-   res.render('index',{'sessionId':sessionId});
+   res.render('index',{'sessionId':sessionId, 'typeOfRepresentation': settings_json['visualization']});
 });
 
-function ensureAhutenticated(req, res, next){
+function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }

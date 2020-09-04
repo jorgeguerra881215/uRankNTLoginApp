@@ -1,0 +1,132 @@
+[
+  {
+    "id":"4986",
+    "title":"Botnet",
+    "uri": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "eexcessURI": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "creator": "David J Reinkensmeyer, Jeremy L Emken, Steven C Cramer",
+    "description":"79.Z+R,Y.z.Z.R*Y.y.Y,Y*R.Y.Y*y*Z.Y,R0Y*r+",
+    "collectionName": "",
+    "keyword":"",
+    "observation":"",
+    "connection_id":"147.32.84.193-195.113.232.82-80-tcp",
+    "cluster":"3",
+    "botprob":"0.756",
+    "confidence":"17.07",
+    "facets": {
+      "provider": "mendeley",
+      "year": "2004"
+    }
+  },
+  {
+    "id":"3787",
+    "title":"Botnet",
+    "uri": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "eexcessURI": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "creator": "David J Reinkensmeyer, Jeremy L Emken, Steven C Cramer",
+    "description":"21+S.S*s*s*",
+    "collectionName": "",
+    "keyword":"",
+    "observation":"",
+    "connection_id":"147.32.84.165-208.65.144.2-25-tcp",
+    "cluster":"1",
+    "botprob":"1",
+    "confidence":"25.00",
+    "facets": {
+      "provider": "mendeley",
+      "year": "2004"
+    }
+  },
+  {
+    "id": "4999",
+    "title": "Botnet",
+    "uri": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "eexcessURI": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "creator": "David J Reinkensmeyer, Jeremy L Emken, Steven C Cramer",
+    "description": "11*R+R*s*r*",
+    "collectionName": "",
+    "keyword": "",
+    "observation": "",
+    "connection_id": "147.32.84.191-207.126.154.10-25-tcp",
+    "cluster": "1",
+    "botprob": "1",
+    "confidence": "25.00",
+    "facets": {
+      "provider": "mendeley",
+      "year": "2004"
+    }
+  },
+  {
+    "id":"4366",
+    "title":"Normal",
+    "uri": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "eexcessURI": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "creator": "David J Reinkensmeyer, Jeremy L Emken, Steven C Cramer",
+    "description":"66.f.F.W.W.W.W,W.W.W.W.",
+    "collectionName": "",
+    "keyword":"",
+    "observation":"",
+    "connection_id":"147.32.84.170-77.75.72.22-80-tcp",
+    "cluster":"2",
+    "botprob":"0.01",
+    "confidence":"17.07",
+    "facets": {
+      "provider": "mendeley",
+      "year": "2004"
+    }
+  },
+  {
+    "id":"107",
+    "title":"Normal",
+    "uri": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "eexcessURI": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "creator": "David J Reinkensmeyer, Jeremy L Emken, Steven C Cramer",
+    "description":"99*Z.I.z.Z.Z.Z+Z000",
+    "collectionName": "",
+    "keyword":"",
+    "observation":"",
+    "connection_id":"147.32.84.170-74.125.232.204-443-tcp",
+    "cluster":"3",
+    "botprob":"0.082",
+    "confidence":"29.03",
+    "facets": {
+      "provider": "mendeley",
+      "year": "2004"
+    }
+  },
+  {
+    "id":"3328",
+    "title":"Normal",
+    "uri": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "eexcessURI": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "creator": "David J Reinkensmeyer, Jeremy L Emken, Steven C Cramer",
+    "description":"99.z.Z*Z.Z.Z*Z.I.I.z.Z.Z,",
+    "collectionName": "",
+    "keyword":"",
+    "observation":"",
+    "connection_id":"147.32.84.134-92.123.64.169-443-tcp",
+    "cluster":"3",
+    "botprob":"0.036",
+    "confidence":"29.03",
+    "facets": {
+      "provider": "mendeley",
+      "year": "2004"
+    }
+  },
+  {
+    "id":"2331",
+    "title":"Botnet",
+    "uri": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "eexcessURI": "http://www.mendeley.com/catalog/robotics-motor-learning-neurologic-recovery/",
+    "creator": "David J Reinkensmeyer, Jeremy L Emken, Steven C Cramer",
+    "description":"22,S*s+b+s+B+s+s,s+s+S,S.S+s+S*S+S,s,S*B*B*s+s+S,S+s+S*s*s+s,s+S.S+B+s*S,S+s*S+s*S,s+S,s,s,s+s,s+s*B+S,s,s+b+s,S*s*S,S+s,s+s+s*S,S+S,S*b*S,",
+    "collectionName": "",
+    "keyword":"",
+    "observation":"",
+    "connection_id":"147.32.84.165-76.96.30.116-25-tcp",
+    "cluster":"1",
+    "botprob":"1",
+    "confidence":"25.00",
+    "facets": {"provider": "mendeley","year": "2004"}
+  }
+]

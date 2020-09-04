@@ -40,11 +40,11 @@ var ContentList = (function(){
 
     // sequence color codification
     var color_seq_codification = {
-            '1': '#FF00F5FF','2': '#FF00D6FF',
-            '3': '#FF00B8FF','4': '#FF0099FF',
-            '5': '#FF007AFF','6': '#FF005CFF',
-            '7': '#FF003DFF','8': '#FF001FFF',
-            '9': '#FF7A00FF',
+            '1': '#FF00F5','2': '#FF00D6',
+            '3': '#FF00B8','4': '#FF0099',
+            '5': '#FF007A','6': '#FF005C',
+            '7': '#FF003D','8': '#FF001F',
+            '9': '#FF7A00',
 
             'a': '#FF0000FF','A': '#FF1F00FF',
             'b': '#FF3D00FF','B': '#FF5C00FF',
@@ -402,48 +402,65 @@ var ContentList = (function(){
         return sequence*/
     }
 
-    var createSequenceRepresentation = function(sequence, count_sequence){
+    var createSequenceRepresentation = function(sequence, count_sequence, attentions = null){
+
+        /*var attentions= []
+        for(i=0; i<100; i++){attentions[i] = Math.random() * (1 - -1) + -1;}*/
+
         var result = [];
         /**
            Display only the first "count_sequence" character of each sequence
          */
-        for(var i = 0; i < sequence.length && i < count_sequence; i++){
-            var current_letter = sequence[i];
+         // switched: from the back
+        //sl = sequence.length
+
+        for(var i = attentions.length, j=sequence.length, c=0; j >= 0 && c < count_sequence; i--, c++, j--){
+            var current_letter = sequence[j];
             var current_color = color_seq_codification[current_letter];
-            var current_label_element = $('<label id="representation-snp" class="connection-characteristic">.</label>');
-            //var current_label_element = $('<div id="representation-snp" class="connection-characteristic"></div>');
-            current_label_element.css('background',current_color);
-            result[i] = current_label_element;
+            //var current_label_element = $('<label id="representation-snp" class="connection-characteristic">.</label>'); //Using Labels to represent each character in the sequence
+            //var current_label_element = $('<div class="connection-characteristic connection-element" ></div>'); //Using Divs to represent each character in the sequence
+            //current_label_element.css('background',current_color);
+            var att = attentions.length > 1 ? attentions[i] : 0;
+            if (att == undefined) { att = 0; }
+            var current_label_element = $(
+                '<div class="float-left">'+
+                    '<div class="container-up" style="background: dimgrey; opacity: '+ att +'"></div>'+
+                    '<div class="connection-characteristic connection-element" style="background:' +current_color+'"></div>'+
+                    '<div class="container-down" style="background: dimgrey; opacity: '+ 0 +'"></div>' +
+                '</div>'
+            ); //Using Divs to represent each character in the sequence
+            result.unshift(current_label_element);
         }
+        result.push($('<div class="clear"></div>'));
         return result;
     }
 
     var createHeatmapRepresentation = function(vector_feature){
-        var vector = vector_feature.split(',')
-        var snp_v = parseFloat(vector[0])
-        var wnp_v = parseFloat(vector[1])
-        var wp_v = parseFloat(vector[2])
-        var sp_v = parseFloat(vector[3])
-        var ds_v = parseFloat(vector[4])
-        var dm_v = parseFloat(vector[5])
-        var dl_v = parseFloat(vector[6])
-        var ss_v = parseFloat(vector[7])
-        var sm_v = parseFloat(vector[8])
-        var sl_v = parseFloat(vector[9])
+        var vector = vector_feature.split(',');
+        var snp_v = parseFloat(vector[0]);
+        var wnp_v = parseFloat(vector[1]);
+        var wp_v = parseFloat(vector[2]);
+        var sp_v = parseFloat(vector[3]);
+        var ds_v = parseFloat(vector[4]);
+        var dm_v = parseFloat(vector[5]);
+        var dl_v = parseFloat(vector[6]);
+        var ss_v = parseFloat(vector[7]);
+        var sm_v = parseFloat(vector[8]);
+        var sl_v = parseFloat(vector[9]);
 
         //Periodicity feature
-        var sNP = $('<label id="representation-snp" class="connection-characteristic">snp</label>')
-        var wNP = $('<label id="representation-wnp" class="connection-characteristic">wnp</label>')
-        var wP = $('<label id="representation-wp" class="connection-characteristic">wp</label>')
-        var sP = $('<label id="representation-sp" class="connection-characteristic">sp</label>')
+        var sNP = $('<label id="representation-snp" class="connection-characteristic">snp</label>');
+        var wNP = $('<label id="representation-wnp" class="connection-characteristic">wnp</label>');
+        var wP = $('<label id="representation-wp" class="connection-characteristic">wp</label>');
+        var sP = $('<label id="representation-sp" class="connection-characteristic">sp</label>');
         //Duration feature
-        var dS = $('<label id="representation-dS" class="connection-characteristic" style="margin-left:5px; ">ds</label>')
-        var dM = $('<label id="representation-dM" class="connection-characteristic">dm</label>')
-        var dL = $('<label id="representation-dL" class="connection-characteristic">dl</label>')
+        var dS = $('<label id="representation-dS" class="connection-characteristic" style="margin-left:5px; ">ds</label>');
+        var dM = $('<label id="representation-dM" class="connection-characteristic">dm</label>');
+        var dL = $('<label id="representation-dL" class="connection-characteristic">dl</label>');
         //Size feature
-        var sS = $('<label id="representation-sS" class="connection-characteristic" style="margin-left:5px;">ss</label>')
-        var sM = $('<label id="representation-sM" class="connection-characteristic">sm</label>')
-        var sL = $('<label id="representation-sL" class="connection-characteristic">sl</label>')
+        var sS = $('<label id="representation-sS" class="connection-characteristic" style="margin-left:5px;">ss</label>');
+        var sM = $('<label id="representation-sM" class="connection-characteristic">sm</label>');
+        var sL = $('<label id="representation-sL" class="connection-characteristic">sl</label>');
 
         var periodicity_color = ['#ffffff','#fff8eb','#ffeac4','#ffdc9d','#ffd589','#ffc862','#ffc14e','#ffba3b','#ffb327','#ffac14'];
         var duration_color = ['#ffffff','#e6f7f2','#d7f3eb','#b9e9db','#9be0cc','#8cdcc5','#6ed3b5','#5fceae','#50c9a6','#41c59f'];
@@ -472,6 +489,105 @@ var ContentList = (function(){
         sM.css('background',size_color[Math.floor((sm_v*100)/ranges)]);
 
         sL.css('background',size_color[Math.floor((sl_v*100)/ranges)]);
+
+        return [sP,wP,wNP,sNP,dS,dM,dL,sS,sM,sL];
+
+    }
+
+    var createBarRepresentation = function(vector_feature){
+        var vector = vector_feature.split(',');
+        var snp_v = parseFloat(vector[0]);
+        var wnp_v = parseFloat(vector[1]);
+        var wp_v = parseFloat(vector[2]);
+        var sp_v = parseFloat(vector[3]);
+        var ds_v = parseFloat(vector[4]);
+        var dm_v = parseFloat(vector[5]);
+        var dl_v = parseFloat(vector[6]);
+        var ss_v = parseFloat(vector[7]);
+        var sm_v = parseFloat(vector[8]);
+        var sl_v = parseFloat(vector[9]);
+
+        //Periodicity feature
+        var sNP = $('<label id="representation-snp" class="connection-characteristic conn-char-list">snp</label>');
+        var wNP = $('<label id="representation-wnp" class="connection-characteristic conn-char-list">wnp</label>');
+        var wP = $('<label id="representation-wp" class="connection-characteristic conn-char-list">wp</label>');
+        var sP = $('<label id="representation-sp" class="connection-characteristic conn-char-list">sp</label>');
+        //Duration feature
+        var dS = $('<label id="representation-dS" class="connection-characteristic conn-char-list" style="margin-left:5px;">ds</label>');
+        var dM = $('<label id="representation-dM" class="connection-characteristic conn-char-list">dm</label>');
+        var dL = $('<label id="representation-dL" class="connection-characteristic conn-char-list">dl</label>');
+        //Size feature
+        var sS = $('<label id="representation-sS" class="connection-characteristic conn-char-list" style="margin-left:5px;">ss</label>');
+        var sM = $('<label id="representation-sM" class="connection-characteristic conn-char-list">sm</label>');
+        var sL = $('<label id="representation-sL" class="connection-characteristic conn-char-list">sl</label>');
+
+        var periodicity_color = ['#ffffff','#fff8eb','#ffeac4','#ffdc9d','#ffd589','#ffc862','#ffc14e','#ffba3b','#ffb327','#ffac14'];
+        var duration_color = ['#ffffff','#e6f7f2','#d7f3eb','#b9e9db','#9be0cc','#8cdcc5','#6ed3b5','#5fceae','#50c9a6','#41c59f'];
+        var size_color = ['#ffffff','#e6ebf7','#d7dff3','#b9c7e9','#aabbe5','#8ca3dc','#6e8bd3','#5f7fce','#5073c9','#4167c5'];
+
+        var ranges = 101 / 10;
+
+        var BARS_FLAG = true;
+
+        if (BARS_FLAG) {
+
+          var lgstrsnp = 'linear-gradient(to right, #ffac14 ' + Math.floor(snp_v*100) + '%, white ' + (Math.floor(snp_v*100)) + '%);';
+          sNP.attr({'style': "background: " + lgstrsnp});
+
+          var lgstrwnp = 'linear-gradient(to right, #ffac14 ' + Math.floor(wnp_v*100) + '%, white ' + (Math.floor(wnp_v*100)) + '%);';
+          wNP.attr({'style': "background: " + lgstrwnp});
+
+          var lgstrwp = 'linear-gradient(to right, #ffac14 ' + Math.floor(wp_v*100) + '%, white ' + (Math.floor(wp_v*100)) + '%);';
+          wP.attr({'style': "background: " + lgstrwp});
+
+          var lgstrsp = 'linear-gradient(to right, #ffac14 ' + Math.floor(sp_v*100) + '%, white ' + (Math.floor(sp_v*100)) + '%);';
+          sP.attr({'style': "background: " + lgstrsp});
+
+
+          var lgstrds = 'linear-gradient(to right, #41c59f ' + Math.floor(ds_v*100) + '%, white ' + (Math.floor(ds_v*100)) + '%);';
+          dS.attr({'style': "background: " + lgstrds});
+
+          var lgstrdm = 'linear-gradient(to right, #41c59f ' + Math.floor(dm_v*100) + '%, white ' + (Math.floor(dm_v*100)) + '%);';
+          dM.attr({'style': "background: " + lgstrdm});
+
+          var lgstrdl = 'linear-gradient(to right, #41c59f ' + Math.floor(dl_v*100) + '%, white ' + (Math.floor(dl_v*100)) + '%);';
+          dL.attr({'style': "background: " + lgstrdl});
+
+
+          var lgstrss = 'linear-gradient(to right, #4167c5 ' + Math.floor(ss_v*100) + '%, white ' + (Math.floor(ss_v*100)) + '%);';
+          sS.attr({'style': "background: " + lgstrss});
+
+          var lgstrsm = 'linear-gradient(to right, #4167c5 ' + Math.floor(sm_v*100) + '%, white ' + (Math.floor(sm_v*100)) + '%);';
+          sM.attr({'style': "background: " + lgstrsm});
+
+          var lgstrsl = 'linear-gradient(to right, #4167c5 ' + Math.floor(sl_v*100) + '%, white ' + (Math.floor(sl_v*100)) + '%);';
+          sL.attr({'style': "background: " + lgstrsl});
+
+        } else {
+
+          //Count periodicity feature
+          sNP.css('background',periodicity_color[Math.floor((snp_v*100)/ranges)]);
+
+          wNP.css('background',periodicity_color[Math.floor((wnp_v*100)/ranges)]);
+
+          wP.css('background',periodicity_color[Math.floor((wp_v*100)/ranges)]);
+
+          sP.css('background',periodicity_color[Math.floor((sp_v*100)/ranges)]);
+
+          //Count duration feature
+          dS.css('background',duration_color[Math.floor((ds_v*100)/ranges)]);
+
+          dM.css('background',duration_color[Math.floor((dm_v*100)/ranges)]);
+
+          dL.css('background',duration_color[Math.floor((dl_v*100)/ranges)]);
+
+          //Count size feature
+          sS.css('background',size_color[Math.floor((ss_v*100)/ranges)]);
+
+          sM.css('background',size_color[Math.floor((sm_v*100)/ranges)]);
+
+          sL.css('background',size_color[Math.floor((sl_v*100)/ranges)]);
+        }
 
         return [sP,wP,wNP,sNP,dS,dM,dL,sS,sM,sL];
 
@@ -642,9 +758,21 @@ var ContentList = (function(){
          * Modified by Jorch
          * Switch between Heatmap and Color sequence representation.
          */
-        //var html = createHeatmapRepresentation(d.characteristicVector)
-        var html = d.description.length > 150 ? createSequenceRepresentation(d.description,150): createSequenceRepresentation(d.description,d.description.length)
 
+        var html = null;
+
+        if (window.typeOfRepresentation === "fingerprint") {
+            var attention = d.botprob != 'NA' && d.att_vec !== null && typeof d.att_vec !== 'undefined' ? d.att_vec.split(',') : []
+            var attention_list_number = []
+            for(var j = 0; j < attention.length; j++){
+                attention_list_number[j] = Number(attention[j]);
+            }
+            html = d.description.length > 90 ? createSequenceRepresentation(d.description,90, attention_list_number): createSequenceRepresentation(d.description,d.description.length, attention_list_number);
+        } else if (window.typeOfRepresentation === "bar") {
+            html = createBarRepresentation(d.characteristicVector);
+        } else {
+            html = createHeatmapRepresentation(d.characteristicVector);
+        }
 
         var index = 0;
         var value = 0;
@@ -652,10 +780,15 @@ var ContentList = (function(){
         value = i+1;
         d.viewIndex = i+1;
         //var index = i+1 < 10 ? (i+1)+'-&nbsp;&nbsp;C'+ d.cluster : (i+1)+'-'+ d.cluster;
-        var list_element_container = $('<div><div class="info-label-container">'+bot_probability_label + confidence_label + ligth_circle+'<label value="'+value+'" id="label-'+ d.id+'">'+index+'</label></div></div>', { id: 'urank-list-li-title-' + i, class: liTitleClass +' '+ liTitleClassDefault, html: html, title: d.title + '\n' + d.description }).appendTo($titleDiv);
+        var list_element_container = $(
+            '<div>' +
+                '<div class="info-label-container">'+bot_probability_label + confidence_label + ligth_circle+'' +
+                    '<label value="'+value+'" id="label-'+ d.id+'">'+index+'</label>' +
+                '</div>' +
+            '</div>', { id: 'urank-list-li-title-' + i, class: liTitleClass +' '+ liTitleClassDefault, html: html, title: d.title + '\n' + d.description }).appendTo($titleDiv);
         var visual_representation = $('<div class="info-heatmap-container heat-map-carrier"></div>').appendTo(list_element_container);
-        html.forEach(function(label){
-            label.appendTo(visual_representation);
+        html.forEach(function(div_character){
+            div_character.appendTo(visual_representation);
         });
 
         // buttons section
@@ -663,6 +796,7 @@ var ContentList = (function(){
         $("<span style='margin-left: 8px'>").appendTo($buttonsDiv).addClass(watchiconClass+' '+watchiconDefaultClass+' '+watchiconOffClass);
         //Only display More_Button if the sequence is largest than 150 characters.
         d.description.length > 150 ? $("<span style='margin-left: -8px' seq = '"+d.description+"'>").appendTo($buttonsDiv).addClass(faviconClass+' '+faviconDefaultClass+' '+faviconOffClass): null;
+        //d.description.length > 150 ? $("<span style='margin-left: -8px' seq = '"+d.description+"'>").appendTo($buttonsDiv).addClass('fa fa-plus-circle'): null;
 
         $('.heat-map-carrier').css('color','transparent');
         //$('#connection-list > li:nth-child(1) > div.urank-list-li-title-container > div > div:nth-child(2)').css('color','black');
@@ -1155,5 +1289,3 @@ var ContentList = (function(){
 
     return ContentList;
 })();
-
-

@@ -7,17 +7,18 @@
     {{/if}}
     <form class="form-signin" method="post" action="/users/register">
         <h2 class="form-signin-heading">User Register</h2>
-        <div class="form-group">
+        <div class="form-group display-none">
             <!--<label>Name</label>-->
-            <input type="text" class="form-control" required autofocus placeholder="Name" name="name">
+            <input type="text" class="form-control" required autofocus placeholder="Name" name="name" value="John Doe">
         </div>
         <div class="form-group">
             <!--<label>Username</label>-->
-            <input type="text" class="form-control" required placeholder="Username" name="username">
+            <div><h3>Please use to register the same key provided by Prolific</h3></div>
+            <input type="text" class="form-control" required placeholder="Key" name="username">
         </div>
-        <div class="form-group">
+        <div class="form-group display-none">
             <!--<label>Email</label>-->
-            <input type="email" class="form-control" required placeholder="Email" name="email">
+            <input type="email" class="form-control" required placeholder="Email" name="email" value="email_test@gmail.com">
         </div>
         <div class="form-group">
             <!--<label>Password</label>-->

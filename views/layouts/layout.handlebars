@@ -15,6 +15,14 @@
     <link rel="stylesheet" href="/bower_components/urank/css/vis-ranking.css" />
     <!-- endbower -->
     <link rel="stylesheet" type="text/css" href="/css/main-style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Bootstrap CSS -->
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">-->
+    <!-- Extra -->
+    <!--<link href="css/font-awesome.min.css" rel="stylesheet" />-->
+    <!-- Custom styles-->
+    <!--<link href="css/style.css" rel="stylesheet">-->
 
 </head>
 <body>
@@ -43,8 +51,10 @@
 <!-- bower:js -->
 <script src="/bower_components/jquery/dist/jquery.js"></script>
 <script src="/bower_components/colorbrewer/colorbrewer.js"></script>
-<script src="/bower_components/d3/d3.js"></script>
-<script src="/bower_components/d3pie/d3pie/d3pie.min.js"></script>
+<!--<script src="/bower_components/d3/d3.js"></script>
+<script src="/bower_components/d3pie/d3pie/d3pie.min.js"></script>-->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="/bower_components/underscore/underscore.js"></script>
 <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
 <script src="/bower_components/jquery-mousewheel/jquery.mousewheel.js"></script>
@@ -102,7 +112,6 @@
         });
         $( "#dialog-seguence" ).dialog({
             autoOpen: false,
-            minWidth: 400,
             show: {
                 effect: "blind",
                 duration: 100
@@ -112,14 +121,32 @@
                 duration: 100
             }
         });
+        $( "#dialog-info-heatmap" ).dialog({
+            autoOpen: false,
+            show: {
+                effect: "blind",
+                duration: 100
+            },
+            hide: {
+                effect: "blind",
+                duration: 100
+            },
+            width: "500px",
+            maxWidth: "500px"
+        });
         $( "#btn-show-legend" ).on( "click", function() {
             //var urank = new Urank();
             urank.enterLog('Show Characteristic Legend,0');
             $( "#dialog" ).dialog( "open" );
         });
+        /*$("#btn-test").on( "click", function() {
+            console.log('entro');
+            var connection = $(this).attr('sequence');
+            $("#dialog-seguence").html('<p>'+connection+'</p>');
+            $("#dialog-seguence").dialog( "open" );
+        });*/
     } );
 </script>
-
 
 </body>
 </html>

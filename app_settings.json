@@ -1,0 +1,18 @@
+{
+    "__comment": "there are 4 different configuration types, based on two parameters: visualization: fingerprint or bars (bars_shades or bars_filled), and training: char_rnn, nn, or rf",
+    "visualization": "fingerprint",
+    "__alternative_visualization_1": "bar",
+    "__alternative_visualization_2": "heatmap",
+    "training": "char_rnn",
+    "__alternative_training_1": "nn",
+    "__alternative_training_2": "rf",
+    "project_path": "/var/www/html/riskid-v2",
+    "__alternative_project_path_linux": "/var/www/html/riskid-v2",
+    "__alternative_project_path_ios": "/usr/local/var/www/html",
+    "active_learning": "on",
+    "active_learning_strategy": "boundary",
+    "__alternative_active_learning_strategy": "random",
+    "dataset_path": "dataset_test_http_sample1.json",
+    "_only_for_test_dataset_path": "dataset_short.json",
+    "python_prefix": ""
+}

@@ -8,20 +8,24 @@
   },
   "author": "Jorge Luis Guerra",
   "license": "ISC",
-    "dependencies":{
-        "bcryptjs" : "*",
-        "body-parser" : "*",
-        "connect-flash" : "*",
-        "cookie-parser": "^1.4.1",
-        "express" : "*",
-        "express-handlebars" : "*",
-        "express-messages" : "*",
-        "express-session" : "*",
-        "express-validator" : "*",
-        "mongodb" : "*",
-        "mongoose" : "*",
-        "passport" : "*",
-        "passport-http" : "*",
-        "passport-local" : "*"
-    }
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "connect-flash": "*",
+    "cookie-parser": "^1.4.1",
+    "express": "*",
+    "express-handlebars": "*",
+    "express-messages": "*",
+    "express-session": "*",
+    "express-validator": "*",
+    "express-ws": "^4.0.0",
+    "mongodb": "^3.3.3",
+    "mongoose": "*",
+    "package.json": "^2.0.1",
+    "passport": "*",
+    "passport-http": "*",
+    "passport-local": "*",
+    "websocket": "^1.0.30",
+    "ws": "^7.2.0"
+  }
 }

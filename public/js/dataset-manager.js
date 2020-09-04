@@ -7,7 +7,7 @@ function datasetManager(){
             //description: 'Connections 22',
             //file: 'dataset_ctu13.json'
             description: 'CTU-13 Dataset',
-            file: 'dataset_test_x.json'
+            file: 'dataset_test.json'
         }/*,
         DS_Ro: {
             description: 'Connections 87',
@@ -58,21 +58,13 @@ function datasetManager(){
         return idsAndDescriptions;
     };
 
-
     this.getDataset = function(datasetId, callback){
-
-        if(datasetMappings[datasetId]){
-            $.getJSON('datasets/'+datasetMappings[datasetId].file, function(data){
-                console.log('Dataset '+ datasetId +' retrieved');
-                callback.call(this, data);
-            })
-            .fail(function(jqXHR, textStatus, errorThrown) { console.log('getJSON request failed! ' + textStatus + ' --- ' + errorThrown.message);
-                                                           console.log(jqXHR); });
-        }
-        else {
-            console.log("Invalid dataset id (value=" + datasetId + ')');
-        }
-
+        $.getJSON('/training/get-tmp-dataset', function (data) {
+            console.log('Dataset retrieved.');
+            callback.call(this, data);
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.log('Error! Dataset failed to load.');
+        })
     };
 
 

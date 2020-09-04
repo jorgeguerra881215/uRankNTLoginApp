@@ -339,6 +339,7 @@ div.alert-danger{
     text-align: center;
     color: #888;
     line-height: 3em;
+    margin-top: -5px;
 }
 
 .urank-tagbox-tag {
@@ -452,7 +453,9 @@ div.alert-danger{
 /* <li> items */
 .urank-list-li-default {
     position: relative;
-    height: 26px;
+    height: 25px;
+    /*Use this height for attention visualization*/
+    /*height: 40px;*/
     vertical-align: top;
     -webkit-transition: box-shadow 4s ease-in;
     cursor: pointer;
@@ -566,10 +569,13 @@ label.characteristic{
     background: url(../media/sprites.png) no-repeat;
 }
 
+
 .urank-list-li-button-favicon-default {
     float: right;
     margin-top: 6px;
     padding: 8px;
+    /*Comment this line to use this code to color character visualization*/
+    /*display: none;*/
 }
 
 .urank-list-li-button-favicon-default-left{
@@ -585,7 +591,9 @@ label.characteristic{
 
 
 .urank-list-li-button-favicon-off {
-    background-position: -50px 0;
+    /*background-position: -50px 0;*/
+    /*Using the Add icon instead the Star icon*/
+    background-position: 0px 0;
 }
 
 .urank-list-li-button-watchicon-off {
@@ -678,17 +686,74 @@ label.characteristic{
 }
 
 .selected{
-    border: 5px solid gray;
+    border: 1px solid gray;
 }
 .list-selected{
     border: 1px solid #000000;/*gainsboro;*/
 }
 
 .connection-characteristic{
-    /*color: transparent;
-    padding: 5px;*/
     border-right:0.2px solid #ffffff;
 }
+
+div.connection-element{
+    width: 4px;
+    padding-top: 20px;
+    /*float: left;*/
+}
+
+div.float-left {
+    float: left;
+}
+
+div.clear{
+    clear: both;
+}
+
+div.container-character {
+    width: 4px;
+}
+
+div.box {
+    background-color: black;
+    width: 1px;
+    margin: 0px 0px 0px 1px;
+    /*border: 1px solid black;*/
+}
+
+div.container-up{
+    padding-top: 5px;
+    border-bottom: 0.2px solid black;
+}
+
+div.container-down{
+    padding-bottom: 5px;
+}
+
+div.box-up{
+    padding-bottom: 5px;
+}
+
+div.box-down{
+    padding-top: 5px;
+}
+
+
+
+div.info-heatmap-container label.connection-characteristic{
+    color: transparent;
+}
+
+.conn-char-list {
+  display: flexbox;
+  float: left;
+  width: 40px;
+  border: 1px solid  #535c68;
+  /*border-left: 1px solid #535c68;
+  border-right: 1px solid #535c68;*/
+  padding-left: 5px;
+}
+
 .legend-color-transparent{
     color: transparent;
 }
@@ -706,13 +771,13 @@ Canvas section (right-center) - displays ranking vis
 <div> wrapping urank stacked bars and future visualizations
 */
 .urank-viscanvas {
-    text-align: center;
+    /*text-align: left;*/
     overflow-x: hidden;
     overflow-y: auto;
 }
 
 .urank-viscanvas-container {
-
+    height: auto;
 }
 
 /*
@@ -753,10 +818,10 @@ Document Panel (right) - for visualizing highlighted text
 
 .urank-docviewer-details-section {
     /*display: flex;*/
-    flex-wrap: wrap;
+    /*flex-wrap: wrap;*/
     /*height: 9em;*/
-    text-align: left;
-    margin: 5px;
+    /*text-align: left;*/
+    /*margin: 5px;*/
     color: snow;
     /*text-shadow: 0em .1em #444*/
 }
@@ -770,6 +835,49 @@ Document Panel (right) - for visualizing highlighted text
 
 .urank-docviewer-details-section div label {
     width: 44px;
+}
+
+.urank-docviewer-details-section div label.connection-characteristic
+{
+    margin: 2px;
+}
+
+.display-none{
+    display: none;
+}
+
+.display-block{
+    display: block;
+}
+
+#bar-graph{
+    width: 40%;
+    height: 80px;
+    margin-left: 5px;
+}
+
+#pie-graph{
+    width: 13%;
+    margin-left: 15px;
+    margin-top: -5px;
+}
+
+.chart{
+    /*border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 1px 1px 1px #aaaaaa;*/
+}
+
+.connection-sequence{
+    overflow-wrap: break-word;
+    width: 100%;
+    height: 80px;
+    overflow-y: scroll;
+}
+
+.text-display-container{
+    width: 42%;
+    height: 80px;
 }
 
 .urank-docviewer-details-section div h3 {
@@ -847,10 +955,10 @@ div#tabs-2{
 
 .urank-hidden-scrollbar-inner {
     height: 100%;
-    overflow-y: scroll;
+    /*overflow-y: scroll;
     overflow-x: hidden;
     margin-right: -100px;
-    padding-right: 84px;
+    padding-right: 84px;*/
 }
 
 /**********************************************************************************************************************
@@ -861,12 +969,12 @@ div#tabs-2{
 
 .info-label-container{
     float: left;
-    width: 120px;
+    width: 100px;
 }
 
 .info-heatmap-container{
     float: left;
-    width: 200px;
+    width: auto;
 }
 
 .traffic-ligth{
@@ -1106,4 +1214,12 @@ div.urank-docviewer-divisor{
     left: 7px;
     /*top: 185px !important;*/
     /*width: 100%;*/
+}
+span.btn-show-info-heatmap{
+    margin-left: 5px;
+}
+
+span.info:hover {
+    /*background-color: #555;*/
+    cursor: pointer;
 }

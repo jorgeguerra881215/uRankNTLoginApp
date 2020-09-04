@@ -23,6 +23,11 @@
     background-color: #111;/*#E7E7E7;*/
 }
 
+.navbar li#li-header{
+    float: right;
+    margin-right: 20px;
+}
+
 #close-session-link{
     background: -webkit-linear-gradient(top, #eee, #ccc);
     margin: 1px;

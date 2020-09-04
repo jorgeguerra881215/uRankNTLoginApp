@@ -185,7 +185,7 @@ var DocViewer = (function(){
         }
         _this.multipleHighlightMode = false;
     };
-
+    
     var _build = function(opt) {
 
         this.opt = opt.misc;
@@ -284,9 +284,6 @@ var DocViewer = (function(){
 
     };
 
-
-
-
     /**
      * @private
      * Description
@@ -354,9 +351,11 @@ var DocViewer = (function(){
          document.keyword+
          "</div>");*/
         $('#doc-word-container').html('');
+        /*
         document.keyword.split(' ').forEach(function(item){
             item != '' && item != ' ' ? $('#doc-word-container').append('<label class="doc-word">'+' '+ item+'</label>') : null;
         });
+        */
 
         //show statistic
         $('#doc-viewer-top').html('');
@@ -428,8 +427,6 @@ var DocViewer = (function(){
             }
             periodic_data.push(element);
         })
-        /*_showBarChart('doc-viewer-top',letter_data);
-        _showPieChart('doc-viewer-left',periodic_data);*/
 
         var getFacet = function(facetName, facetValue){
             return facetName == 'year' ? parseDate(facetValue) : facetValue;
@@ -471,7 +468,6 @@ var DocViewer = (function(){
         $('div.urank-docviewer-container-default').removeClass('selected');
         var id = "urank-docviewer-"+document.id;
         if(_selectedConnection.indexOf(document.id) == -1){
-            urank.enterLog('Connection,'+ _document.id);
 
             var connection_list = ''//show_list_document(document, init_port, dest_port, port, protocol,sequence,letter_data,periodic_data,counter,heatmap);
 
@@ -497,13 +493,24 @@ var DocViewer = (function(){
 
                 urank.enterLog('Sequence Connection,'+id_connection);
             });
+            $("#btn-minimize-connection-"+document.id).on( "click", function (){
+               var btn = $(this);
+               var id_document= btn.attr('idC');
+               var main_content = $("#main-element-"+id_document);
+               main_content.toggleClass('display-none');
+               if (main_content.hasClass('display-none')) {
+                   btn.html('<i class="fa fa-chevron-down"></i>');
+               } else {
+                   btn.html('<i class="fa fa-chevron-up"></i>');
+               }
+            });
             $("#btn-close-connection-"+document.id).on( "click", function() {
                 var btn = $(this);//$('#'+id);
                 var id_connection = btn.attr('idC');
                 var counter = btn.attr('counter');
                 //urank.onWatchiconClicked(id_connection)
 
-                //Desmarcar las conexiones en la lista
+                //Deselect the connections in the list
                 var $li = $('.'+'urank-list-li'+'['+'urank-id'+'="'+id_connection+'"]');
                 var watchIcon = $li.find(' .' + 'urank-list-li-button-watchicon');
                 watchIcon.removeClass("urank-list-li-button-watchicon-on")
@@ -597,9 +604,22 @@ var DocViewer = (function(){
                 var id_connection = btn.attr('idC');
                 saveNormalLabel(this,id_connection);
             });
+            $( ".btn-show-info-heatmap" ).on( "click", function() {
+                urank.enterLog('Show Info Heatmap,0');
+                $( "#dialog-info-heatmap" ).dialog( "open" );
+            });
+            $("#select-text-box-"+document.id).on("select", function () {
+                const selText = getSelectedText();
+                $('.connection-sequence').each(function (index){
+                    var main_text = $(this).text();
+                    const text_result = getIndicesOf(selText, main_text, true);
+                    const html = $.parseHTML(text_result);
+                    $(this).html(html)
+                });
+            });
 
-            _showBarChart('bar-graph-'+document.id,letter_data);
-            _showPieChart('pie-graph-'+document.id,periodic_data);
+            pieChart('pie-graph-'+document.id,periodic_data)
+            barChart('bar-graph-'+document.id,letter_data)
 
             counter ++;
             _selectedConnection.push(document.id);
@@ -619,87 +639,69 @@ var DocViewer = (function(){
         var index = $('label#label-'+document.id).attr('value');
         var bot_probability =   document.botprob != 'NA' ? parseFloat(document.botprob.replace(",", ".")) : ''
         var bot_style = bot_probability != '' ? 'background: linear-gradient(to right,  red 0%, red ' + bot_probability*100 +'%,green ' + bot_probability*100 + '%,green 100%)' : ''
-        var botnet_left = bot_probability != '' ? 'Botnet' : ''
-        var normal_rigth = bot_probability != '' ? 'Normal' : ''
-        var element =
-            '<div id="urank-docviewer-'+document.id+'" class="urank-docviewer-container-default selected" style="margin-top: -3px;background: white">' +
-                '<div style="display: block;" class="urank-docviewer-details-section">' +
-                    '<div>' +
-                        '<div class="left" style="margin-right: 25px; margin-top: 6px">' +
+        var botnet_left = bot_probability != '' ? 'Botnet' : '';
+        var normal_rigth = bot_probability != '' ? 'Normal' : '';
+
+        var head = '<div>' +
+                        '<div class="left" style="margin-right: 10px;">' +
                             '<div class="doc-label-container">' +
                                 '<label id="index-label-'+document.id+'" class="urank-docviewer-attributes urank-docviewer-details-label '+title.toLowerCase()+'">'+index+' | '+'<span id="label-'+document.id+'">'+title+'</span></label>' +
                             '</div>' +
                         '</div>' +
                         '<div class="doc-attributes-sontainer left">' +
-                        '<input type="checkbox" id="filter-initial-port-'+document.id+'" class="filter-initial-port" name="connection-attribute" value="'+init_port+'"><label>Ip Origin:</label><label id="urank-docviewer-details-initport'+document.id+'" class="urank-docviewer-attributes">'+init_port+'</label>' +
+                            '<input type="checkbox" id="filter-initial-port-'+document.id+'" class="filter-initial-port" name="connection-attribute" value="'+init_port+'"><label>Ip Origin:</label><label id="urank-docviewer-details-initport'+document.id+'" class="urank-docviewer-attributes">'+init_port+'</label>' +
                         '</div>' +
                         '<div class="doc-attributes-sontainer left">' +
-                        '<input type="checkbox" id="filter-end-port-'+document.id+'" class="filter-end-port" name="connection-attribute" value="'+dest_port+'"><label>Ip Dest:</label><label id="urank-docviewer-details-destport'+document.id+'" class="urank-docviewer-attributes">'+dest_port+'</label>' +
+                            '<input type="checkbox" id="filter-end-port-'+document.id+'" class="filter-end-port" name="connection-attribute" value="'+dest_port+'"><label>Ip Dest:</label><label id="urank-docviewer-details-destport'+document.id+'" class="urank-docviewer-attributes">'+dest_port+'</label>' +
                         '</div>' +
                         '<div class="doc-attributes-sontainer left">' +
-                        '<input type="checkbox" id="filter-port-'+document.id+'" class="filter-port" name="connection-attribute" value="'+port+'"><label>Port:</label><label id="urank-docviewer-details-port'+document.id+'" class="urank-docviewer-attributes">'+port+'</label>' +
+                            '<input type="checkbox" id="filter-port-'+document.id+'" class="filter-port" name="connection-attribute" value="'+port+'"><label>Port:</label><label id="urank-docviewer-details-port'+document.id+'" class="urank-docviewer-attributes">'+port+'</label>' +
                         '</div>' +
                         '<div class="doc-attributes-sontainer left">' +
-                        '<input type="checkbox" id="filter-protocol-'+document.id+'" class="filter-protocol" name="connection-attribute" value="'+protocol+'"><label>Protocol:</label><label id="urank-docviewer-details-protocol'+document.id+'" class="urank-docviewer-attributes">'+protocol+'</label>' +
+                            '<input type="checkbox" id="filter-protocol-'+document.id+'" class="filter-protocol" name="connection-attribute" value="'+protocol+'"><label>Protocol:</label><label id="urank-docviewer-details-protocol'+document.id+'" class="urank-docviewer-attributes">'+protocol+'</label>' +
                         '</div>' +
-                        '<div class="rigth" style="margin: 3px">' +
-                            '<button id="btn-close-connection-'+document.id+'" class="btn-close-connection" idC="'+document.id+'" comparative="false" counter="'+counter+'">X</button>'+
-                        '</div>'+
                         '<div style="clear: both"></div>' +
-
-                        /*'<div class="urank-docviewer-divisor"></div>' +*/
-                    '</div>' +
-                    '<div style="width: 100%; margin: 5px">' +
-                        '<label><span>'+ botnet_left +' </span><span style="' + bot_style + '" urank-span-prediction-id="'+ document.id+'" class="document_view-botnet-bar"></span> <span>' + normal_rigth + '</span></label>' +
-                        '<div  style="margin: 5px">' +
+                    '</div>';
+        var body =
+                    '<div style="width: 100%; margin: 2px">' +
+                        '<div class="left">' +
+                            '<label><span>'+ botnet_left +' </span><span style="' + bot_style + '" urank-span-prediction-id="'+ document.id+'" class="document_view-botnet-bar"></span> <span>' + normal_rigth + '</span></label>' +
+                        '</div>'+
+                        '<div class="left" style="margin-left: 25px">' +
                         heatmap[0].outerHTML() + heatmap[1].outerHTML() + heatmap[2].outerHTML() +heatmap[3].outerHTML() +heatmap[4].outerHTML() +heatmap[5].outerHTML() +heatmap[6].outerHTML() +heatmap[7].outerHTML() +heatmap[8].outerHTML() +heatmap[9].outerHTML() +
                         '</div>'+
-                    '</div>' +
-
-                    '<div style=" margin-bottom: -30px">' +
-                        '<div id="bar-graph-'+document.id+'" class="left">' +
-                        '</div>' +
-                        '<div style="width: 25%" id="pie-graph-'+document.id+'" class="pie-graph left">' +
-                        '</div>' +
-                        '<div id="legend-pie-graph'+document.id+'" class="left" style="width: 10%;margin-top: 30px">' +
-                            '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background:' + _periodicity_color[0] +'; padding: 2px">M</span> SP </br></label>'+
-                            '<label><span style="color: transparent; background: ' + _periodicity_color[1] +'; padding: 2px">M</span> WP</br></label>'+
-                            '<label><span style="color: transparent; background: ' + _periodicity_color[2] +'; padding: 2px">M</span> SNP</br></label>'+
-                            '<label><span style="color: transparent; background: ' + _periodicity_color[3] +'; padding: 2px">M</span> WNP</br></label>'+
+                        '<div class="left">' +
+                            '<span class="info btn-show-info-heatmap fa fa-info-circle" title="Info"></span>'+
                         '</div>'+
-                        '<div style="clear: both"></div>' +
-                    '</div>' +
-                    '<div>' +
-                        '<div>' +
-                            /*'<input type="text" placeholder="Add new label..." id="label-text" style="display: none"><label>Tell us why you select this label:</label><textarea id="urank-docviewer-labeling-text" rows="5"></textarea>' +*/
-                            '<button id="btn-show-connection-sequence-'+document.id+'" class="btn-show-connection-sequence" idC="'+document.id+'" sequence="'+sequence+'" index="'+index+'" title="'+document.title+'" style="margin:2px; float: right;">Show Sequence</button>'+
-                            '<button style="background: red; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-botnet-'+document.id+'" class="btn-botnet-label-connection rigth '+opacity_botnet_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_botnet+'>Botnet</button>' +
-                            '<button style="background: #008000; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-normal-'+document.id+'" class="btn-normal-label-connection rigth '+opacity_normal_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_normal+'>Normal</button>' +
+                        '<div class="left" style="margin-left: 30px">' +
+                            '<button id="btn-show-connection-sequence-'+document.id+'" class="btn-show-connection-sequence" idC="'+document.id+'" sequence="'+sequence+'" index="'+index+'" title="Show Connection Sequence" style="width: auto !important;"><i class="fa fa-file-text-o"></i></button>'+
+                        '</div>'+
+                        '<div class="rigth" style="margin-right: 10px">' +
+                            '<button style="float: right; background: red; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-botnet-'+document.id+'" class="btn-botnet-label-connection rigth '+opacity_botnet_class+'" style="margin: 2px" title="Set as Botnet behavior" idC="'+document.id+'"'+disable_botnet+'>Botnet</button>' +
+                            '<button style="float: right; background: #008000; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-normal-'+document.id+'" class="btn-normal-label-connection rigth '+opacity_normal_class+'" style="margin: 2px" title="Set as Normal behavior" idC="'+document.id+'"'+disable_normal+'>Normal</button>' +
                             '<div style="clear: both"></div>'+
                         '</div>' +
-                        /*'<div class="urank-docviewer-divisor"></div>' +*/
+                        '<div style="clear: both"></div>'+
                     '</div>' +
-                '</div>' +
-                /*'<div style="height: 160px; display: block;" class="urank-docviewer-content-section-outer ui-tabs ui-widget ui-widget-content ui-corner-all">' +
-                    *//*'<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist">' +
-                        '<li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="tabs-1" aria-labelledby="ui-id-2" aria-selected="true" aria-expanded="true">' +
-                            '<a href="#tabs-1" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-2">Letter</a>' +
-                        '</li>' +
-                        '<li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tabs-2" aria-labelledby="ui-id-3" aria-selected="false" aria-expanded="false">' +
-                            '<a href="#tabs-2" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-3">Connection Sequence</a>' +
-                        '</li>' +
-                    '</ul>' +
-                    '<div aria-labelledby="ui-id-2" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="false">' +
-                        '<p></p>' +
-                    '</div>' +*//*
-                    *//*'<div aria-labelledby="ui-id-3" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;">' +
-                        '<p>'+sequence+'</p>' +
-                    '</div>' +*//*
-                '</div>' +*/
+                    '<div style="margin-bottom: 0px">' +
+                        '<div id="bar-graph" class="left chart">' +
+                            '<div id="bar-graph-'+document.id+'"></div>' +
+                        '</div>'+
+                        '<div id="pie-graph" class="left chart">' +
+                            '<div id="pie-graph-'+document.id+'" class=""></div>' +
+                        '</div>'+
+                        '<div id="text-select" class="left chart">' +
+                            '<textarea id="select-text-box-'+document.id+'"  class="select-text-box" type="textarea" rows="5" cols="40" value="'+sequence+'" >'+sequence+'</textarea>' +
+                        '</div>'+
+                        '<div style="clear: both"></div>' +
+                    '</div>';
+        var block = _createBlock(head, body, document.id);
+        var element =
+            '<div id="urank-docviewer-'+document.id+'" class="urank-docviewer-container-default selected" style="margin-top: -3px;">' +
+                '<div style="display: block;" class="urank-docviewer-details-section">' +
+                    block +
+                '</div>'+
             '</div>';
-//Para mostrar los filtros encima de las listas, en el panel de arriba en la app
-        //show_filter(document,init_port,dest_port,port,protocol);
-
         return element;
     }
 
@@ -718,97 +720,68 @@ var DocViewer = (function(){
         var index = $('label#label-'+document.id).attr('value');
         var bot_probability =   document.botprob != 'NA' ? parseFloat(document.botprob.replace(",", ".")) : ''
         var bot_style = bot_probability != '' ? 'background: linear-gradient(to right,  red 0%, red ' + bot_probability*100 +'%,green ' + bot_probability*100 + '%,green 100%)' : ''
-        var botnet_left = bot_probability != '' ? 'Botnet' : ''
-        var normal_rigth = bot_probability != '' ? 'Normal' : ''
-        var element =
-            '<div id="urank-docviewer-'+document.id+'" class="urank-docviewer-container-default selected" style="margin-top: -3px;background: white">' +
-                '<div style="display: block;" class="urank-docviewer-details-section">' +
-                    '<div>' +
-                        '<div class="left" style="margin-right: 25px; margin-top: 6px">' +
-                            '<div class="doc-label-container">' +
-                                '<label id="index-label-'+document.id+'" class="urank-docviewer-attributes urank-docviewer-details-label '+title.toLowerCase()+'">'+index+' | '+'<span id="label-'+document.id+'">'+title+'</span></label>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="' + class_similar_init_port + ' doc-attributes-sontainer left doc-attributes-container-comparative">' +
-                            '<label>Ip Origin:</label><label id="urank-docviewer-details-initport'+document.id+'" class="urank-docviewer-attributes">'+init_port+'</label>' +
-                        '</div>' +
-                        '<div class="' + class_similar_dest_port + ' doc-attributes-sontainer left doc-attributes-container-comparative">' +
-                            '<label>Ip Dest:</label><label id="urank-docviewer-details-destport'+document.id+'" class="urank-docviewer-attributes">'+dest_port+'</label>' +
-                        '</div>' +
-                        '<div class="' + class_similar_port + ' doc-attributes-sontainer left doc-attributes-container-comparative">' +
-                            '<label>Port:</label><label id="urank-docviewer-details-port'+document.id+'" class="urank-docviewer-attributes">'+port+'</label>' +
-                        '</div>' +
-                        '<div class="' + class_similar_protocol + ' doc-attributes-sontainer left doc-attributes-container-comparative">' +
-                            '<label>Protocol:</label><label id="urank-docviewer-details-protocol'+document.id+'" class="urank-docviewer-attributes">'+protocol+'</label>' +
-                        '</div>' +
-                        '<div class="rigth" style="margin: 3px">' +
-                            '<button id="btn-close-connection-'+document.id+'" class="btn-close-connection" idC="'+document.id+'" comparative="true" counter="'+counter+'">X</button>'+
-                        '</div>'+
-                        '<div style="clear: both"></div>' +
-                        /*'<div class="urank-docviewer-divisor"></div>' +*/
-                    '</div>' +
-                    '<div style="width: 100%; margin: 5px">' +
-                       '<label><span>'+ botnet_left +' </span><span style="' + bot_style + '" urank-span-prediction-id="'+ document.id+'" class="document_view-botnet-bar"></span> <span>' + normal_rigth + '</span></label>' +
-                        '<div style="margin: 5px">' +
-                            heatmap[0].outerHTML() + heatmap[1].outerHTML() + heatmap[2].outerHTML() +heatmap[3].outerHTML() +heatmap[4].outerHTML() +heatmap[5].outerHTML() +heatmap[6].outerHTML() +heatmap[7].outerHTML() +heatmap[8].outerHTML() +heatmap[9].outerHTML() +
-                        '</div>'+
-                    '</div>' +
+        var botnet_left = bot_probability != '' ? 'Botnet' : '';
+        var normal_rigth = bot_probability != '' ? 'Normal' : '';
 
-                    '<div style=" margin-bottom: -30px">' +
-                        '<div id="bar-graph-'+document.id+'" class="left">' +
-                        '</div>' +
-                        '<div style="width: 25%" id="pie-graph-'+document.id+'" class="pie-graph left">' +
-                        '</div>' +
-                        '<div id="legend-pie-graph'+document.id+'" class="left" style="width: 10%;margin-top: 30px">' +
-                            '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background:' + _periodicity_color[0] +'; padding: 2px">M</span> SP </br></label>'+
-                            '<label><span style="color: transparent; background: ' + _periodicity_color[1] +'; padding: 2px">M</span> WP</br></label>'+
-                            '<label><span style="color: transparent; background: ' + _periodicity_color[2] +'; padding: 2px">M</span> SNP</br></label>'+
-                            '<label><span style="color: transparent; background: ' + _periodicity_color[3] +'; padding: 2px">M</span> WNP</br></label>'+
-                        '</div>'+
-                        '<div style="clear: both"></div>' +
+        const head =
+            '<div>' +
+                '<div class="left" style="margin-right: 25px;">' +
+                    '<div class="doc-label-container">' +
+                        '<label id="index-label-'+document.id+'" class="urank-docviewer-attributes urank-docviewer-details-label '+title.toLowerCase()+'">'+index+' | '+'<span id="label-'+document.id+'">'+title+'</span></label>' +
                     '</div>' +
-                    '<div>' +
-                        '<div>' +
-                        '<button id="btn-show-connection-sequence-'+document.id+'" class="btn-show-connection-sequence" idC="'+document.id+'" sequence="'+sequence+'" index="'+index+'" title="'+document.title+'" style="margin:2px; float: right;">Show Sequence</button>'+
-                            /*'<button style="background: red; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-botnet-'+document.id+'" class="btn-botnet-label-connection rigth '+opacity_botnet_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_botnet+'>Botnet</button>' +
-                            '<button style="background: #008000; color: black; text-shadow: none; box-shadow: none" id="urank-label-button-normal-'+document.id+'" class="btn-normal-label-connection rigth '+opacity_normal_class+'" style="margin: 2px" idC="'+document.id+'"'+disable_normal+'>Normal</button>' +
-                            */'<div style="clear: both"></div>'+
-                        '</div>' +
-                    '</div>' +
-                /*//Normal Document
-                    '<div>'+
-                        '<div style=" margin-bottom: -30px">' +
-                            '<div id="bar-graph-'+normal_document.id+'" class="left">' +
-                            '</div>' +
-                            '<div style="width: 25%" id="pie-graph-'+normal_document.id+'" class="pie-graph left">' +
-                            '</div>' +
-                            '<div id="legend-pie-graph'+normal_document.id+'" class="rigth" style="width: 24%;margin-top: 30px">' +
-                                '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background:' + _periodicity_color[0] +'; padding: 2px">M</span> SP </br></label>'+
-                                '<label><span style="color: transparent; background: ' + _periodicity_color[1] +'; padding: 2px">M</span> WP</br></label>'+
-                                '<label><span style="color: transparent; background: ' + _periodicity_color[2] +'; padding: 2px">M</span> SNP</br></label>'+
-                                '<label><span style="color: transparent; background: ' + _periodicity_color[3] +'; padding: 2px">M</span> WNP</br></label>'+
-                            '</div>'+
-                            '<div style="clear: both"></div>' +
-                        '</div>' +
-                    '</div>'+
-                //Botnet Document
-                    '<div>'+
-                        '<div style=" margin-bottom: -30px">' +
-                        '<div id="bar-graph-'+bot_document.id+'" class="left">' +
-                        '</div>' +
-                        '<div style="width: 25%" id="pie-graph-'+bot_document.id+'" class="pie-graph left">' +
-                        '</div>' +
-                        '<div id="legend-pie-graph'+bot_document.id+'" class="rigth" style="width: 24%;margin-top: 30px">' +
-                            '<label xmlns="http://www.w3.org/1999/html"><span style="color: transparent; background:' + _periodicity_color[0] +'; padding: 2px">M</span> SP </br></label>'+
-                            '<label><span style="color: transparent; background: ' + _periodicity_color[1] +'; padding: 2px">M</span> WP</br></label>'+
-                            '<label><span style="color: transparent; background: ' + _periodicity_color[2] +'; padding: 2px">M</span> SNP</br></label>'+
-                            '<label><span style="color: transparent; background: ' + _periodicity_color[3] +'; padding: 2px">M</span> WNP</br></label>'+
-                        '</div>'+
-                        '<div style="clear: both"></div>' +
-                    '</div>' +*/
-            '</div>'+
                 '</div>' +
+                '<div class="' + class_similar_init_port + ' doc-attributes-sontainer left doc-attributes-container-comparative">' +
+                    '<label>Ip Origin:</label><label id="urank-docviewer-details-initport'+document.id+'" class="urank-docviewer-attributes">'+init_port+'</label>' +
+                '</div>' +
+                '<div class="' + class_similar_dest_port + ' doc-attributes-sontainer left doc-attributes-container-comparative">' +
+                    '<label>Ip Dest:</label><label id="urank-docviewer-details-destport'+document.id+'" class="urank-docviewer-attributes">'+dest_port+'</label>' +
+                '</div>' +
+                '<div class="' + class_similar_port + ' doc-attributes-sontainer left doc-attributes-container-comparative">' +
+                    '<label>Port:</label><label id="urank-docviewer-details-port'+document.id+'" class="urank-docviewer-attributes">'+port+'</label>' +
+                '</div>' +
+                '<div class="' + class_similar_protocol + ' doc-attributes-sontainer left doc-attributes-container-comparative">' +
+                    '<label>Protocol:</label><label id="urank-docviewer-details-protocol'+document.id+'" class="urank-docviewer-attributes">'+protocol+'</label>' +
+                '</div>' +
+                '<div style="clear: both"></div>' +
             '</div>';
+
+        const body =
+            '<div style="width: 100%; margin: 2px">' +
+                '<div class="left">' +
+                    '<label><span>'+ botnet_left +' </span><span style="' + bot_style + '" urank-span-prediction-id="'+ document.id+'" class="document_view-botnet-bar"></span> <span>' + normal_rigth + '</span></label>' +
+                '</div>'+
+                '<div class="left" style="margin-left: 25px">' +
+                heatmap[0].outerHTML() + heatmap[1].outerHTML() + heatmap[2].outerHTML() +heatmap[3].outerHTML() +heatmap[4].outerHTML() +heatmap[5].outerHTML() +heatmap[6].outerHTML() +heatmap[7].outerHTML() +heatmap[8].outerHTML() +heatmap[9].outerHTML() +
+                '</div>'+
+                '<div class="left">' +
+                    '<span class="info btn-show-info-heatmap fa fa-info-circle" title="Info"></span>'+
+                '</div>'+
+                '<div class="left" style="margin-left: 30px">' +
+                    '<button id="btn-show-connection-sequence-'+document.id+'" class="btn-show-connection-sequence" idC="'+document.id+'" sequence="'+sequence+'" index="'+index+'" title="Show Connection Sequence" style="width: auto !important;"><i class="fa fa-file-text-o"></i></button>'+
+                '</div>'+
+                '<div style="clear: both"></div>'+
+            '</div>' +
+            '<div style="margin-bottom: 0px">' +
+                '<div id="bar-graph" class="left chart">' +
+                    '<div id="bar-graph-'+document.id+'"></div>' +
+                '</div>'+
+                '<div id="pie-graph" class="left chart">' +
+                    '<div id="pie-graph-'+document.id+'" class=""></div>' +
+                '</div>'+
+                '<div class="left chart text-display-container">' +
+                    '<p id="text-display'+document.id+'"  class="connection-sequence">'+sequence+'</p>'+
+                '</div>'+
+                '<div style="clear: both"></div>' +
+            '</div>';
+        const block = _createBlock(head, body, document.id);
+
+        const element =
+            '<div id="urank-docviewer-'+document.id+'" class="urank-docviewer-container-default selected" style="margin-top: -3px;">' +
+                '<div style="display: block;" class="urank-docviewer-details-section">' +
+                    block +
+                '</div>'+
+            '</div>';
+
         return element;
     }
 
@@ -846,181 +819,182 @@ var DocViewer = (function(){
 
     var _reset = function(){
         _selectedConnection = [];
-    }
-
+    };
 
     var _destroy = function() {
         $root.empty().removeClass(docViewerContainerClass)
     };
 
-    var _showBarChart = function(idElement,data){
-
-        var margin = {top: 20, right: 20, bottom: 70, left: 40},
-            width = 400 - margin.left - margin.right,
-            height = 200 - margin.top - margin.bottom;
-
-        var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
-
-        var y = d3.scale.linear().range([height, 0]);
-
-        var xAxis = d3.svg.axis()
-            .scale(x)
-            .orient("bottom")
-            .ticks(10);
-        //.tickFormat(d3.time.format("%Y-%m"));
-
-        var yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left")
-            .ticks(10);
-
-        var svg = d3.select('#'+idElement).append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
-
+    var barChart = function(idElement,data){
         data.forEach(function(d) {
             d.date = d.date;
-            d.value = +d.value;
+            d.value = d.value / 100;
         });
 
-        //x.domain(data.map(function(d) { return d.keys; }));
-        x.domain(data.map(function(d) { return d.date; }));
-        y.domain([0, d3.max(data, function(d) { return d.value; })]);
+        const margin = {top: 20, right: 20, bottom: 70, left: 40},
+            width = 320 - margin.left - margin.right,
+            height = 120 - margin.top - margin.bottom;
 
-        svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis)
-            .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("dx", "-.8em")
-            .attr("dy", "-.55em")
-            .attr("transform", "rotate(-90)" );
+        const svg = d3.select('#'+idElement)
+            .append('svg')
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
 
-        svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text("Letter (%)");
+        const chart = svg.append('g')
+            .attr('transform', 'translate(' + margin.left +',' + margin.top +')');
+            //.attr('transform', translate(${margin}, ${margin}));
 
-        svg.selectAll("bar")
-            .data(data)
-            .enter().append("rect")
-            .style("fill", "steelblue")
-            .attr("x", function(d) { return x(d.date); })
-            .attr("width", x.rangeBand())
-            .attr("y", function(d) { return y(d.value); })
-            .attr("height", function(d) { return height - y(d.value); });
+        const yScale = d3.scaleLinear()
+            .range([height, 0])
+            .domain([0, 1]);
 
+        chart.append('g')
+            .call(d3.axisLeft(yScale));
+
+        const xScale = d3.scaleBand()
+            .range([0, width])
+            .domain(data.map((s) => s.date))
+            .padding(0.2);
+
+        chart.append('g')
+            .attr('transform', 'translate(0, '+height+')')
+            .call(d3.axisBottom(xScale));
+
+        chart.selectAll()
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('x', (s) => xScale(s.date))
+        .attr('y', (s) => yScale(s.value))
+        .attr('height', (s) => height - yScale(s.value))
+        .attr('width', xScale.bandwidth())
+        .style("fill", "steelblue");
     }
 
-    var _showPieChart = function(idElement,data){
-        var _data = data;
-        var width = 320,
-            height = 160,
-            radius = Math.min(width, height) / 2;
+    var pieChart = function(idElement, _data){
+        // set the dimensions and margins of the graph
+        var width = 100
+            height = 100
+            margin = 10
 
-        var color = d3.scale.ordinal()
-            .range(_periodicity_color);
-            //.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+        // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+        var radius = Math.min(width, height) / 2 - margin
 
-        var arc = d3.svg.arc()
-            .outerRadius(radius - 10)
-            .innerRadius(0);
-
-        var labelArc = d3.svg.arc()
-            .outerRadius(radius - 40)
-            .innerRadius(radius - 40);
-
-        var pie = d3.layout.pie()
-            .sort(null)
-            .value(function(d) { return d.population; });
-
-        var svg = d3.select('#'+idElement).append("svg")
+        // append the svg object to the div called 'my_dataviz'
+        var svg = d3.select("#"+idElement)
+          .append("svg")
             .attr("width", width)
             .attr("height", height)
-            .append("g")
-            .attr("transform", "translate(" + 90 + "," + 80 + ")");
+          .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-        d3.csv("data.csv", type, function(error, data) {
-            //if (error) throw error;
+        // Create dummy data
+        //var data = {a: 9, b: 20, c:30, d:8, e:12}
+        var data = {sp: _data[0].population, wp: _data[1].population, snp: _data[2].population, wnp: _data[3].population}
 
-            data = _data;
+        // set the color scale
+        var color = d3.scaleOrdinal()
+          .domain(data)
+          .range(_periodicity_color);//d3.schemeSet2
 
-            var g = svg.selectAll(".arc")
-                .data(pie(data))
-                .enter().append("g")
-                .attr("class", "arc");
+        // Compute the position of each group on the pie:
+        var pie = d3.pie()
+          .value(function(d) {return d.value; })
+        var data_ready = pie(d3.entries(data))
+        // Now I know that group A goes from 0 degrees to x degrees and so on.
 
-            g.append("path")
-                .attr("d", arc)
-                .style("fill", function(d) { return color(d.data.age); });
+        // shape helper to build arcs:
+        var arcGenerator = d3.arc()
+          .innerRadius(0)
+          .outerRadius(radius)
 
-            g.append("text")
-                .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
-                .attr("dy", ".35em")
-                .text(function(d) { return d.data.age; });
-        });
-        function type(d) {
-            d.population = +d.population;
-            return d;
-        }
+        // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+        svg
+          .selectAll('mySlices')
+          .data(data_ready)
+          .enter()
+          .append('path')
+            .attr('d', arcGenerator)
+            .attr('fill', function(d){ return(color(d.data.key)) })
+            .attr("stroke", "black")
+            .style("stroke-width", "0.5px")
+            .style("opacity", 0.5)
+
+        // Now add the annotation. Use the centroid method to get the best coordinates
+        svg
+          .selectAll('mySlices')
+          .data(data_ready)
+          .enter()
+          .append('text')
+          .text(function(d){ return d.data.key})
+          .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
+          .style("text-anchor", "middle")
+          .style("font-size", 10)
     }
 
-    var _showDonutChart = function(idElement,data){
-        var _data = data;
-        var width = 320,
-            height = 160,
-            radius = Math.min(width, height) / 2;
+    var _createBlock = function(head, body, id_document){
+        return '<div class="panel panel-default">'+
+                      '<div class="panel-heading">'+
+                        '<div class="pull-left">' +
+                            head+
+                        '</div>'+
+                        '<div class="widget-icons pull-right">'+
+                          '<a class="wminimize" id="btn-minimize-connection-'+id_document+'" idC="'+id_document+'"><i class="fa fa-chevron-up"></i></a>'+
+                          '<a class="wclose"><i class="fa fa-times" id="btn-close-connection-'+id_document+'" class="btn-close-connection" idC="'+id_document+'" comparative="false" counter="'+counter+'"></i></a>'+
+                        '</div>'+
+                        '<div class="clearfix"></div>'+
+                      '</div>'+
+                      '<div class="panel-body" id="main-element-'+id_document+'" >'+
+                        '<div class="padd sscroll">'+
+                            body+
+                        '</div>'+
+                        '<div class="widget-foot"></div>'+
+                      '</div>'+
+            '</div>';
+    };
 
-        var color = d3.scale.ordinal()
-            .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-        var arc = d3.svg.arc()
-            .outerRadius(radius - 10)
-            .innerRadius(radius - 40);
-
-        var pie = d3.layout.pie()
-            .sort(null)
-            .value(function(d) { return d.population; });
-
-        var svg = d3.select('#'+idElement).append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .append("g")
-            .attr("transform", "translate(" + 90 + "," + 80 + ")");
-
-        d3.csv("data.csv", type, function(error, data) {
-            //if (error) throw error;
-
-            data = _data;
-
-            var g = svg.selectAll(".arc")
-                .data(pie(data))
-                .enter().append("g")
-                .attr("class", "arc");
-
-            g.append("path")
-                .attr("d", arc)
-                .style("fill", function(d) { return color(d.data.age); });
-
-            g.append("text")
-                .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-                .attr("dy", ".35em")
-                .text(function(d) { return d.data.age; });
-        });
-
-        function type(d) {
-            d.population = +d.population;
-            return d;
+    var getSelectedText = function() {
+        var selText = "";
+        if (window.getSelection) {  // all browsers, except IE before version 9
+            if (document.activeElement &&
+                    (document.activeElement.tagName.toLowerCase () == "textarea" ||
+                     document.activeElement.tagName.toLowerCase () == "input"))
+            {
+                var text = document.activeElement.value;
+                selText = text.substring (document.activeElement.selectionStart,
+                                          document.activeElement.selectionEnd);
+            }
+            else {
+                var selRange = window.getSelection ();
+                selText = selRange.toString ();
+            }
         }
+        return selText;
+    };
+
+    function getIndicesOf(searchStr, str, caseSensitive) {
+        var i = 0, j = 0;
+        var text_result = '';
+        var searchStrLen = searchStr.length;
+        if (searchStrLen == 0) {
+            return [];
+        }
+        var startIndex = 0, index, indices = [];
+        if (!caseSensitive) {
+            str = str.toLowerCase();
+            searchStr = searchStr.toLowerCase();
+        }
+        while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+            indices.push(index);
+            startIndex = index + searchStrLen;
+
+            text_result = text_result + str.substr(i, index - i) + '<mark>' + searchStr + '</mark>';
+            i = startIndex
+        }
+        if (startIndex < str.length){
+            text_result = text_result + str.substr(startIndex, str.length - startIndex)
+        }
+        return text_result;
     }
 
     // Prototype
