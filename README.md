@@ -6,22 +6,15 @@ RiskID is a web application designed to generate fully labeled connection datase
 ### Prerequisites 📋
 For a correct operation of RiskID, you should have the following:
  - An Ubuntu 16.04 (or high) server and a regular, non-root user with sudo privileges.
- - An Apache2 web server
  - A MongoDB database server
  - A NodeJS cross-platform JavaScript run-time environment
 
 If you do not have any of these tools installed, follow these steps for easy installation. (This simple guide was developed using an Ubuntu 18.04 operating system)
 
-Installing Apache Web Server
-Update your local package index:
+First update your local package index:
 ```
 $ sudo apt update
 ```
-Install the apache2 package:
-```
-$ sudo apt install apache2
-```
-
 Installing MongoDB
 Install the MongoDB package:
 ```
@@ -67,6 +60,20 @@ Finally point the web browser to http://localhots:3000
 Initially the application comes with a set of previously loaded connections. A part of this dataset has been labeled and the rest has a label recommendation. To start using the application it is necessary to create a user and start session.
 
 
+## Live Demo
+
+A live demo of the app is located at: http://riskid.ingenieria.uncuyo.edu.ar  You will need to sign-up for using the app.
+
+## Docker
+
+A docker image with the last version of RiskID is also available. Just run the image as usual and the access port 3000.
+
+```
+
+docker run --restart=always -d -p 3000:3000 --name riskidv1 harpomaxx/riskid-web-app
+```
+
+
 ## Built With 🛠️
 
 This version of RiskID was developed using:
@@ -74,6 +81,14 @@ This version of RiskID was developed using:
 * [D3JS](https://d3js.org/) -  Data-Driven Documents
 * [NODEJS](https://nodejs.org/) - Environment
 
+
+## Publications
+
+
+* **Active learning approach to label network traffic datasets**, Journal of Information Security and Applications, ELSEVIER. 2019
+* **A Study on Labeling Network Hostile Behavior with Intelligent InteractiveTools**,16th IEEE Symposium on Visualization for Cyber Security VizSec 2019, Vancouver, Canada
+* **Visual Exploration of Network Hostile Behavior**, ESIDA '17: Proceedings of the 2017 ACM Workshop on Exploratory Search and Interactive Data Analytics Limassol,Cyprus 
+* **Improving the Generation of Labeled Network Traffic Datasets Through Machine Learning Techniques,** XXIII Argentine Conference on Computer Science, La Plata, Argentina
 
 ## Authors ✒️
 
